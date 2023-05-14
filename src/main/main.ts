@@ -13,7 +13,9 @@ import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import { readJson, resolveHtmlPath, setupJson, writeJson } from './util';
+
 const { globalShortcut } = require('electron');
+
 class AppUpdater {
   constructor() {
     log.transports.file.level = 'info';
@@ -24,24 +26,25 @@ class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 
-ipcMain.handle('readJson', async () => {
-  return await readJson()
+ipcMain.handle('readJson', () => {
+  return readJson();
 });
 
 ipcMain.on('writeJson', (event, data) => {
-  writeJson(data)
-})
+  writeJson(data);
+});
 
 ipcMain.on('center', () => {
-  (mainWindow?.center());
-})
+  mainWindow?.center();
+});
 
 if (process.env.NODE_ENV === 'production') {
   const sourceMapSupport = require('source-map-support');
   sourceMapSupport.install();
 }
 
-const isDebug = process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
+const isDebug =
+  process.env.NODE_ENV === 'development' || process.env.DEBUG_PROD === 'true';
 
 if (isDebug) {
   require('electron-debug')();
@@ -75,14 +78,14 @@ const createWindow = async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    width: 757, //800
-    height: 529, //500
+    width: 757, // 800
+    height: 529, // 500
     resizable: false,
     movable: false,
     frame: false,
     icon: getAssetPath('icon.png'),
     webPreferences: {
-      //devTools: false,
+      // devTools: false,
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),
@@ -102,8 +105,8 @@ const createWindow = async () => {
     }
   });
 
-  mainWindow.setMenuBarVisibility(false)
-  setupJson()
+  mainWindow.setMenuBarVisibility(false);
+  setupJson();
 
   mainWindow.on('closed', () => {
     mainWindow = null;
@@ -126,11 +129,11 @@ const createWindow = async () => {
  */
 
 app.on('browser-window-focus', function () {
-  globalShortcut.register("CommandOrControl+R", () => {
-    console.log("CommandOrControl+R is pressed: Shortcut Disabled");
+  globalShortcut.register('CommandOrControl+R', () => {
+    console.log('CommandOrControl+R is pressed: Shortcut Disabled');
   });
-  globalShortcut.register("F5", () => {
-    console.log("F5 is pressed: Shortcut Disabled");
+  globalShortcut.register('F5', () => {
+    console.log('F5 is pressed: Shortcut Disabled');
   });
 });
 

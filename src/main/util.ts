@@ -2,7 +2,7 @@
 import { URL } from 'url';
 import path from 'path';
 import fs from 'fs';
-import fsp from 'fs/promises'
+import fsp from 'fs/promises';
 
 export function resolveHtmlPath(htmlFileName: string) {
   if (process.env.NODE_ENV === 'development') {
@@ -15,20 +15,24 @@ export function resolveHtmlPath(htmlFileName: string) {
 }
 
 export async function writeJson(data: Object) {
-  let currentData = await readJson()
-  fs.writeFile(path.join(__dirname, '../localstorage.json'),
+  const currentData = await readJson();
+  fs.writeFile(
+    path.join(__dirname, '../localstorage.json'),
     JSON.stringify({
       ...currentData,
       ...data
-    }), function(err) {
+    }),
+    function(err) {
       if (err) throw err;
       console.log('Saved!');
     });
 }
 
 export async function readJson() {
-  const data = await fsp.readFile(path.join(__dirname, '../localstorage.json'), { encoding: 'utf8' })
-  return JSON.parse(data.toString())
+  const data = await fsp.readFile(
+    path.join(__dirname, '../localstorage.json'),
+    { encoding: 'utf8' })
+  return JSON.parse(data.toString());
 }
 
 export function setupJson() {
