@@ -1,0 +1,22 @@
+.container{
+  display: flex;
+  min-height: 100vh;
+}
+
+.list{
+  background-color: #262626;
+  width: 85%;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.buttonGroup{
+  width: 15%;
+  background-color: #3b3939;
+  float: right;
+}
+
+.btn{
+  margin: 20px;
+  height: 72px;
+}

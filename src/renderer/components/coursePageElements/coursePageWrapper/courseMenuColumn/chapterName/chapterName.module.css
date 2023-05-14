@@ -1,0 +1,9 @@
+.chapterBlock{
+  font-weight: 600;
+  font-size: 22px;
+  padding: 12px 15px;
+}
+
+.chapterBlock:hover{
+  background-color: #4d4d4d;
+}

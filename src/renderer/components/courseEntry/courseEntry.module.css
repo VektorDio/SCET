@@ -1,0 +1,25 @@
+.courseContainer{
+  background-color: #4d4d4d;
+  margin: 20px;
+  padding: 10px 20px;
+  height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.courseName{
+  font-size: 20px;
+  font-weight: 600;
+  user-select: none;
+}
+
+.courseCompletion{
+  font-size: 20px;
+  font-weight: 600;
+  user-select: none;
+}
+
+.courseContainer:hover{
+  background-color: #494949;
+}
