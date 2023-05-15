@@ -27,7 +27,9 @@ class AppUpdater {
 let mainWindow: BrowserWindow | null = null;
 
 ipcMain.handle('readJson', () => {
-  return readJson();
+  let test = readJson()
+  console.log(test)
+  return test;
 });
 
 ipcMain.on('writeJson', (event, data) => {

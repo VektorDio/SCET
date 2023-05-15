@@ -12,7 +12,6 @@ const TaskInfo = () => {
       window.electron.ipcRenderer.invoke('readJson').then((result) => setTask(result.task1))
     }
   })
-  console.log(task)
 
   return (
     <CoursePageWrapper>

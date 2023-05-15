@@ -23,7 +23,7 @@ const electronHandler = {
     },
     invoke(channel: Channels, args: unknown[]) {
       return ipcRenderer.invoke(channel, args);
-    }
+    },
   },
 };
 

@@ -63,11 +63,13 @@
 .completedText{
   font-weight: 600;
   font-size: 32px;
-  color: #268f16;
+  color: #6495ed;
+  user-select: none;
 }
 
 .uncompletedText{
   font-weight: 600;
   font-size: 32px;
   color: #111111;
+  user-select: none;
 }

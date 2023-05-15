@@ -20,12 +20,13 @@ export async function writeJson(data: Object) {
     path.join(__dirname, '../localstorage.json'),
     JSON.stringify({
       ...currentData,
-      ...data
+      ...data,
     }),
-    function(err) {
+    (err) => {
       if (err) throw err;
       console.log('Saved!');
-    });
+    }
+    );
 }
 
 export async function readJson() {
@@ -36,14 +37,14 @@ export async function readJson() {
 }
 
 export function setupJson() {
-  let data = {
+  const data = {
     courseCompletion: 0,
     task1: {
       completed: false,
       bestTime: 0,
-      tries: 0
-    }
-  }
+      tries: 0,
+    },
+  };
 
   fs.open(path.join(__dirname, '../localstorage.json'), 'r', (err) => {
       if (err) {

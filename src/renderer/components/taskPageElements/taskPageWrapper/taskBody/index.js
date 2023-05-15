@@ -12,7 +12,9 @@ const TaskBody = ({children, handleCheck, completed}) => {
 
   return (
     <div className={styles.container}>
-      {children}
+      <div style={(completed) ? ({pointerEvents:"none", userSelect:"none"}) : null}>
+        {children}
+      </div>
       <div className={styles.buttonGroup}>
         <div className={styles.btn}>
           <XBtn onClick={handleReturn}/>
