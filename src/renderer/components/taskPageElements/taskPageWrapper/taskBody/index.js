@@ -4,14 +4,14 @@ import XBtn from '../../../buttons/xBtn';
 import CheckBtn from '../../../buttons/checkBtn';
 import { useNavigate } from 'react-router-dom';
 
-const TaskBody = ({children, handleCheck, completed}) => {
+const TaskBody = ({children, handleCheck, completed, mistake}) => {
   const navigate = useNavigate();
   function handleReturn(){
     navigate("/chapterOne/tasks/taskOne/info")
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} style={(mistake) ? ({backgroundColor:"red"}) : null}>
       <div style={(completed) ? ({pointerEvents:"none", userSelect:"none"}) : null}>
         {children}
       </div>

@@ -7,16 +7,10 @@ import Xarrow from 'react-xarrows';
 import UpperLabel from '../../../../../../../components/taskPageElements/upperLabel';
 import HiddenSelect from '../../../../../../../components/taskPageElements/hiddenSelect';
 const Task = () => {
-  const [start] = useState(Date.now())
+  const [start, setStart] = useState(Date.now())
   const [time, setTime] = useState(0)
-  const [completed, setCompleted] = useState(async () => {
-    window.electron.ipcRenderer.invoke('readJson').then((result) => {
-      return result.task1.completed;
-    })
-    //return await window.electron.ipcRenderer.invoke('readJson')
-  })
-
-  console.log(completed)
+  const [completed, setCompleted] = useState()
+  const [mistake, setMistake] = useState(false)
 
   const [xtBlock, setXTBlock] = useState(("..."))
   const [ftBlock, setFTBlock] = useState(("..."))
@@ -27,31 +21,41 @@ const Task = () => {
 
   const options = ["x(t)", "f(t)", "y(t)", "u(t)", "ПУ", "ОУ"]
 
+  useEffect(() => {
+    if (completed === undefined){
+      window.electron.ipcRenderer.invoke('readJson').then((result) => {
+        setCompleted(result.task1.completed)
+        if (result.task1.completed) {
+          setTaskSolved()
+        }
+      })
+    }
+  })
 
-  // useEffect(() => {
-  //   if (completed === undefined){
-  //     window.electron.ipcRenderer.invoke('readJson').then((result) => {
-  //       setCompleted(result.task1.completed)
-  //       if (result.task1.completed ) {
-  //         setXTBlock("x(t)")
-  //         setFTBlock("f(t)")
-  //         setYTBlock("y(t)")
-  //         setUTBlock("u(t)")
-  //         setPUBlock("ПУ")
-  //         setOUBlock("ОУ")
-  //       }
-  //     })
-  //   }
-  // })
+  function setTaskMistaken() {
+    setStart(Date.now())
+    setMistake(true)
+    setTimeout(()=> {
+      setMistake(false)
+    }, 100)
+  }
 
-  if (!completed && completed !== undefined) {
+  if (!completed && completed !== undefined && !mistake) {
     setTimeout(() => {
       setTime(Math.floor((Date.now() - start) / 1000))
     }, 1000)
   }
 
-  async function handleCheck() {
+  function setTaskSolved() {
+    setXTBlock("x(t)")
+    setFTBlock("f(t)")
+    setYTBlock("y(t)")
+    setUTBlock("u(t)")
+    setPUBlock("ПУ")
+    setOUBlock("ОУ")
+  }
 
+  async function handleCheck() {
     let test = (xtBlock === "x(t)") &&
       (ftBlock === "f(t)") &&
       (ytBlock === "y(t)") &&
@@ -77,6 +81,7 @@ const Task = () => {
           tries: task.tries + 1
         }}
       )
+      setTaskMistaken()
     }
   }
 
@@ -85,7 +90,7 @@ const Task = () => {
       <TaskMenuColumn time={time} completed={completed} taskNumber={"1.1"}>
         В цому завданні необхідно обрати потрібну відповідь із випадаючого списку.
       </TaskMenuColumn>
-      <TaskBody handleCheck={handleCheck} completed={completed}>
+      <TaskBody handleCheck={handleCheck} completed={completed} mistake={mistake}>
 
         <TextBlock id={"xt"} top={"40%"} left={"40%"} round={true} >
           <HiddenSelect

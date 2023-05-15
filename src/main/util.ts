@@ -2,7 +2,6 @@
 import { URL } from 'url';
 import path from 'path';
 import fs from 'fs';
-import fsp from 'fs/promises';
 
 export function resolveHtmlPath(htmlFileName: string) {
   if (process.env.NODE_ENV === 'development') {
@@ -29,11 +28,20 @@ export async function writeJson(data: Object) {
     );
 }
 
-export async function readJson() {
-  const data = await fsp.readFile(
+export function readJson() {
+
+  // const data = await fsp.readFile(
+  //   path.join(__dirname, '../localstorage.json'),
+  //   { encoding: 'utf8' })
+
+  const data = fs.readFileSync(
     path.join(__dirname, '../localstorage.json'),
     { encoding: 'utf8' })
   return JSON.parse(data.toString());
+}
+
+export function test() {
+  return "string"
 }
 
 export function setupJson() {

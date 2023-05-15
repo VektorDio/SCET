@@ -12,7 +12,7 @@ import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import { readJson, resolveHtmlPath, setupJson, writeJson } from './util';
+import { readJson, resolveHtmlPath, setupJson, writeJson, test } from './util';
 
 const { globalShortcut } = require('electron');
 
@@ -27,9 +27,11 @@ class AppUpdater {
 let mainWindow: BrowserWindow | null = null;
 
 ipcMain.handle('readJson', () => {
-  let test = readJson()
-  console.log(test)
-  return test;
+  return readJson();
+});
+
+ipcMain.handle('test', () => {
+  return test();
 });
 
 ipcMain.on('writeJson', (event, data) => {
