@@ -30,7 +30,7 @@ const Task = () => {
         }
       })
     }
-  })
+  }, [])
 
   function setTaskMistaken() {
     setStart(Date.now())
@@ -78,6 +78,8 @@ const Task = () => {
     } else {
       window.electron.ipcRenderer.sendMessage('writeJson', {
         task1:{
+          bestTime: task.bestTime,
+          completed: task.completed,
           tries: task.tries + 1
         }}
       )
