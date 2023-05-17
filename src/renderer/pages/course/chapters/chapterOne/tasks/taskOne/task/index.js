@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import TaskMenuColumn from '../../../../../../../components/taskPageElements/taskPageWrapper/taskMenuColumn';
 import TaskBody from '../../../../../../../components/taskPageElements/taskPageWrapper/taskBody';
 import styles from "./firstTask.module.css"
-import TextBlock from '../../../../../../../components/taskPageElements/taskText/textBlock';
+import TextBlock from '../../../../../../../components/taskPageElements/textBlock';
 import Xarrow from 'react-xarrows';
 import UpperLabel from '../../../../../../../components/taskPageElements/upperLabel';
 import HiddenSelect from '../../../../../../../components/taskPageElements/hiddenSelect';
@@ -92,7 +92,7 @@ const Task = () => {
       <TaskMenuColumn time={time} completed={completed} taskNumber={"1.1"}>
         В цому завданні необхідно обрати потрібну відповідь із випадаючого списку.
       </TaskMenuColumn>
-      <TaskBody handleCheck={handleCheck} completed={completed} mistake={mistake}>
+      <TaskBody handleCheck={handleCheck} completed={completed} mistake={mistake} task={"/chapterOne/tasks/taskOne/info"}>
 
         <TextBlock id={"xt"} top={"40%"} left={"40%"} round={true} >
           <HiddenSelect

@@ -4,10 +4,10 @@ import XBtn from '../../../buttons/xBtn';
 import CheckBtn from '../../../buttons/checkBtn';
 import { useNavigate } from 'react-router-dom';
 
-const TaskBody = ({children, handleCheck, completed, mistake}) => {
+const TaskBody = ({children, handleCheck, completed, mistake, task}) => {
   const navigate = useNavigate();
   function handleReturn(){
-    navigate("/chapterOne/tasks/taskOne/info")
+    navigate(task)
   }
 
   return (
