@@ -34,6 +34,9 @@ const CourseBody = () => {
         <SubchapterName navIndex={"/chapterOne/tasks/taskTwo/info"}>
           Задача 1.2
         </SubchapterName>
+        <SubchapterName navIndex={"/chapterOne/tasks/taskThree/info"}>
+          Задача 1.3
+        </SubchapterName>
 
         <ChapterName navIndex={"/pages/course/chapters/2"}>
           Тема 2

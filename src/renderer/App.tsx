@@ -8,6 +8,8 @@ import TaskInfo1_1 from './pages/course/chapters/chapterOne/tasks/taskOne/info';
 import Task1_1 from './pages/course/chapters/chapterOne/tasks/taskOne/task';
 import TaskInfo1_2 from './pages/course/chapters/chapterOne/tasks/taskTwo/info';
 import Task1_2 from './pages/course/chapters/chapterOne/tasks/taskTwo/task';
+import TaskInfo1_3 from './pages/course/chapters/chapterOne/tasks/taskThree/info';
+import Task1_3 from './pages/course/chapters/chapterOne/tasks/taskThree/task';
 
 export default function App() {
   return (
@@ -20,7 +22,8 @@ export default function App() {
         <Route path="/chapterOne/tasks/taskOne/task" element={<Task1_1/>}/>
         <Route path="/chapterOne/tasks/taskTwo/info" element={<TaskInfo1_2/>}/>
         <Route path="/chapterOne/tasks/taskTwo/task" element={<Task1_2/>}/>
-
+        <Route path="/chapterOne/tasks/taskThree/info" element={<TaskInfo1_3/>}/>
+        <Route path="/chapterOne/tasks/taskThree/task" element={<Task1_3/>}/>
       </Routes>
     </Router>
   );

@@ -52,6 +52,16 @@ export function setupJson() {
       bestTime: 0,
       tries: 0,
     },
+    task2: {
+      completed: false,
+      bestTime: 0,
+      tries: 0,
+    },
+    task3: {
+      completed: false,
+      bestTime: 0,
+      tries: 0,
+    },
   };
 
   fs.open(path.join(__dirname, '../localstorage.json'), 'r', (err) => {
