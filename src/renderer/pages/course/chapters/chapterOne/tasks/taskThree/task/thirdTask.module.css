@@ -28,3 +28,9 @@
   padding: 10px;
 }
 
+.draggableContainer{
+  display: flex;
+}
+
+
+

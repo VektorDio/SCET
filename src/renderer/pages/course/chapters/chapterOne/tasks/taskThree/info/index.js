@@ -23,7 +23,7 @@ const TaskInfo = () => {
         <TaskInfoBar
           time={(task === undefined) ? (0) : (task.bestTime)}
           tries={(task === undefined) ? (0) : (task.tries)}
-          selectedCourse={"/chapterOne/tasks/taskTwo/task"}/>
+          selectedCourse={"/chapterOne/tasks/taskThree/task"}/>
       </ChapterParagraph>
     </CoursePageWrapper>
   );
