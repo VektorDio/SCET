@@ -6,6 +6,7 @@ import { DndContext } from '@dnd-kit/core';
 import DraggableBlock from '../../../../../../../components/taskPageElements/dndElements/draggableBlock';
 import DroppableBlock from '../../../../../../../components/taskPageElements/dndElements/droppableBlock';
 import { restrictToFirstScrollableAncestor} from '@dnd-kit/modifiers';
+import { v4 as uuidv4 } from 'uuid';
 const Task = () => {
   const [start, setStart] = useState(Date.now())
   const [time, setTime] = useState(0)
@@ -37,7 +38,7 @@ const Task = () => {
   async function handleCheck() {
     let test = false
 
-    console.log(draggableMarkup)
+    console.log(draggable)
     console.log(children)
     console.log(children[0] === undefined)
 
@@ -68,45 +69,87 @@ const Task = () => {
   const options = ["1", "2", "3"]
 
   const [children, setChildren] = useState(Array(options.length));
-  const [draggableMarkup, setDraggableMarkup] = useState(options.map((e, index) => (
-    <DraggableBlock key={index+1} id={index+1}>
+  const [draggable, setDraggable] = useState(options.map((e, index) => (
+    <DraggableBlock key={index} id={uuidv4()}>
       {e}
     </DraggableBlock>
   )))
-
+  const swapElements = (array, index1, index2) => {
+    [array[index1], array[index2]] = [array[index2], array[index1]];
+  };
   function handleDragEnd(event) {
     const {active, over} = event;
 
-    const dragIndex = active.id - 1
+    const dragId = active.id
     const dropIndex = over ? over.id - 1 : null
+    const isInDraggable = draggable.some(e => e?.props?.id === dragId)
 
     if (over === null){
-      setDraggableMarkup(prev => {
-        return prev.map((e)=>{
-          if (e.props.id === dragIndex +1) {
-            return (
-              <DraggableBlock key={ dragIndex +1} id={ dragIndex +1}>
-                {options[dragIndex]}
-              </DraggableBlock>
-            )
-          } else {
-            return e
-          }
+      if (!isInDraggable){
+        const draggedIndex = children.findIndex(e => e?.props?.id === dragId)
+        setChildren(prev => {
+          const buf = [...prev]
+          buf[draggedIndex] = undefined
+          return buf
         })
-      })
-      let buf = [...children]
-      buf[dropIndex] = undefined
-      setChildren([...buf])
+        setDraggable(prev => {
+          const buf = [...prev]
+          buf.push({ ...children[draggedIndex] })
+          return buf
+        })
+      }
     } else {
-      let buf = [...children]
-      buf[dropIndex] = {...draggableMarkup[dragIndex]}
-      setChildren([...buf])
+      //const element = draggable.find(e => e?.props?.id === dragId) || children.find(e => e?.props?.id === dragId)
+      const isDroppableEmpty = children[dropIndex] === undefined
+      if (isDroppableEmpty){
+        const draggedIndex = draggable.findIndex(e => e?.props?.id === dragId)
+        if (draggedIndex !== -1){
 
-      let buf1 = [...draggableMarkup]
-      buf1[dragIndex] = (<div id={dragIndex+1}> </div>)
-      setDraggableMarkup([...buf1])
+          setChildren(prev => {
+            const buf = [...prev]
+            buf[dropIndex] = {...draggable[draggedIndex]}
+            return buf
+          })
+
+          setDraggable(prev => {
+            const buf = [...prev]
+            buf.splice(draggedIndex, 1)
+            return buf
+          })
+        } else {
+          const draggedIndex = children.findIndex(e => e?.props?.id === dragId)
+          setChildren(prev => {
+            const buf = [...prev]
+            buf[dropIndex] = {...children[draggedIndex]}
+            buf[draggedIndex] = undefined
+            return buf
+          })
+        }
+      } else {
+        if (!isInDraggable){
+          setChildren(prev => {
+            const buf = [...prev]
+            swapElements(buf, dropIndex, children.findIndex(e => e?.props?.id === dragId))
+            return buf
+          })
+        } else {
+          const draggedIndex = draggable.findIndex(e => e?.props?.id === dragId)
+          const draggedElement = {...draggable[draggedIndex]}
+          const droppedElement = {...children[dropIndex]}
+          setChildren(prev => {
+            const buf = [...prev]
+            buf[dropIndex] = draggedElement
+            return buf
+          })
+          setDraggable(prev => {
+            const buf = [...prev]
+            buf.splice(draggedIndex, 1)
+            buf.push(droppedElement)
+            return buf
+          })
+        }
+      }
     }
-
     console.log("active: " + active.id + " " + "over: " + over)
   }
 
@@ -118,7 +161,7 @@ const Task = () => {
       <TaskBody handleCheck={handleCheck} completed={completed} mistake={mistake} task={"/chapterOne/tasks/taskThree/info"}>
         <DndContext onDragEnd={handleDragEnd} modifiers={[restrictToFirstScrollableAncestor]}>
           <div className={styles.draggableContainer}>
-            {draggableMarkup}
+            {draggable}
           </div>
           {
             <>

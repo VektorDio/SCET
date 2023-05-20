@@ -12,10 +12,12 @@ const DraggableBlock = ({children, id, round, display}) => {
 
   const style = transform ? {
     transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-    zIndex: 10,
     borderRadius: (round) ? "50%" : null,
     display: display,
-  } : undefined;
+    zIndex: 10
+  } : {
+    zIndex: 5
+  };
 
   return (
     <div
