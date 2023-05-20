@@ -12,9 +12,24 @@
   background-color: #4d4d4d;
 
   width: fit-content;
-  max-width: 150px;
-  min-width: 62px;
-  min-height: 62px;
+  min-width: 110px;
+  min-height: 110px;
+}
 
+.label{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  word-wrap:break-word;
+  user-select: none;
+  margin: auto;
+
+  padding: 5px;
+  max-width: 150px;
+  font-weight: 600;
+}
+
+.container{
   position: absolute;
 }
+

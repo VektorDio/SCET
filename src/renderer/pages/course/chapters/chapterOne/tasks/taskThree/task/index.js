@@ -7,17 +7,23 @@ import DraggableBlock from '../../../../../../../components/taskPageElements/dnd
 import DroppableBlock from '../../../../../../../components/taskPageElements/dndElements/droppableBlock';
 import { restrictToFirstScrollableAncestor} from '@dnd-kit/modifiers';
 import { v4 as uuidv4 } from 'uuid';
+import TextBlock from '../../../../../../../components/taskPageElements/textBlock';
+import Xarrow, { Xwrapper } from 'react-xarrows';
 const Task = () => {
   const [start, setStart] = useState(Date.now())
   const [time, setTime] = useState(0)
-  const [completed, setCompleted] = useState(false)
+  const [completed, setCompleted] = useState()
   const [mistake, setMistake] = useState(false)
+
+  const options = ["Підсилювач", "Електродвигун", "Диск", "Датчик"]
+  const answers = ["Підсилювач", "Електродвигун", "Диск", "Датчик"]
 
   useEffect(() => {
     if (completed === undefined){
       window.electron.ipcRenderer.invoke('readJson').then((result) => {
-        setCompleted(result.task2.completed)
+        setCompleted(result.task3.completed)
       })
+      setSolved()
     }
   }, [])
 
@@ -36,11 +42,7 @@ const Task = () => {
   }
 
   async function handleCheck() {
-    let test = false
-
-    console.log(draggable)
-    console.log(children)
-    console.log(children[0] === undefined)
+    let test = children.every((e, i ) => e.props.children === answers[i])
 
     let obj = await window.electron.ipcRenderer.invoke('readJson')
     let task = obj.task3
@@ -54,6 +56,7 @@ const Task = () => {
           tries: task.tries + 1
         }}
       )
+
     } else {
       window.electron.ipcRenderer.sendMessage('writeJson', {
         task3:{
@@ -66,14 +69,12 @@ const Task = () => {
     }
   }
 
-  const options = ["1", "2", "3"]
-
-  const [children, setChildren] = useState(Array(options.length));
   const [draggable, setDraggable] = useState(options.map((e, index) => (
     <DraggableBlock key={index} id={uuidv4()}>
       {e}
     </DraggableBlock>
   )))
+  const [children, setChildren] = useState(Array(options.length));
   const swapElements = (array, index1, index2) => {
     [array[index1], array[index2]] = [array[index2], array[index1]];
   };
@@ -99,7 +100,6 @@ const Task = () => {
         })
       }
     } else {
-      //const element = draggable.find(e => e?.props?.id === dragId) || children.find(e => e?.props?.id === dragId)
       const isDroppableEmpty = children[dropIndex] === undefined
       if (isDroppableEmpty){
         const draggedIndex = draggable.findIndex(e => e?.props?.id === dragId)
@@ -150,30 +150,91 @@ const Task = () => {
         }
       }
     }
-    console.log("active: " + active.id + " " + "over: " + over)
+  }
+
+  function setSolved() {
+    setChildren([...draggable])
+    setDraggable(null)
   }
 
   return (
     <div className={styles.container} >
       <TaskMenuColumn time={time} completed={completed} taskNumber={"1.3"}>
-        В цому завданні необхідно обрати потрібну відповідь із випадаючого списку.
+        В цому завданні необхідно перемістити блоки в потрібні контейнери.
       </TaskMenuColumn>
       <TaskBody handleCheck={handleCheck} completed={completed} mistake={mistake} task={"/chapterOne/tasks/taskThree/info"}>
+
         <DndContext onDragEnd={handleDragEnd} modifiers={[restrictToFirstScrollableAncestor]}>
           <div className={styles.draggableContainer}>
             {draggable}
           </div>
           {
             <>
-              <DroppableBlock id={1} top={"30%"}>
-                {children[0]}
-              </DroppableBlock>
-              <DroppableBlock id={2} top={"42%"}>
-                {children[1]}
-              </DroppableBlock>
-              <DroppableBlock id={3} top={"54%"}>
-                {children[2]}
-              </DroppableBlock>
+              <Xwrapper>
+                <DroppableBlock id={"1"} top={"30%"} left={"43%"} label={"ПУ"}>
+                  {children[0]}
+                </DroppableBlock>
+                <DroppableBlock id={"2"} top={"30%"} left={"57%"} label={"ВП"}>
+                  {children[1]}
+                </DroppableBlock>
+                <DroppableBlock id={"3"} top={"30%"} left={"71%"} label={"ОУ"}>
+                  {children[2]}
+                </DroppableBlock>
+                <DroppableBlock id={"4"} top={"48%"} left={"57%"} label={"Датчик"}>
+                  {children[3]}
+                </DroppableBlock>
+
+                <TextBlock id={"dv"} top={"34.4%"} left={"22%"}>
+                  Бажана швидкість
+                </TextBlock>
+                <TextBlock id={"-"} top={"35%"} left={"35%"} round={true}>
+                  -
+                </TextBlock>
+                <TextBlock id={"av"} top={"34.4%"} left={"88%"}>
+                  Дійсна
+                  швидкість
+                </TextBlock>
+
+                <Xarrow
+                  start={"dv"}
+                  end={"-"}
+                  headSize={3}
+                />
+                <Xarrow
+                  start={"-"}
+                  end={"1"}
+                  headSize={3}
+                />
+                <Xarrow
+                  start={"1"}
+                  end={"2"}
+                  headSize={3}
+                />
+                <Xarrow
+                  start={"2"}
+                  end={"3"}
+                  headSize={3}
+                />
+                <Xarrow
+                  start={"3"}
+                  end={"av"}
+                  headSize={3}
+                />
+                <Xarrow
+                  start={"4"}
+                  end={"-"}
+                  path={'grid'}
+                  endAnchor={'bottom'}
+                  headSize={3}
+                />
+                <Xarrow
+                  start={"av"}
+                  end={"4"}
+                  path={'grid'}
+                  startAnchor={'bottom'}
+                  headSize={3}
+                />
+              </Xwrapper>
             </>
           }
         </DndContext>

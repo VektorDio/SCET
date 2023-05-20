@@ -30,6 +30,8 @@
 
 .draggableContainer{
   display: flex;
+  justify-content: center;
+  height: 62px;
 }
 
 
