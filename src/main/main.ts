@@ -12,7 +12,7 @@ import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import { readJson, resolveHtmlPath, setupJson, writeJson, test } from './util';
+import { readJson, resolveHtmlPath, setupJson, writeJson} from './util';
 
 const { globalShortcut } = require('electron');
 
@@ -28,10 +28,6 @@ let mainWindow: BrowserWindow | null = null;
 
 ipcMain.handle('readJson', () => {
   return readJson();
-});
-
-ipcMain.handle('test', () => {
-  return test();
 });
 
 ipcMain.on('writeJson', (event, data) => {
@@ -89,7 +85,6 @@ const createWindow = async () => {
     frame: false,
     icon: getAssetPath('icon.png'),
     webPreferences: {
-      // devTools: false,
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),

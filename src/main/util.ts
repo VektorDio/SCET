@@ -39,11 +39,6 @@ export function readJson() {
     { encoding: 'utf8' })
   return JSON.parse(data.toString());
 }
-
-export function test() {
-  return "string"
-}
-
 export function setupJson() {
   const data = {
     courseCompletion: 0,

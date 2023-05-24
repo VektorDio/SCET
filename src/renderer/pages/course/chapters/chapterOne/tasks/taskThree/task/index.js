@@ -22,8 +22,10 @@ const Task = () => {
     if (completed === undefined){
       window.electron.ipcRenderer.invoke('readJson').then((result) => {
         setCompleted(result.task3.completed)
+        if (result.task3.completed){
+          setSolved()
+        }
       })
-      setSolved()
     }
   }, [])
 

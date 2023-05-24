@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import styles from "./hiddenSelect.module.css"
-
 const HiddenSelect = ({options, onClick, text}) => {
   const [display, setDisplay] = useState(false)
-
-
 
   return (
     <>
