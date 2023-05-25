@@ -3,6 +3,11 @@ import { URL } from 'url';
 import path from 'path';
 import fs from 'fs';
 
+const appPath =
+  process.env.NODE_ENV === 'production'
+    ? `${process.resourcesPath}`
+    : __dirname;
+
 export function resolveHtmlPath(htmlFileName: string) {
   if (process.env.NODE_ENV === 'development') {
     const port = process.env.PORT || 1212;
@@ -10,13 +15,14 @@ export function resolveHtmlPath(htmlFileName: string) {
     url.pathname = htmlFileName;
     return url.href;
   }
+
   return `file://${path.resolve(__dirname, '../renderer/', htmlFileName)}`;
 }
 
 export async function writeJson(data: Object) {
   const currentData = await readJson();
   fs.writeFile(
-    path.join(__dirname, '../localstorage.json'),
+    path.join(appPath, 'localstorage.json'),
     JSON.stringify({
       ...currentData,
       ...data,
@@ -35,7 +41,7 @@ export function readJson() {
   //   { encoding: 'utf8' })
 
   const data = fs.readFileSync(
-    path.join(__dirname, '../localstorage.json'),
+    path.join(appPath, 'localstorage.json'),
     { encoding: 'utf8' })
   return JSON.parse(data.toString());
 }
@@ -59,9 +65,9 @@ export function setupJson() {
     },
   };
 
-  fs.open(path.join(__dirname, '../localstorage.json'), 'r', (err) => {
+  fs.open(path.join(appPath, 'localstorage.json'), 'r', (err) => {
       if (err) {
-        fs.writeFile(path.join(__dirname, '../localstorage.json'),
+        fs.writeFile(path.join(appPath, 'localstorage.json'),
           JSON.stringify(data), function (err) {
             if (err) throw err;
           });
