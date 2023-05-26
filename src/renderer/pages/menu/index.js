@@ -11,9 +11,12 @@ function Menu({}) {
   window.electron.ipcRenderer.sendMessage('center')
 
   const navigate = useNavigate();
-
   function handleCourseEnter() {
       navigate("/pages/course")
+  }
+
+  function handleAppClose() {
+    window.close()
   }
 
   return (
@@ -27,11 +30,11 @@ function Menu({}) {
           <div className={styles.btn}>
             <ArrowRightBtn onClick={handleCourseEnter}/>
           </div>
-          <div className={styles.btn} style={{display:"none"}}>
-            <XBtn/>
-          </div>
           <div className={styles.btn}>
             <GearBtn/>
+          </div>
+          <div className={styles.btn}>
+            <XBtn onClick={handleAppClose}/>
           </div>
         </div>
     </div>

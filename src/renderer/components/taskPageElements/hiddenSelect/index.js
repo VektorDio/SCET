@@ -8,11 +8,13 @@ const HiddenSelect = ({options, onClick, text}) => {
       {
         (display) ? (
           <div className={styles.container} onContextMenu={() => setDisplay(false)}>
-            {options.map((option) => (
+            {options.map((option, index) => (
                 <div className={styles.option} onClick={() => {
                   setDisplay(false)
-                  onClick(option);
+                  onClick(option)
+
                 }}
+                     key={index}
                 >
                   {option}
                 </div>

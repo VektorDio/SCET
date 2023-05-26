@@ -136,9 +136,10 @@ const Task = () => {
 
         <Xarrow start={'xt'} end={'pu'} headSize={3}/>
         <Xarrow start={'ft'} end={'ou'} headSize={3}/>
-        <Xarrow start={'ou'} end={'yt'} headSize={3}/>
+        <Xarrow start={'ou'} end={'yt'} headSize={3}
+        />
         <Xarrow start={'pu'} end={'ou'} headSize={3}
-                label={
+                labels={
           <UpperLabel>
             <HiddenSelect
               options={options}
