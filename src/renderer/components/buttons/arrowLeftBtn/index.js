@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../arrowRightBtn/arrowRight.module.css';
+import styles from './arrowLeft.module.css';
 
 const ArrowLeftBtn = ({onClick}) => {
   return (

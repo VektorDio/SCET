@@ -69,7 +69,8 @@ const Task = () => {
           bestTime: time + 1,
           completed: true,
           tries: task.tries + 1
-        }}
+        },
+        courseCompletion: obj.courseCompletion + 12.5}
       )
     } else {
       window.electron.ipcRenderer.sendMessage('writeJson', {

@@ -1,14 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styles from "./courseMenuColumn.module.css"
 import { useNavigate } from 'react-router-dom';
 import ChapterName from './chapterName';
 import SubchapterName from './subchapterName';
 import ArrowLeftBtn from '../../../buttons/arrowLeftBtn';
 import GearBtn from '../../../buttons/gearBtn';
+import { Completion } from '../../../../App';
 const CourseBody = () => {
   const navigate = useNavigate();
+  const completion = useContext(Completion)
   function handleReturn(){
     navigate("/")
+  }
+  function handleGoSettings(){
+    navigate("/pages/courseSettings")
   }
 
   return (
@@ -158,14 +163,11 @@ const CourseBody = () => {
               <ArrowLeftBtn onClick={handleReturn}/>
             </div>
             <div className={styles.button}>
-              <GearBtn/>
+              <GearBtn onClick={handleGoSettings}/>
             </div>
           </div>
-          <div className={styles.completionText}>
-
-          </div>
         </div>
-        <div className={styles.completionText}>100%</div>
+        <div className={styles.completionText}>{completion+ "%"}</div>
       </div>
     </div>
   );

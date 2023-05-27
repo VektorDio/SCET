@@ -1,12 +1,12 @@
 .container{
   display: flex;
-  min-height: 100vh;
+  height: 100%;
 }
 
 .list{
   background-color: #262626;
   width: 85%;
-  height: 100vh;
+  height: 100%;
   overflow-y: auto;
 }
 
@@ -17,6 +17,6 @@
 }
 
 .btn{
-  margin: 20px;
-  height: 72px;
+  margin: 4.5vh 4.5vh 5.5vh;
+  height: 10vh;
 }

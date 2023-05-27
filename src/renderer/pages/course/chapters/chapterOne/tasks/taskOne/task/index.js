@@ -67,14 +67,16 @@ const Task = () => {
     let task = obj.task1
 
     if (test){
-      setCompleted(true)
       window.electron.ipcRenderer.sendMessage('writeJson', {
         task1:{
           bestTime: time + 1,
           completed: true,
           tries: task.tries + 1
-        }}
+        },
+        courseCompletion: obj.courseCompletion + 12.5
+        }
       )
+      setCompleted(true)
     } else {
       window.electron.ipcRenderer.sendMessage('writeJson', {
         task1:{

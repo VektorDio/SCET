@@ -1,7 +1,7 @@
 .container{
   display: flex;
   flex-flow: column;
-  height: 100vh;
+  height: 100%;
   width: 20%;
   background-color: #3d3d3d;
   justify-content: space-between;

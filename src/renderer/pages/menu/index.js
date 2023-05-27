@@ -5,9 +5,9 @@ import { useNavigate } from 'react-router-dom';
 import GearBtn from '../../components/buttons/gearBtn';
 import ArrowRightBtn from '../../components/buttons/arrowRightBtn';
 import XBtn from '../../components/buttons/xBtn';
-function Menu({}) {
+function Menu({resolution}) {
 
-  window.resizeTo(757, 529)
+  window.resizeTo(...resolution)
   window.electron.ipcRenderer.sendMessage('center')
 
   const navigate = useNavigate();
@@ -15,6 +15,9 @@ function Menu({}) {
       navigate("/pages/course")
   }
 
+  function handleSettingsEnter() {
+    navigate("/pages/settings")
+  }
   function handleAppClose() {
     window.close()
   }
@@ -24,6 +27,7 @@ function Menu({}) {
 
         <div className={styles.list}>
           <CourseEntry>Теорiя Автоматичного Управлiння</CourseEntry>
+          <CourseEntry>Теорiя Автоматичного Управлiння</CourseEntry>
         </div>
 
         <div className={styles.buttonGroup} >
@@ -31,7 +35,7 @@ function Menu({}) {
             <ArrowRightBtn onClick={handleCourseEnter}/>
           </div>
           <div className={styles.btn}>
-            <GearBtn/>
+            <GearBtn onClick={handleSettingsEnter}/>
           </div>
           <div className={styles.btn}>
             <XBtn onClick={handleAppClose}/>

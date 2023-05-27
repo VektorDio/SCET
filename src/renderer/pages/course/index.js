@@ -1,12 +1,15 @@
 import React from 'react';
 import CoursePageWrapper from '../../components/coursePageElements/coursePageWrapper';
 
-const Course = () => {
-  window.resizeTo(1920, 1080)
+const Course = ({resolution}) => {
+
+  window.resizeTo(...resolution)
+  window.electron.ipcRenderer.sendMessage('center')
+
   return (
-    <CoursePageWrapper>
-      <h1>//Course Info</h1>
-    </CoursePageWrapper>
+      <CoursePageWrapper>
+        <h1>//Course Info</h1>
+      </CoursePageWrapper>
   );
 };
 

@@ -30,8 +30,8 @@ ipcMain.handle('readJson', () => {
   return readJson();
 });
 
-ipcMain.on('writeJson', (event, data) => {
-  writeJson(data);
+ipcMain.on('writeJson', async (event, data) => {
+  await writeJson(data);
 });
 
 ipcMain.on('center', () => {
@@ -78,10 +78,9 @@ const createWindow = async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    width: 757, // 800
-    height: 529, // 500
+    width: 780, // 800
+    height: 560, // 500
     resizable: false,
-    movable: false,
     frame: false,
     icon: getAssetPath('icon.png'),
     webPreferences: {
