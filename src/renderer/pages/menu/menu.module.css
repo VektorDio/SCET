@@ -5,13 +5,13 @@
 
 .list{
   background-color: #262626;
-  width: 85%;
+  width: 85vw;
   height: 100%;
   overflow-y: auto;
 }
 
 .buttonGroup{
-  width: 15%;
+  width: 15vw;
   background-color: #3b3939;
   float: right;
 }

@@ -19,7 +19,7 @@ function Menu({resolution}) {
     navigate("/pages/settings")
   }
   function handleAppClose() {
-    window.close()
+    window.electron.ipcRenderer.sendMessage('close')
   }
 
   return (

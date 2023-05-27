@@ -1,5 +1,5 @@
 import { MemoryRouter as Router, Routes, Route} from 'react-router-dom';
-import React, { createContext, useState } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import './global.module.css';
 import Menu from './pages/menu';
 import Course from './pages/course';
@@ -17,28 +17,40 @@ import CourseSettings from './pages/courseSettings/settings';
 export const Font = createContext(0)
 export const Completion = createContext(0)
 export default function App() {
-  const [hasFrame, setHasFrame] = useState(true)
+  const [hasFrame, setHasFrame] = useState(false)
   const [menuResolution, setMenuResolution] = useState("Маленький екран")
   const [courseResolution, setCourseResolution] = useState("Великий екран")
-
   const [courseFont, setCourseFont] = useState("Маленький шрифт")
   const [courseCompletion, setCourseCompletion] = useState(0)
 
-  // @ts-ignore
-  window.electron.ipcRenderer.invoke('readJson').then((result) => {
-    if (result.menuResolution) {
-      setMenuResolution(result.menuResolution)
-    }
-    if (result.courseResolution){
-      setCourseResolution(result.courseResolution)
-    }
-    if (result.courseFont){
-      setCourseFont(result.courseFont)
-    }
-    if (result.courseCompletion){
-      setCourseCompletion(result.courseCompletion)
-    }
-  })
+  useEffect(() => {
+    // @ts-ignore
+    window.electron.ipcRenderer.invoke('readJson').then((result) => {
+      if (result.menuResolution) {
+        setMenuResolution(result.menuResolution)
+      }
+      if (result.courseResolution){
+        setCourseResolution(result.courseResolution)
+      }
+      if (result.courseFont){
+        setCourseFont(result.courseFont)
+      }
+      if (result.courseCompletion){
+        setCourseCompletion(result.courseCompletion)
+      }
+      if(result.hasFrame){
+        setHasFrame(result.hasFrame)
+      }
+    })
+  }, [hasFrame, menuResolution, courseResolution, courseFont, courseCompletion])
+
+  async function handleFrameChange() {
+    // @ts-ignore
+    await window.electron.ipcRenderer.sendMessage('writeJson', {
+      hasFrame: !hasFrame}
+    )
+    setHasFrame(!hasFrame)
+  }
 
   async function handleMenuResolutionChange(value:string) {
     // @ts-ignore
@@ -142,7 +154,7 @@ export default function App() {
                           <Settings
                              resolution={menuResolution}
                              frame={hasFrame}
-                             onFrameChange={setHasFrame}
+                             onFrameChange={handleFrameChange}
                              onResolutionChange={handleMenuResolutionChange}
                        />
                 }

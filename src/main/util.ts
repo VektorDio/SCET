@@ -62,7 +62,7 @@ export function setupJson() {
       completed: false,
       bestTime: 0,
       tries: 0,
-    },
+    }
   };
 
   fs.open(path.join(appPath, 'localstorage.json'), 'r', (err) => {

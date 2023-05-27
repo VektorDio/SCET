@@ -23,7 +23,7 @@ const Settings = ({frame, onFrameChange, onResolutionChange, resolution}) => {
     <div className={styles.container}>
       <div className={styles.setting}>
         <div className={styles.btn}>
-          <ToggleBtn toggled={frame} onClick={() => onFrameChange(!frame)}/>
+          <ToggleBtn toggled={frame} onClick={onFrameChange}/>
         </div>
         <div className={styles.settingText}> Рамка вікна </div>
       </div>
