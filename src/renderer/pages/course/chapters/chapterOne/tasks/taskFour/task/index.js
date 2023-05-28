@@ -70,11 +70,6 @@ const Task = () => {
       setTaskMistaken()
     }
   }
-
-  console.log(arrowEnds)
-  console.log(answers)
-
-
   function handleDragEnd(event) {
     const {active, over} = event;
     setArrowEnds(prev => {
@@ -84,17 +79,14 @@ const Task = () => {
       return buf
     })
   }
-
   function setSolved() {
     setArrowEnds(['drop2', 'drop5', 'drop1', 'drop1', 'drop3', 'drop2'])
   }
 
-  console.log(arrowEnds)
-
   return (
     <div className={styles.container} >
       <TaskMenuColumn time={time} completed={completed} taskNumber={"1.4"}>
-        В цому завданні необхідно перемістити блоки в потрібні контейнери.
+        В цому завданні потрібно намалювати стрілки між потрібними блоками, використовуючи маркери.
       </TaskMenuColumn>
       <TaskBody handleCheck={handleCheck} completed={completed} mistake={mistake} task={"/chapterOne/tasks/taskFour/info"}>
         <DndContext onDragEnd={handleDragEnd} modifiers={[restrictToFirstScrollableAncestor]}>
@@ -127,8 +119,6 @@ const Task = () => {
                 <DraggableMarker id={"5"} start={"drop6"} end={arrowEnds[5]} position={"bottom"}/>
                 f(t)
               </DroppableBlock>
-
-
             </Xwrapper>
           }
         </DndContext>
@@ -136,5 +126,4 @@ const Task = () => {
     </div>
   );
 };
-
 export default Task;
