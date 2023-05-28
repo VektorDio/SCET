@@ -44,7 +44,7 @@ const Task = () => {
   }
 
   async function handleCheck() {
-    let test = children.every((e, i ) => e.props.children === answers[i])
+    let test = children.every((e, i ) => e.props.children === answers[i]) && children[0] !== undefined
 
     let obj = await window.electron.ipcRenderer.invoke('readJson')
     let task = obj.task3
@@ -166,7 +166,6 @@ const Task = () => {
         В цому завданні необхідно перемістити блоки в потрібні контейнери.
       </TaskMenuColumn>
       <TaskBody handleCheck={handleCheck} completed={completed} mistake={mistake} task={"/chapterOne/tasks/taskThree/info"}>
-
         <DndContext onDragEnd={handleDragEnd} modifiers={[restrictToFirstScrollableAncestor]}>
           <div className={styles.draggableContainer}>
             {draggable}

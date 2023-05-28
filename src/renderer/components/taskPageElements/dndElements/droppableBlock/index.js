@@ -2,7 +2,7 @@ import { useDroppable } from '@dnd-kit/core';
 import styles from './droppableContainer.module.css';
 import React from 'react';
 
-function DroppableBlock({id, children, top, left, right, bottom, label}) {
+function DroppableBlock({id, children, top, left, right, bottom, label, round}) {
   const {setNodeRef} = useDroppable({
     id: id,
   });
@@ -19,7 +19,7 @@ function DroppableBlock({id, children, top, left, right, bottom, label}) {
       <div className={styles.label}>
         {label}
       </div>
-      <div id={id} ref={setNodeRef} className={styles.droppableContainer}  >
+      <div id={id} ref={setNodeRef} className={styles.droppableContainer}  style={{borderRadius: (round) ? "50%" : null}}>
         {children}
       </div>
     </div>

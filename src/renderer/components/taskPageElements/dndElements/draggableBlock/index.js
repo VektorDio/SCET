@@ -3,7 +3,7 @@ import styles from './draggableBlock.module.css';
 import { useDraggable } from '@dnd-kit/core';
 import { useXarrow } from 'react-xarrows';
 
-const DraggableBlock = ({children, id, round, display}) => {
+const DraggableBlock = ({children, id, round}) => {
   const {attributes, listeners, setNodeRef, transform} = useDraggable({
     id: id,
   });
@@ -13,7 +13,6 @@ const DraggableBlock = ({children, id, round, display}) => {
   const style = transform ? {
     transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
     borderRadius: (round) ? "50%" : null,
-    display: display,
     zIndex: 10,
   } : {
     zIndex: 5

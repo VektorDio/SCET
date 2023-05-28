@@ -10,6 +10,8 @@ import TaskInfo1_2 from './pages/course/chapters/chapterOne/tasks/taskTwo/info';
 import Task1_2 from './pages/course/chapters/chapterOne/tasks/taskTwo/task';
 import TaskInfo1_3 from './pages/course/chapters/chapterOne/tasks/taskThree/info';
 import Task1_3 from './pages/course/chapters/chapterOne/tasks/taskThree/task';
+import TaskInfo1_4 from './pages/course/chapters/chapterOne/tasks/taskFour/info';
+import Task1_4 from './pages/course/chapters/chapterOne/tasks/taskFour/task';
 import FrameBar from './components/frameBar';
 import Settings from './pages/settings/settings';
 import CourseSettings from './pages/courseSettings/settings';
@@ -95,6 +97,31 @@ export default function App() {
           bestTime: 0,
           tries: 0,
         },
+        task4: {
+          completed: false,
+          bestTime: 0,
+          tries: 0,
+        },
+        task5: {
+          completed: false,
+          bestTime: 0,
+          tries: 0,
+        },
+        task6: {
+          completed: false,
+          bestTime: 0,
+          tries: 0,
+        },
+        task7: {
+          completed: false,
+          bestTime: 0,
+          tries: 0,
+        },
+        task8: {
+          completed: false,
+          bestTime: 0,
+          tries: 0,
+        }
       }
     )
   }
@@ -142,7 +169,7 @@ export default function App() {
   return (
     <>
       <FrameBar display={hasFrame}/>
-      <div style={{height:(hasFrame) ? "97.5vh" : "100vh"}}>
+      <div style={{height:(hasFrame) ? "97.5vh" : "100vh", overflow:" hidden"}}>
         <Font.Provider value={cf}>
           <Completion.Provider value={courseCompletion}>
             <Router>
@@ -179,6 +206,8 @@ export default function App() {
                 <Route path="/chapterOne/tasks/taskTwo/task" element={<Task1_2/>}/>
                 <Route path="/chapterOne/tasks/taskThree/info" element={<TaskInfo1_3/>}/>
                 <Route path="/chapterOne/tasks/taskThree/task" element={<Task1_3/>}/>
+                <Route path="/chapterOne/tasks/taskFour/info" element={<TaskInfo1_4/>}/>
+                <Route path="/chapterOne/tasks/taskFour/task" element={<Task1_4/>}/>
               </Routes>
             </Router>
           </Completion.Provider>

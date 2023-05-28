@@ -62,6 +62,31 @@ export function setupJson() {
       completed: false,
       bestTime: 0,
       tries: 0,
+    },
+    task4: {
+      completed: false,
+      bestTime: 0,
+      tries: 0,
+    },
+    task5: {
+      completed: false,
+      bestTime: 0,
+      tries: 0,
+    },
+    task6: {
+      completed: false,
+      bestTime: 0,
+      tries: 0,
+    },
+    task7: {
+      completed: false,
+      bestTime: 0,
+      tries: 0,
+    },
+    task8: {
+      completed: false,
+      bestTime: 0,
+      tries: 0,
     }
   };
 

@@ -27,7 +27,6 @@ function Menu({resolution}) {
 
         <div className={styles.list}>
           <CourseEntry>Теорiя Автоматичного Управлiння</CourseEntry>
-          <CourseEntry>Теорiя Автоматичного Управлiння</CourseEntry>
         </div>
 
         <div className={styles.buttonGroup} >
