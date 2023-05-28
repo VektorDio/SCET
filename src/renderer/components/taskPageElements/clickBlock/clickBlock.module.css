@@ -1,0 +1,34 @@
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  word-wrap:break-word;
+  user-select: none;
+  flex-wrap: wrap;
+  flex-flow: column;
+
+  font-weight: 600;
+  padding: 20px;
+  border-radius: 8px;
+  background-color: #4d4d4d;
+
+  width: fit-content;
+  min-width: 62px;
+  min-height: 62px;
+
+  margin: 1vh;
+}
+
+.container:hover{
+  background-color: #575757;
+}
+
+.label{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  word-wrap:break-word;
+  user-select: none;
+  flex-wrap: wrap;
+  margin-top: 15px;
+}

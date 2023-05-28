@@ -1,0 +1,49 @@
+.container{
+  display: flex;
+  height: 100%;
+}
+
+.container b {
+  font-weight: 1200;
+  font-size: 26px;
+  color: cornflowerblue;
+}
+
+.section{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.column{
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.select{
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+}
+
+.block{
+  width: 40%;
+  padding: 10px;
+}
+
+.draggableContainer{
+  display: flex;
+  justify-content: center;
+  height: 62px;
+}
+
+.imagesContainer{
+  display: flex;
+  padding: 4vh;
+  flex-wrap: wrap;
+}
+

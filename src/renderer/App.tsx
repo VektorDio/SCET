@@ -12,6 +12,8 @@ import TaskInfo1_3 from './pages/course/chapters/chapterOne/tasks/taskThree/info
 import Task1_3 from './pages/course/chapters/chapterOne/tasks/taskThree/task';
 import TaskInfo1_4 from './pages/course/chapters/chapterOne/tasks/taskFour/info';
 import Task1_4 from './pages/course/chapters/chapterOne/tasks/taskFour/task';
+import TaskInfo1_5 from './pages/course/chapters/chapterOne/tasks/taskFive/info';
+import Task1_5 from './pages/course/chapters/chapterOne/tasks/taskFive/task';
 import FrameBar from './components/frameBar';
 import Settings from './pages/settings/settings';
 import CourseSettings from './pages/courseSettings/settings';
@@ -208,6 +210,8 @@ export default function App() {
                 <Route path="/chapterOne/tasks/taskThree/task" element={<Task1_3/>}/>
                 <Route path="/chapterOne/tasks/taskFour/info" element={<TaskInfo1_4/>}/>
                 <Route path="/chapterOne/tasks/taskFour/task" element={<Task1_4/>}/>
+                <Route path="/chapterOne/tasks/taskFive/info" element={<TaskInfo1_5/>}/>
+                <Route path="/chapterOne/tasks/taskFive/task" element={<Task1_5/>}/>
               </Routes>
             </Router>
           </Completion.Provider>
