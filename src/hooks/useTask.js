@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
+import useReadTaskFromJson from './useReadTaskFromJson';
 
 export default function useTask({taskId, setTaskSolved, taskSolved}) {
   const [taskState, setTaskState] = useState({
@@ -8,9 +9,7 @@ export default function useTask({taskId, setTaskSolved, taskSolved}) {
     mistake: false,
   })
 
-  const [task, setTask] = useState()
-  let courseCompletion
-
+  const {task, courseCompletion} = useReadTaskFromJson(taskId)
   function setStart(start) {
     setTaskState(prev => ({...prev, start}))
   }
@@ -65,18 +64,14 @@ export default function useTask({taskId, setTaskSolved, taskSolved}) {
     }
   }
 
-  useEffect(() => {
-    if (taskState.completed === undefined){
-      window.electron.ipcRenderer.invoke('readJson').then((result) => {
-        courseCompletion = result.courseCompletion
-        setTask({...result[taskId]})
-        setCompleted(result[taskId].completed)
-        if (result[taskId].completed && setTaskSolved) {
-          setTaskSolved()
-        }
-      })
+  if (taskState.completed === undefined){
+    if (task) {
+      setCompleted(task.completed)
+      if (setTaskSolved) {
+        setTaskSolved()
+      }
     }
-  }, [])
+  }
 
   return {taskState, handleCheck}
 }

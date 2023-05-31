@@ -4,10 +4,9 @@ import ChapterTitle from '../../../../../../../components/coursePageElements/cou
 import ChapterParagraph from '../../../../../../../components/coursePageElements/courseText/chapterParagraph';
 import TaskInfoBar from '../../../../../../../components/taskPageElements/taskPageWrapper/taskInfoBar';
 import useReadTaskFromJson from '../../../../../../../../hooks/useReadTaskFromJson';
-
 const TaskInfo = () => {
   const taskId = "task7"
-  const task = useReadTaskFromJson(taskId)
+  const { task } = useReadTaskFromJson(taskId)
 
   return (
     <CoursePageWrapper>

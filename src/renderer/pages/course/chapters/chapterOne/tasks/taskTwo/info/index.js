@@ -7,7 +7,7 @@ import useReadTaskFromJson from '../../../../../../../../hooks/useReadTaskFromJs
 
 const TaskInfo = () => {
   const taskId = "task2"
-  const task = useReadTaskFromJson(taskId)
+  const { task } = useReadTaskFromJson(taskId)
 
   return (
     <CoursePageWrapper>
