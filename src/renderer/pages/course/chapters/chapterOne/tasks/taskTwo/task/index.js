@@ -13,9 +13,25 @@ import sin from '../../../../../../../../../assets/diagrams/sin.png';
 const Task = () => {
   const [start, setStart] = useState(Date.now())
   const [time, setTime] = useState(0)
-  const [completed, setCompleted] = useState()
   const [mistake, setMistake] = useState(false)
+  const [completed, setCompleted] = useState()
+
+
   const [selectedOptions, setSelectedOptions] = useState([])
+
+  function setTaskMistaken() {
+    setStart(Date.now())
+    setMistake(true)
+    setTimeout(()=> {
+      setMistake(false)
+    }, 100)
+  }
+
+  if (!completed && completed !== undefined && !mistake) {
+    setTimeout(() => {
+      setTime(Math.floor((Date.now() - start) / 1000))
+    }, 1000)
+  }
 
   const answers = ['Східчаста функція',
     'Одинична імпульсна функція',
@@ -43,20 +59,6 @@ const Task = () => {
       })
     }
   }, [])
-
-  function setTaskMistaken() {
-    setStart(Date.now())
-    setMistake(true)
-    setTimeout(()=> {
-      setMistake(false)
-    }, 100)
-  }
-
-  if (!completed && completed !== undefined && !mistake) {
-    setTimeout(() => {
-      setTime(Math.floor((Date.now() - start) / 1000))
-    }, 1000)
-  }
 
   async function handleCheck() {
     let test = (selectedOptions.every(

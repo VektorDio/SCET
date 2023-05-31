@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import TaskMenuColumn from '../../../../../../../components/taskPageElements/taskPageWrapper/taskMenuColumn';
 import TaskBody from '../../../../../../../components/taskPageElements/taskPageWrapper/taskBody';
 import styles from "./firstTask.module.css"
@@ -6,88 +6,30 @@ import TextBlock from '../../../../../../../components/taskPageElements/textBloc
 import Xarrow from 'react-xarrows';
 import UpperLabel from '../../../../../../../components/taskPageElements/upperLabel';
 import HiddenSelect from '../../../../../../../components/taskPageElements/hiddenSelect';
+import useTask from '../../../../../../../../hooks/useTask';
 const Task = () => {
-  const [start, setStart] = useState(Date.now())
-  const [time, setTime] = useState(0)
-  const [completed, setCompleted] = useState()
-  const [mistake, setMistake] = useState(false)
+  const [blocks, setBlocks] = useState(["...", "...", "...", "...", "...", "..."])
 
-  const [xtBlock, setXTBlock] = useState(("..."))
-  const [ftBlock, setFTBlock] = useState(("..."))
-  const [ytBlock, setYTBlock] = useState(("..."))
-  const [utBlock, setUTBlock] = useState(("..."))
-  const [puBlock, setPUBlock] = useState(("..."))
-  const [ouBlock, setOUBlock] = useState(("..."))
-
+  const taskId = 'task1'
   const options = ["x(t)", "f(t)", "y(t)", "u(t)", "ПУ", "ОУ"]
+  const answers = ["x(t)", "f(t)", "y(t)", "ПУ", "ОУ", "u(t)"]
 
-  useEffect(() => {
-    if (completed === undefined){
-      window.electron.ipcRenderer.invoke('readJson').then((result) => {
-        setCompleted(result.task1.completed)
-        if (result.task1.completed) {
-          setTaskSolved()
-        }
-      })
-    }
-  }, [])
-
-  function setTaskMistaken() {
-    setStart(Date.now())
-    setMistake(true)
-    setTimeout(()=> {
-      setMistake(false)
-    }, 100)
-  }
-
-  if (!completed && completed !== undefined && !mistake) {
-    setTimeout(() => {
-      setTime(Math.floor((Date.now() - start) / 1000))
-    }, 1000)
-  }
+  console.log(blocks)
+  const taskSolved = blocks.every((e, i) => e === answers[i])
 
   function setTaskSolved() {
-    setXTBlock("x(t)")
-    setFTBlock("f(t)")
-    setYTBlock("y(t)")
-    setUTBlock("u(t)")
-    setPUBlock("ПУ")
-    setOUBlock("ОУ")
+    setBlocks([...answers])
   }
 
-  async function handleCheck() {
-    let test = (xtBlock === "x(t)") &&
-      (ftBlock === "f(t)") &&
-      (ytBlock === "y(t)") &&
-      (utBlock === "u(t)") &&
-      (puBlock === "ПУ") &&
-      (ouBlock === "ОУ")
-
-    let obj = await window.electron.ipcRenderer.invoke('readJson')
-    let task = obj.task1
-
-    if (test){
-      window.electron.ipcRenderer.sendMessage('writeJson', {
-        task1:{
-          bestTime: time + 1,
-          completed: true,
-          tries: task.tries + 1
-        },
-        courseCompletion: obj.courseCompletion + 12.5
-        }
-      )
-      setCompleted(true)
-    } else {
-      window.electron.ipcRenderer.sendMessage('writeJson', {
-        task1:{
-          bestTime: task.bestTime,
-          completed: task.completed,
-          tries: task.tries + 1
-        }}
-      )
-      setTaskMistaken()
-    }
+  function handleBlockChange(option, index) {
+    setBlocks(prev => {
+      const buf = [...prev]
+      buf[index] = option
+      return [...buf]
+    })
   }
+
+  const {taskState:{time, completed, mistake}, handleCheck} = useTask({ taskId, setTaskSolved, taskSolved })
 
   return (
     <div className={styles.container} >
@@ -99,40 +41,45 @@ const Task = () => {
         <TextBlock id={"xt"} top={"40%"} left={"40%"} round={true} >
           <HiddenSelect
             options={options}
-            text={xtBlock}
-            onClick={setXTBlock}
+            text={blocks[0]}
+            index={0}
+            onClick={handleBlockChange}
           />
         </TextBlock>
 
         <TextBlock id={"ft"} top={"20%"} left={"65%"} round={true}>
           <HiddenSelect
             options={options}
-            text={ftBlock}
-            onClick={setFTBlock}
+            text={blocks[1]}
+            index={1}
+            onClick={handleBlockChange}
           />
         </TextBlock>
 
         <TextBlock id={"yt"} top={"40%"} left={"75%"} round={true}>
           <HiddenSelect
             options={options}
-            text={ytBlock}
-            onClick={setYTBlock}
+            text={blocks[2]}
+            index={2}
+            onClick={handleBlockChange}
           />
         </TextBlock>
 
         <TextBlock id={"pu"} top={"40%"} left={"50%"} >
           <HiddenSelect
             options={options}
-            text={puBlock}
-            onClick={setPUBlock}
+            text={blocks[3]}
+            index={3}
+            onClick={handleBlockChange}
           />
         </TextBlock>
 
         <TextBlock id={"ou"} top={"40%"} left={"65%"}>
           <HiddenSelect
             options={options}
-            text={ouBlock}
-            onClick={setOUBlock}
+            text={blocks[4]}
+            index={4}
+            onClick={handleBlockChange}
           />
         </TextBlock>
 
@@ -145,8 +92,9 @@ const Task = () => {
           <UpperLabel>
             <HiddenSelect
               options={options}
-              text={utBlock}
-              onClick={setUTBlock}
+              index={5}
+              text={blocks[5]}
+              onClick={handleBlockChange}
             />
           </UpperLabel>
         }

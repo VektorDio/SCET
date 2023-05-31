@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from "./hiddenSelect.module.css"
-const HiddenSelect = ({options, onClick, text}) => {
+const HiddenSelect = ({options, onClick, text, index}) => {
   const [display, setDisplay] = useState(false)
 
   return (
@@ -8,13 +8,12 @@ const HiddenSelect = ({options, onClick, text}) => {
       {
         (display) ? (
           <div className={styles.container} onContextMenu={() => setDisplay(false)}>
-            {options.map((option, index) => (
+            {options.map((option, i) => (
                 <div className={styles.option} onClick={() => {
                   setDisplay(false)
-                  onClick(option)
-
+                  onClick(option, index)
                 }}
-                     key={index}
+                     key={i}
                 >
                   {option}
                 </div>
