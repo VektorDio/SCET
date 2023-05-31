@@ -36,7 +36,6 @@ const SelectField = ({options, onChange, index, defaultValue, placeholder, minWi
                 display: "flex",
                 justifyContent: "center",
                 backgroundColor: state.isFocused && '#6495ed',
-
               }),
             }}/>
   );

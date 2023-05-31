@@ -1,37 +1,19 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import TaskMenuColumn from '../../../../../../../components/taskPageElements/taskPageWrapper/taskMenuColumn';
 import TaskBody from '../../../../../../../components/taskPageElements/taskPageWrapper/taskBody';
 import styles from "./secondTask.module.css"
 import TaskImage from '../../../../../../../components/taskPageElements/taskImage';
 import SelectField from '../../../../../../../components/taskPageElements/selectField';
-
 import acceleration from '../../../../../../../../../assets/diagrams/acceleration.png';
 import dirac from '../../../../../../../../../assets/diagrams/dirac.png';
 import linear from '../../../../../../../../../assets/diagrams/linear.png';
 import step from '../../../../../../../../../assets/diagrams/step.png';
 import sin from '../../../../../../../../../assets/diagrams/sin.png';
+import useTask from '../../../../../../../../hooks/useTask';
 const Task = () => {
-  const [start, setStart] = useState(Date.now())
-  const [time, setTime] = useState(0)
-  const [mistake, setMistake] = useState(false)
-  const [completed, setCompleted] = useState()
-
-
   const [selectedOptions, setSelectedOptions] = useState([])
 
-  function setTaskMistaken() {
-    setStart(Date.now())
-    setMistake(true)
-    setTimeout(()=> {
-      setMistake(false)
-    }, 100)
-  }
-
-  if (!completed && completed !== undefined && !mistake) {
-    setTimeout(() => {
-      setTime(Math.floor((Date.now() - start) / 1000))
-    }, 1000)
-  }
+  const taskId = 'task2'
 
   const answers = ['Східчаста функція',
     'Одинична імпульсна функція',
@@ -41,53 +23,20 @@ const Task = () => {
   ]
 
   const images = [step, dirac, linear, acceleration, sin]
-
   const options = answers.map((e, i) => ({
     value: i,
     label: e,
   }))
+
+  const taskSolved = (selectedOptions.every(
+    (e,i) => e === answers[i]) && selectedOptions.length > 0)
   function handleChoice(choice, index) {
     let buf = [...selectedOptions]
     buf[index] = choice
     setSelectedOptions([...buf])
   }
 
-  useEffect(() => {
-    if (completed === undefined){
-      window.electron.ipcRenderer.invoke('readJson').then((result) => {
-        setCompleted(result.task2.completed)
-      })
-    }
-  }, [])
-
-  async function handleCheck() {
-    let test = (selectedOptions.every(
-      (e,i) => e === answers[i]) && selectedOptions.length > 0)
-
-    let obj = await window.electron.ipcRenderer.invoke('readJson')
-    let task = obj.task2
-
-    if (test){
-      setCompleted(true)
-      window.electron.ipcRenderer.sendMessage('writeJson', {
-        task2:{
-          bestTime: time + 1,
-          completed: true,
-          tries: task.tries + 1
-        },
-        courseCompletion: obj.courseCompletion + 12.5}
-      )
-    } else {
-      window.electron.ipcRenderer.sendMessage('writeJson', {
-        task2:{
-          bestTime: task.bestTime,
-          completed: task.completed,
-          tries: task.tries + 1
-        }}
-      )
-      setTaskMistaken()
-    }
-  }
+  const {taskState:{time, completed, mistake}, handleCheck} = useTask({ taskId, taskSolved })
 
   return (
     <div className={styles.container} >

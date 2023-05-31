@@ -1,20 +1,18 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import TaskMenuColumn from '../../../../../../../components/taskPageElements/taskPageWrapper/taskMenuColumn';
 import TaskBody from '../../../../../../../components/taskPageElements/taskPageWrapper/taskBody';
 import styles from "./sixthTask.module.css"
 import TaskImage from '../../../../../../../components/taskPageElements/taskImage';
 import SelectField from '../../../../../../../components/taskPageElements/selectField';
-
 import engine from '../../../../../../../../../assets/diagrams/engine.jpg';
 import springAbsorber from '../../../../../../../../../assets/diagrams/springAbsorber.jpg';
 import reductionGear from '../../../../../../../../../assets/diagrams/reductionGear.jpg';
 import hydraulicTube from '../../../../../../../../../assets/diagrams/hydraulicTube.png';
+import useTask from '../../../../../../../../hooks/useTask';
 const Task = () => {
-  const [start, setStart] = useState(Date.now())
-  const [time, setTime] = useState(0)
-  const [completed, setCompleted] = useState()
-  const [mistake, setMistake] = useState(false)
   const [selectedOptions, setSelectedOptions] = useState([])
+
+  const taskId = "task6"
 
   const answers = [
     'Ідеальна інтегруюча ланка',
@@ -22,6 +20,9 @@ const Task = () => {
     'Ізодромна ланка першого порядку',
     'Ідеальна (безінерційна, підсилювальна) ланка'
     ]
+
+  const taskSolved = (selectedOptions.every(
+    (e,i) => e === answers[i]) && selectedOptions.length > 0)
 
   const images = [hydraulicTube, engine, springAbsorber, reductionGear]
 
@@ -35,56 +36,7 @@ const Task = () => {
     setSelectedOptions([...buf])
   }
 
-  useEffect(() => {
-    if (completed === undefined){
-      window.electron.ipcRenderer.invoke('readJson').then((result) => {
-        setCompleted(result.task6.completed)
-      })
-    }
-  }, [])
-
-  function setTaskMistaken() {
-    setStart(Date.now())
-    setMistake(true)
-    setTimeout(()=> {
-      setMistake(false)
-    }, 100)
-  }
-
-  if (!completed && completed !== undefined && !mistake) {
-    setTimeout(() => {
-      setTime(Math.floor((Date.now() - start) / 1000))
-    }, 1000)
-  }
-
-  async function handleCheck() {
-    let test = (selectedOptions.every(
-      (e,i) => e === answers[i]) && selectedOptions.length > 0)
-
-    let obj = await window.electron.ipcRenderer.invoke('readJson')
-    let task = obj.task6
-
-    if (test){
-      setCompleted(true)
-      window.electron.ipcRenderer.sendMessage('writeJson', {
-        task6:{
-          bestTime: time + 1,
-          completed: true,
-          tries: task.tries + 1
-        },
-        courseCompletion: obj.courseCompletion + 12.5}
-      )
-    } else {
-      window.electron.ipcRenderer.sendMessage('writeJson', {
-        task6:{
-          bestTime: task.bestTime,
-          completed: task.completed,
-          tries: task.tries + 1
-        }}
-      )
-      setTaskMistaken()
-    }
-  }
+  const {taskState:{time, completed, mistake}, handleCheck} = useTask({ taskId, taskSolved })
 
   return (
     <div className={styles.container} >
@@ -101,7 +53,7 @@ const Task = () => {
                   options={options}
                   index={i}
                   onChange={handleChoice}
-                  placeholder={(completed) ? answers[i] : "Виберіть тип функції"}
+                  placeholder={(completed) ? answers[i] : "Виберіть сигнал"}
                   minWidth={"300px"}
                 />
               </div>

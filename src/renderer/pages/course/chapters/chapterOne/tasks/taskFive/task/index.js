@@ -1,9 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import TaskMenuColumn from '../../../../../../../components/taskPageElements/taskPageWrapper/taskMenuColumn';
 import TaskBody from '../../../../../../../components/taskPageElements/taskPageWrapper/taskBody';
 import styles from "./fifthTask.module.css"
 import ChapterParagraph from '../../../../../../../components/coursePageElements/courseText/chapterParagraph';
-
 import ideal from '../../../../../../../../../assets/diagrams/ideal.png';
 import firstOrder from '../../../../../../../../../assets/diagrams/firstOrder.png';
 import firstOrderIsodrom from '../../../../../../../../../assets/diagrams/firstOrderIsodrom.png';
@@ -13,80 +12,13 @@ import idealIntegral from '../../../../../../../../../assets/diagrams/idealInteg
 import realIntegral from '../../../../../../../../../assets/diagrams/realIntegral.png';
 import ClickBlock from '../../../../../../../components/taskPageElements/clickBlock';
 import TaskImage from '../../../../../../../components/taskPageElements/taskImage';
+import useTask from '../../../../../../../../hooks/useTask';
 const Task = () => {
-  const [start, setStart] = useState(Date.now())
-  const [time, setTime] = useState(0)
-  const [completed, setCompleted] = useState()
-  const [mistake, setMistake] = useState(false)
-
   const answers = [true, true, true, false, false, false, false]
-
-  useEffect(() => {
-    if (completed === undefined){
-      window.electron.ipcRenderer.invoke('readJson').then((result) => {
-        setCompleted(result.task5.completed)
-        if (result.task5.completed){
-          setSolved()
-        }
-      })
-    }
-  }, [])
-
-  function setTaskMistaken() {
-    setStart(Date.now())
-    setMistake(true)
-    setTimeout(()=> {
-      setMistake(false)
-    }, 100)
-  }
-
-  if (!completed && completed !== undefined && !mistake) {
-    setTimeout(() => {
-      setTime(Math.floor((Date.now() - start) / 1000))
-    }, 1000)
-  }
-
-  async function handleCheck() {
-    let test = selected.every((e, i ) => e === answers[i])
-
-    let obj = await window.electron.ipcRenderer.invoke('readJson')
-    let task = obj.task5
-
-    if (test){
-      setCompleted(true)
-      window.electron.ipcRenderer.sendMessage('writeJson', {
-        task5:{
-          bestTime: time + 1,
-          completed: true,
-          tries: task.tries + 1
-        },
-        courseCompletion: obj.courseCompletion + 12.5}
-      )
-
-    } else {
-      window.electron.ipcRenderer.sendMessage('writeJson', {
-        task5:{
-          bestTime: task.bestTime,
-          completed: task.completed,
-          tries: task.tries + 1
-        }}
-      )
-      setTaskMistaken()
-    }
-  }
-  function setSolved() {
-    setSelected([...answers])
-  }
-
   const [selected, setSelected] = useState([false, false, false, false, false, false, false])
+  const taskSolved = selected.every((e, i ) => e === answers[i])
 
-  function onSelectedChange(index) {
-    setSelected(prev => {
-      let buf = [...prev]
-      buf[index] = !prev[index]
-      return buf
-    })
-  }
+  const taskId = 'task5'
 
   const images = [ideal,
     firstOrder,
@@ -105,6 +37,18 @@ const Task = () => {
     "Ідеально інтегруюча ланка",
     "Реальна інтегруюча ланка"
   ]
+  function setTaskSolved() {
+    setSelected([...answers])
+  }
+  function onSelectedChange(index) {
+    setSelected(prev => {
+      let buf = [...prev]
+      buf[index] = !prev[index]
+      return buf
+    })
+  }
+
+  const {taskState:{time, completed, mistake}, handleCheck} = useTask({ taskId, setTaskSolved, taskSolved })
 
   return (
     <div className={styles.container} >

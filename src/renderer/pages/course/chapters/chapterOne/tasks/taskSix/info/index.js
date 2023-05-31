@@ -18,7 +18,8 @@ const TaskInfo = () => {
       <ChapterTitle> Задача 1.6 </ChapterTitle>
       <ChapterParagraph>
         Вхідні сигнали.
-
+        В цій задачі буде представлено чотири пристрої: двигун, редуктор, пневматичний циліндр та демпферна пружина.
+        Потрібно підібрати ланку, яка найкраще описую принцип роботи даних систем.
         <TaskInfoBar
           time={(task === undefined) ? (0) : (task.bestTime)}
           tries={(task === undefined) ? (0) : (task.tries)}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import TaskMenuColumn from '../../../../../../../components/taskPageElements/taskPageWrapper/taskMenuColumn';
 import TaskBody from '../../../../../../../components/taskPageElements/taskPageWrapper/taskBody';
 import styles from "./thirdTask.module.css"
@@ -9,75 +9,21 @@ import { restrictToFirstScrollableAncestor} from '@dnd-kit/modifiers';
 import { v4 as uuidv4 } from 'uuid';
 import TextBlock from '../../../../../../../components/taskPageElements/textBlock';
 import Xarrow, { Xwrapper } from 'react-xarrows';
+import useTask from '../../../../../../../../hooks/useTask';
 const Task = () => {
-  const [start, setStart] = useState(Date.now())
-  const [time, setTime] = useState(0)
-  const [completed, setCompleted] = useState()
-  const [mistake, setMistake] = useState(false)
-
   const options = ["Підсилювач", "Електродвигун", "Диск", "Датчик"]
   const answers = ["Підсилювач", "Електродвигун", "Диск", "Датчик"]
-
-  useEffect(() => {
-    if (completed === undefined){
-      window.electron.ipcRenderer.invoke('readJson').then((result) => {
-        setCompleted(result.task3.completed)
-        if (result.task3.completed){
-          setSolved()
-        }
-      })
-    }
-  }, [])
-
-  function setTaskMistaken() {
-    setStart(Date.now())
-    setMistake(true)
-    setTimeout(()=> {
-      setMistake(false)
-    }, 100)
-  }
-
-  if (!completed && completed !== undefined && !mistake) {
-    setTimeout(() => {
-      setTime(Math.floor((Date.now() - start) / 1000))
-    }, 1000)
-  }
-
-  async function handleCheck() {
-    let test = children.every((e, i ) => e.props.children === answers[i]) && children[0] !== undefined
-
-    let obj = await window.electron.ipcRenderer.invoke('readJson')
-    let task = obj.task3
-
-    if (test){
-      setCompleted(true)
-      window.electron.ipcRenderer.sendMessage('writeJson', {
-        task3:{
-          bestTime: time + 1,
-          completed: true,
-          tries: task.tries + 1
-        },
-        courseCompletion: obj.courseCompletion + 12.5}
-      )
-
-    } else {
-      window.electron.ipcRenderer.sendMessage('writeJson', {
-        task3:{
-          bestTime: task.bestTime,
-          completed: task.completed,
-          tries: task.tries + 1
-        }}
-      )
-      setTaskMistaken()
-    }
-  }
-
   const [draggable, setDraggable] = useState(options.map((e, index) => (
     <DraggableBlock key={index} id={uuidv4()}>
       {e}
     </DraggableBlock>
   )))
   const [children, setChildren] = useState(Array(options.length));
+
+  const taskId = 'task3'
+
+  console.log(children)
+  const taskSolved = children.every((e, i ) => e && (e.props.children === answers[i]))
   const swapElements = (array, index1, index2) => {
     [array[index1], array[index2]] = [array[index2], array[index1]];
   };
@@ -155,10 +101,12 @@ const Task = () => {
     }
   }
 
-  function setSolved() {
+  function setTaskSolved() {
     setChildren([...draggable])
     setDraggable(null)
   }
+
+  const {taskState:{time, completed, mistake}, handleCheck} = useTask({ taskId, setTaskSolved, taskSolved })
 
   return (
     <div className={styles.container} >

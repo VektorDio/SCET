@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import TaskMenuColumn from '../../../../../../../components/taskPageElements/taskPageWrapper/taskMenuColumn';
 import TaskBody from '../../../../../../../components/taskPageElements/taskPageWrapper/taskBody';
 import styles from "./seventhTask.module.css"
@@ -6,84 +6,24 @@ import SelectField from '../../../../../../../components/taskPageElements/select
 import ChapterParagraph from '../../../../../../../components/coursePageElements/courseText/chapterParagraph';
 import DiagramBlock from '../../../../../../../components/taskPageElements/diagramBlock';
 import { Equation } from 'react-equation';
+import useTask from '../../../../../../../../hooks/useTask';
 const Task = () => {
-  const [start, setStart] = useState(Date.now())
-  const [time, setTime] = useState(0)
-  const [completed, setCompleted] = useState()
-  const [mistake, setMistake] = useState(false)
-
   const [selectedOptions, setSelectedOptions] = useState([])
 
+  const taskId = "task7"
+
   const answers = ["0", "+20", "0","-20","-40"]
+
+  const taskSolved = (selectedOptions.every(
+    (e,i) => e === answers[i]) && selectedOptions.length > 0)
+
   const optionsLabels = ["+40", "+20", "0", "-20", "-40"]
-
-  const options = optionsLabels.map((e, i) => ({
-    value: i,
-    label: e,
-  }))
-  function handleChoice(choice, index) {
-    let buf = [...selectedOptions]
-    buf[index] = choice
-    setSelectedOptions([...buf])
-  }
-
-  useEffect(() => {
-    if (completed === undefined){
-      window.electron.ipcRenderer.invoke('readJson').then((result) => {
-        setCompleted(result.task7.completed)
-        if (result.task7.completed){
-          setSolved()
-        }
-      })
-    }
-  }, [])
-
-  function setSolved(){
-    setSelectedOptions([...answers])
-  }
-
-  function setTaskMistaken() {
-    setStart(Date.now())
-    setMistake(true)
-    setTimeout(()=> {
-      setMistake(false)
-    }, 100)
-  }
-
-  if (!completed && completed !== undefined && !mistake) {
-    setTimeout(() => {
-      setTime(Math.floor((Date.now() - start) / 1000))
-    }, 1000)
-  }
-
-  async function handleCheck() {
-    let test = (selectedOptions.every(
-      (e,i) => e === answers[i]) && selectedOptions.length > 0)
-
-    let obj = await window.electron.ipcRenderer.invoke('readJson')
-    let task = obj.task7
-
-    if (test){
-      setCompleted(true)
-      window.electron.ipcRenderer.sendMessage('writeJson', {
-        task7:{
-          bestTime: time + 1,
-          completed: true,
-          tries: task.tries + 1
-        },
-        courseCompletion: obj.courseCompletion + 12.5}
-      )
-    } else {
-      window.electron.ipcRenderer.sendMessage('writeJson', {
-        task7:{
-          bestTime: task.bestTime,
-          completed: task.completed,
-          tries: task.tries + 1
-        }}
-      )
-      setTaskMistaken()
-    }
-  }
+  const options = useMemo(() => {
+    return optionsLabels.map((e, i) => ({
+      value: i,
+      label: e,
+    }))
+  },[])
 
   const phasePoints = [0.2, 5, 10, 25, 100]
   const startPoint = 20 * Math.log10(100) //20log(k) = 20log(100) = 40
@@ -97,6 +37,18 @@ const Task = () => {
     const y = data[i].y + (angle * Math.log10(e/data[i].x))
     data.push({x: e, y: y})
   })
+
+  function handleChoice(choice, index) {
+    let buf = [...selectedOptions]
+    buf[index] = choice
+    setSelectedOptions([...buf])
+  }
+
+  function setTaskSolved(){
+    setSelectedOptions([...answers])
+  }
+
+  const {taskState:{time, completed, mistake}, handleCheck} = useTask({ taskId, setTaskSolved, taskSolved })
 
   return (
     <div className={styles.container} >

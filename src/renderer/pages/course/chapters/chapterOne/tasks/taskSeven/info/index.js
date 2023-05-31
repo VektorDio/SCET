@@ -17,8 +17,9 @@ const TaskInfo = () => {
     <CoursePageWrapper>
       <ChapterTitle> Задача 1.7 </ChapterTitle>
       <ChapterParagraph>
-        Вхідні сигнали.
-
+        Логарифмічни характеристики системи.
+        В цій задачі буде представлено ситему, описану перехідною функцією.
+        Вам потрібно визначити відповідні нахили, зоб побудувати ЛАФЧХ.
         <TaskInfoBar
           time={(task === undefined) ? (0) : (task.bestTime)}
           tries={(task === undefined) ? (0) : (task.tries)}

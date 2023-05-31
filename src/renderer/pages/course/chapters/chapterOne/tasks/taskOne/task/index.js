@@ -14,7 +14,6 @@ const Task = () => {
   const options = ["x(t)", "f(t)", "y(t)", "u(t)", "ПУ", "ОУ"]
   const answers = ["x(t)", "f(t)", "y(t)", "ПУ", "ОУ", "u(t)"]
 
-  console.log(blocks)
   const taskSolved = blocks.every((e, i) => e === answers[i])
 
   function setTaskSolved() {

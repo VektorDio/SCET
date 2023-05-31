@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import TaskMenuColumn from '../../../../../../../components/taskPageElements/taskPageWrapper/taskMenuColumn';
 import TaskBody from '../../../../../../../components/taskPageElements/taskPageWrapper/taskBody';
 import styles from "./fourthTask.module.css"
@@ -7,69 +7,14 @@ import DroppableBlock from '../../../../../../../components/taskPageElements/dnd
 import { restrictToFirstScrollableAncestor} from '@dnd-kit/modifiers';
 import { Xwrapper } from 'react-xarrows';
 import DraggableMarker from '../../../../../../../components/taskPageElements/dndElements/draggableMarker';
+import useTask from '../../../../../../../../hooks/useTask';
 const Task = () => {
-  const [start, setStart] = useState(Date.now())
-  const [time, setTime] = useState(0)
-  const [completed, setCompleted] = useState()
-  const [mistake, setMistake] = useState(false)
-
   const options = ['','','','','','']
   const answers = ['drop2', 'drop5', 'drop1', 'drop1', 'drop3', 'drop2']
   const [arrowEnds, setArrowEnds] = useState(Array(options.length));
 
-  useEffect(() => {
-    if (completed === undefined){
-      window.electron.ipcRenderer.invoke('readJson').then((result) => {
-        setCompleted(result.task4.completed)
-        if (result.task4.completed){
-          setSolved()
-        }
-      })
-    }
-  }, [])
-
-  function setTaskMistaken() {
-    setStart(Date.now())
-    setMistake(true)
-    setTimeout(()=> {
-      setMistake(false)
-    }, 100)
-  }
-
-  if (!completed && completed !== undefined && !mistake) {
-    setTimeout(() => {
-      setTime(Math.floor((Date.now() - start) / 1000))
-    }, 1000)
-  }
-
-  async function handleCheck() {
-    let test = arrowEnds.every((e, i ) => e === answers[i]) && arrowEnds[0] !== undefined
-
-    let obj = await window.electron.ipcRenderer.invoke('readJson')
-    let task = obj.task4
-
-    if (test){
-      setCompleted(true)
-      window.electron.ipcRenderer.sendMessage('writeJson', {
-        task4:{
-          bestTime: time + 1,
-          completed: true,
-          tries: task.tries + 1
-        },
-        courseCompletion: obj.courseCompletion + 12.5}
-      )
-
-    } else {
-      window.electron.ipcRenderer.sendMessage('writeJson', {
-        task4:{
-          bestTime: task.bestTime,
-          completed: task.completed,
-          tries: task.tries + 1
-        }}
-      )
-      setTaskMistaken()
-    }
-  }
+  const taskSolved = arrowEnds.every((e, i ) => e === answers[i]) && arrowEnds[0] !== undefined
+  const taskId = 'task4'
   function handleDragEnd(event) {
     const {active, over} = event;
     setArrowEnds(prev => {
@@ -79,9 +24,11 @@ const Task = () => {
       return buf
     })
   }
-  function setSolved() {
+  function setTaskSolved() {
     setArrowEnds(['drop2', 'drop5', 'drop1', 'drop1', 'drop3', 'drop2'])
   }
+
+  const {taskState:{time, completed, mistake}, handleCheck} = useTask({ taskId, setTaskSolved, taskSolved })
 
   return (
     <div className={styles.container} >

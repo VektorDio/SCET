@@ -30,7 +30,7 @@ export default function useTask({taskId, setTaskSolved, taskSolved}) {
   function setTaskMistaken() {
     setStart(Date.now())
     setMistake(true)
-    setTimeout(()=> {
+    setTimeout(() => {
       setMistake(false)
     }, 100)
   }
@@ -71,7 +71,7 @@ export default function useTask({taskId, setTaskSolved, taskSolved}) {
         courseCompletion = result.courseCompletion
         setTask({...result[taskId]})
         setCompleted(result[taskId].completed)
-        if (result[taskId].completed) {
+        if (result[taskId].completed && setTaskSolved) {
           setTaskSolved()
         }
       })
