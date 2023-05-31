@@ -3,6 +3,7 @@ import styles from './taskDiagram.module.css';
 import {
   Chart as ChartJS,
   CategoryScale,
+  LogarithmicScale,
   LinearScale,
   PointElement,
   LineElement,
@@ -10,11 +11,12 @@ import {
   Tooltip,
   Legend,
 } from 'chart.js';
-import { Line } from 'react-chartjs-2';
+import { Scatter } from 'react-chartjs-2';
 
 ChartJS.register(
   CategoryScale,
   LinearScale,
+  LogarithmicScale,
   PointElement,
   LineElement,
   Title,
@@ -23,7 +25,8 @@ ChartJS.register(
 );
 
 const options = {
-  responsive: false,
+  responsive: true,
+  animation: false,
   plugins: {
     legend: {
       display: false,
@@ -31,42 +34,56 @@ const options = {
   },
   scales: {
     x: {
+      type: 'logarithmic',
+      min: 0.1,
+      max: 100,
       grid:{
+        lineWidth: 2,
         color: 'rgb(255,255,255)',
       },
       ticks: {
+        beginAtZero: true,
         color: 'rgb(255,255,255)',
       }
     },
     y: {
+      min: -20,
+      max: 100,
       grid:{
+        lineWidth: 2,
         color: 'rgb(255,255,255)',
       },
       ticks: {
+        beginAtZero: true,
         color: 'rgb(255,255,255)',
-      }
+      },
     }
   }
 };
 
-const labels = [0,1,2,3,4,5];
 
-const data = {
-  labels,
-  datasets: [
-    {
-      data: [0,0,0,4,4,4],
-      fill: false,
-      borderColor: 'rgb(255,0,0)',
-      backgroundColor: 'rgba(255,0,53,0.5)',
-    },
-  ],
-};
 
-const DiagramBlock = ({data}) => {
+const DiagramBlock = ({children, data}) => {
+
+  const datasets = {
+    datasets: [
+      {
+        showLine: true,
+        data: data,
+        fill: false,
+        borderColor: 'rgb(255,0,0)',
+        borderWidth: 6,
+        backgroundColor: 'rgba(255,0,53,0.5)',
+      },
+    ],
+  };
+
   return (
     <div className={styles.diagramContainer}>
-      <Line options={options} data={data} />
+      <Scatter options={options} data={datasets} />
+      <div className={styles.subContainer}>
+        {children}
+      </div>
     </div>
   );
 };
