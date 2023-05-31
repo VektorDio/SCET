@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import TaskMenuColumn from '../../../../../../../components/taskPageElements/taskPageWrapper/taskMenuColumn';
 import TaskBody from '../../../../../../../components/taskPageElements/taskPageWrapper/taskBody';
 import styles from "./secondTask.module.css"
@@ -23,10 +23,12 @@ const Task = () => {
   ]
 
   const images = [step, dirac, linear, acceleration, sin]
-  const options = answers.map((e, i) => ({
-    value: i,
-    label: e,
-  }))
+  const options = useMemo(() => {
+    return answers.map((e, i) => ({
+      value: i,
+      label: e,
+    }))
+  },[])
 
   const taskSolved = (selectedOptions.every(
     (e,i) => e === answers[i]) && selectedOptions.length > 0)

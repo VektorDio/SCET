@@ -1,17 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import CoursePageWrapper from '../../../../../../../components/coursePageElements/coursePageWrapper';
 import ChapterTitle from '../../../../../../../components/coursePageElements/courseText/chapterTitle';
 import ChapterParagraph from '../../../../../../../components/coursePageElements/courseText/chapterParagraph';
 import TaskInfoBar from '../../../../../../../components/taskPageElements/taskPageWrapper/taskInfoBar';
+import useReadTaskFromJson from '../../../../../../../../hooks/useReadTaskFromJson';
 
 const TaskInfo = () => {
-  const [task, setTask] = useState()
-
-  useEffect(() => {
-    if (task === undefined){
-      window.electron.ipcRenderer.invoke('readJson').then((result) => setTask(result.task2))
-    }
-  })
+  const taskId = "task2"
+  const task = useReadTaskFromJson(taskId)
 
   return (
     <CoursePageWrapper>
