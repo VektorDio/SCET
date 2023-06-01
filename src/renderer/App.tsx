@@ -18,8 +18,8 @@ import TaskInfo1_6 from './pages/course/chapters/chapterOne/tasks/taskSix/info';
 import Task1_6 from './pages/course/chapters/chapterOne/tasks/taskSix/task';
 import TaskInfo1_7 from './pages/course/chapters/chapterOne/tasks/taskSeven/info';
 import Task1_7 from './pages/course/chapters/chapterOne/tasks/taskSeven/task';
-// import TaskInfo1_8 from './pages/course/chapters/chapterOne/tasks/taskEight/info';
-// import Task1_8 from './pages/course/chapters/chapterOne/tasks/taskEight/task';
+import TaskInfo1_8 from './pages/course/chapters/chapterOne/tasks/taskEight/info';
+import Task1_8 from './pages/course/chapters/chapterOne/tasks/taskEight/task';
 import FrameBar from './components/frameBar';
 import Settings from './pages/settings/settings';
 import CourseSettings from './pages/courseSettings/settings';
@@ -222,8 +222,8 @@ export default function App() {
                 <Route path="/chapterOne/tasks/taskSix/task" element={<Task1_6/>}/>
                 <Route path="/chapterOne/tasks/taskSeven/info" element={<TaskInfo1_7/>}/>
                 <Route path="/chapterOne/tasks/taskSeven/task" element={<Task1_7/>}/>
-                {/*<Route path="/chapterOne/tasks/taskEight/info" element={<TaskInfo1_8/>}/>*/}
-                {/*<Route path="/chapterOne/tasks/taskEight/task" element={<Task1_8/>}/>*/}
+                <Route path="/chapterOne/tasks/taskEight/info" element={<TaskInfo1_8/>}/>
+                <Route path="/chapterOne/tasks/taskEight/task" element={<Task1_8/>}/>
               </Routes>
             </Router>
           </Completion.Provider>
