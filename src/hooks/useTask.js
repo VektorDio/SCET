@@ -67,7 +67,7 @@ export default function useTask({taskId, setTaskSolved, taskSolved}) {
   if (taskState.completed === undefined){
     if (task) {
       setCompleted(task.completed)
-      if (setTaskSolved) {
+      if (setTaskSolved && task.completed) {
         setTaskSolved()
       }
     }
