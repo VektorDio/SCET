@@ -1,6 +1,6 @@
 .chapterBlock{
   font-weight: 600;
-  font-size: 22px;
+  font-size: 26px;
   padding: 12px 15px;
 }
 
@@ -10,8 +10,8 @@
 
 .subchapterBlock{
   font-weight: 600;
-  font-size: 22px;
-  padding: 12px 15px 12px 27px;
+  font-size: 26px;
+  padding: 12px 15px 12px 37px;
 }
 
 .subchapterBlock:hover{

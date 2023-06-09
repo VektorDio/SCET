@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styles from './chapterTitle.module.css'
+import { Font } from '../../../../App';
 
-const ChapterTitle = ({children, font}) => {
+const ChapterTitle = ({children}) => {
+  const fontSize = useContext(Font)
   return (
-    <div className={styles.container} style={{fontSize: font*1.2 + "px"}}>
+    <div className={styles.container} style={{fontSize: fontSize*1.2 + "px"}}>
       {children}
     </div>
   );

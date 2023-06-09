@@ -2,8 +2,7 @@ import { MemoryRouter as Router, Routes, Route} from 'react-router-dom';
 import React, { createContext, useEffect, useState } from 'react';
 import './global.module.css';
 import Menu from './pages/menu';
-import Course, {taskRefs} from './pages/course';
-import ChapterOne from './pages/course/chapters/chapterOne';
+import Course, {taskRefs, chapterRefs} from './pages/course';
 import FrameBar from './components/frameBar';
 import Settings from './pages/settings/settings';
 import CourseSettings from './pages/courseSettings/settings';
@@ -16,6 +15,7 @@ export default function App() {
   const [courseResolution, setCourseResolution] = useState("Великий екран")
 
   const [courseFont, setCourseFont] = useState("Маленький шрифт")
+
   const context = {
     courseFont, setCourseFont
   }
@@ -164,8 +164,6 @@ export default function App() {
       break;
   }
 
-
-
   return (
     <>
       <FrameBar display={hasFrame}/>
@@ -198,14 +196,29 @@ export default function App() {
                           />
                        }
                 />
-                <Route path="/chapters/chapterOne" element={<ChapterOne/>}/>
-
                 {
                   taskRefs.map((e, i) => (
                     <>
-                      <Route path={`/chapterOne/tasks/${i+1}/info`} element={e[0]}></Route>
-                      <Route path={`/chapterOne/tasks/${i+1}/task`} element={e[1]}></Route>
+                      <Route path={`/tasks/${i+1}/info`} element={e[0]}/>
+                      <Route path={`/tasks/${i+1}/task`} element={e[1]}/>
                     </>
+                  ))
+                }
+                {
+
+                  chapterRefs.map((e, i) => (
+                    <Route path={`/chapters/${i+1}`} element={e[0]}/>
+                    )
+                  )
+                }
+                {
+                  chapterRefs.map((e, i) => (
+                    e[1].map((el, j) => {
+                      return (
+                      <Route path={`/chapters/${i+1}/${j+1}`} element={el}/>
+                    )
+                    }
+                    )
                   ))
                 }
 
