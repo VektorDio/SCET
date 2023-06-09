@@ -2,10 +2,11 @@ import React, { useContext } from 'react';
 import styles from "./courseMenuColumn.module.css"
 import { useNavigate } from 'react-router-dom';
 import ChapterName from './chapterName';
-import SubchapterName from './subchapterName';
 import ArrowLeftBtn from '../../../buttons/arrowLeftBtn';
 import GearBtn from '../../../buttons/gearBtn';
 import { Completion } from '../../../../App';
+import {taskRefs} from '../../../../pages/course';
+
 const CourseBody = () => {
   const navigate = useNavigate();
   const completion = useContext(Completion)
@@ -24,154 +25,133 @@ const CourseBody = () => {
         <ChapterName navIndex={"/chapters/chapterOne"}>
           Тема 1
         </ChapterName>
-        <SubchapterName navIndex={"/chapterOne/subchapterOne"}>
+        <ChapterName navIndex={"/chapterOne/subchapterOne"} isChapter={false}>
           Тема 1.1
-        </SubchapterName >
-        <SubchapterName navIndex={"/chapterOne/subchapterTwo"}>
+        </ChapterName >
+        <ChapterName navIndex={"/chapterOne/subchapterTwo"} isChapter={false}>
           Тема 1.2
-        </SubchapterName>
-        <SubchapterName navIndex={"/chapterOne/subchapterThree"}>
+        </ChapterName>
+        <ChapterName navIndex={"/chapterOne/subchapterThree"} isChapter={false}>
           Тема 1.3
-        </SubchapterName>
-        <SubchapterName navIndex={"/chapterOne/tasks/taskOne/info"}>
-          Задача 1.1
-        </SubchapterName>
-        <SubchapterName navIndex={"/chapterOne/tasks/taskTwo/info"}>
-          Задача 1.2
-        </SubchapterName>
-        <SubchapterName navIndex={"/chapterOne/tasks/taskThree/info"}>
-          Задача 1.3
-        </SubchapterName>
-        <SubchapterName navIndex={"/chapterOne/tasks/taskFour/info"}>
-          Задача 1.4
-        </SubchapterName>
-        <SubchapterName navIndex={"/chapterOne/tasks/taskFive/info"}>
-          Задача 1.5
-        </SubchapterName>
-        <SubchapterName navIndex={"/chapterOne/tasks/taskSix/info"}>
-          Задача 1.6
-        </SubchapterName>
-        <SubchapterName navIndex={"/chapterOne/tasks/taskSeven/info"}>
-          Задача 1.7
-        </SubchapterName>
-        <SubchapterName navIndex={"/chapterOne/tasks/taskEight/info"}>
-          Задача 1.8
-        </SubchapterName>
+        </ChapterName>
+
+        {
+          taskRefs.map((e, i) => (
+            <ChapterName navIndex={`/chapterOne/tasks/${i+1}/info`} isChapter={false}>
+              Задача 1.{i+1}
+            </ChapterName>
+          ))
+        }
 
         <ChapterName navIndex={"/pages/course/chapters/2"}>
           Тема 2
         </ChapterName>
-        <SubchapterName navIndex={"/pages/course/chapters/2/chapterOne"}>
+        <ChapterName navIndex={"/pages/course/chapters/2/chapterOne"} isChapter={false}>
           Тема 2.1
-        </SubchapterName>
-        <SubchapterName navIndex={"/pages/course/chapters/2/2"}>
+        </ChapterName>
+        <ChapterName navIndex={"/pages/course/chapters/2/2"} isChapter={false}>
           Тема 2.2
-        </SubchapterName>
-        <SubchapterName navIndex={"/pages/course/chapters/2/3"}>
+        </ChapterName>
+        <ChapterName navIndex={"/pages/course/chapters/2/3"} isChapter={false}>
           Тема 2.3
-        </SubchapterName>
-        <SubchapterName>
-          Задача 2.1
-        </SubchapterName>
+        </ChapterName>
 
         <ChapterName navIndex={"/pages/course/chapters/3"}>
           Тема 3
         </ChapterName>
-        <SubchapterName navIndex={"/pages/course/chapters/3/chapterOne"}>
+        <ChapterName navIndex={"/pages/course/chapters/3/chapterOne"}>
           Тема 3.1
-        </SubchapterName>
-        <SubchapterName navIndex={"/pages/course/chapters/3/2"}>
+        </ChapterName>
+        <ChapterName navIndex={"/pages/course/chapters/3/2"} isChapter={false}>
           Тема 3.2
-        </SubchapterName>
-        <SubchapterName navIndex={"/pages/course/chapters/3/3"}>
+        </ChapterName>
+        <ChapterName navIndex={"/pages/course/chapters/3/3"} isChapter={false}>
           Тема 3.3
-        </SubchapterName>
-        <SubchapterName >
-          Задача 3.1
-        </SubchapterName>
+        </ChapterName>
 
         <ChapterName navIndex={"/pages/course/chapters/4"}>
           Тема 4
         </ChapterName>
-        <SubchapterName navIndex={"/pages/course/chapters/4/chapterOne"}>
+        <ChapterName navIndex={"/pages/course/chapters/4/chapterOne"}>
           Тема 4.1
-        </SubchapterName>
-        <SubchapterName navIndex={"/pages/course/chapters/4/chapterOne"}>
+        </ChapterName>
+        <ChapterName navIndex={"/pages/course/chapters/4/chapterOne"}>
           Тема 4.2
-        </SubchapterName>
-        <SubchapterName navIndex={"/pages/course/chapters/4/chapterOne"}>
+        </ChapterName>
+        <ChapterName navIndex={"/pages/course/chapters/4/chapterOne"}>
           Тема 4.3
-        </SubchapterName>
-        <SubchapterName navIndex={"/pages/course/chapters/4/chapterOne"}>
+        </ChapterName>
+        <ChapterName navIndex={"/pages/course/chapters/4/chapterOne"}>
           Задача 4.1
-        </SubchapterName>
+        </ChapterName>
 
         <ChapterName navIndex={"/pages/course/chapters/5"}>
           Тема 5
         </ChapterName>
-        <SubchapterName navIndex={"/pages/course/chapters/5/chapterOne"}>
+        <ChapterName navIndex={"/pages/course/chapters/5/chapterOne"}>
           Тема 5.1
-        </SubchapterName>
-        <SubchapterName navIndex={"/pages/course/chapters/5/chapterOne"}>
+        </ChapterName>
+        <ChapterName navIndex={"/pages/course/chapters/5/chapterOne"}>
           Тема 5.2
-        </SubchapterName>
-        <SubchapterName navIndex={"/pages/course/chapters/5/chapterOne"}>
+        </ChapterName>
+        <ChapterName navIndex={"/pages/course/chapters/5/chapterOne"}>
           Тема 5.3
-        </SubchapterName>
-        <SubchapterName navIndex={"/pages/course/chapters/5/chapterOne"}>
+        </ChapterName>
+        <ChapterName navIndex={"/pages/course/chapters/5/chapterOne"}>
           Задача 5.1
-        </SubchapterName>
+        </ChapterName>
 
         <ChapterName navIndex={"/pages/course/chapters/6"}>
           Тема 6
         </ChapterName>
-        <SubchapterName navIndex={"/pages/course/chapters/6/chapterOne"}>
+        <ChapterName navIndex={"/pages/course/chapters/6/chapterOne"}>
           Тема 6.1
-        </SubchapterName>
-        <SubchapterName navIndex={"/pages/course/chapters/6/2"}>
+        </ChapterName>
+        <ChapterName navIndex={"/pages/course/chapters/6/2"}>
           Тема 6.2
-        </SubchapterName>
-        <SubchapterName navIndex={"/pages/course/chapters/6/3"}>
+        </ChapterName>
+        <ChapterName navIndex={"/pages/course/chapters/6/3"}>
           Тема 6.3
-        </SubchapterName>
-        <SubchapterName>
+        </ChapterName>
+        <ChapterName>
           Задача 6.1
-        </SubchapterName>
+        </ChapterName>
 
         <ChapterName navIndex={"/pages/course/chapters/7"}>
           Тема 7
         </ChapterName>
-        <SubchapterName navIndex={"/pages/course/chapters/7/chapterOne"}>
+        <ChapterName navIndex={"/pages/course/chapters/7/chapterOne"}>
           Тема 7.1
-        </SubchapterName>
-        <SubchapterName navIndex={"/pages/course/chapters/7/chapterOne"}>
+        </ChapterName>
+        <ChapterName navIndex={"/pages/course/chapters/7/chapterOne"}>
           Тема 7.2
-        </SubchapterName>
-        <SubchapterName navIndex={"/pages/course/chapters/7/chapterOne"}>
+        </ChapterName>
+        <ChapterName navIndex={"/pages/course/chapters/7/chapterOne"}>
           Тема 7.3
-        </SubchapterName>
-        <SubchapterName navIndex={"/pages/course/chapters/7/chapterOne"}>
+        </ChapterName>
+        <ChapterName navIndex={"/pages/course/chapters/7/chapterOne"}>
           Задача 7.1
-        </SubchapterName>
+        </ChapterName>
 
         <ChapterName navIndex={"/pages/course/chapters/8"}>
           Тема 8
         </ChapterName>
-        <SubchapterName navIndex={"/pages/course/chapters/8/chapterOne"}>
+        <ChapterName navIndex={"/pages/course/chapters/8/chapterOne"}>
           Тема 8.1
-        </SubchapterName>
-        <SubchapterName navIndex={"/pages/course/chapters/8/chapterOne"}>
+        </ChapterName>
+        <ChapterName navIndex={"/pages/course/chapters/8/chapterOne"}>
           Тема 8.2
-        </SubchapterName>
-        <SubchapterName navIndex={"/pages/course/chapters/8/chapterOne"}>
+        </ChapterName>
+        <ChapterName navIndex={"/pages/course/chapters/8/chapterOne"}>
           Тема 8.3
-        </SubchapterName>
-        <SubchapterName navIndex={"/pages/course/chapters/8/chapterOne"}>
+        </ChapterName>
+        <ChapterName navIndex={"/pages/course/chapters/8/chapterOne"}>
           Задача 8.1
-        </SubchapterName>
+        </ChapterName>
       </div>
 
       <div className={styles.bottomBlock}>
+
         <div className={styles.bottomBlock}>
           <div className={styles.bottomButtons}>
             <div className={styles.button}>
@@ -182,6 +162,7 @@ const CourseBody = () => {
             </div>
           </div>
         </div>
+
         <div className={styles.completionText}>{completion+ "%"}</div>
       </div>
     </div>

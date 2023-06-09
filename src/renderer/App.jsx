@@ -2,24 +2,8 @@ import { MemoryRouter as Router, Routes, Route} from 'react-router-dom';
 import React, { createContext, useEffect, useState } from 'react';
 import './global.module.css';
 import Menu from './pages/menu';
-import Course from './pages/course';
+import Course, {taskRefs} from './pages/course';
 import ChapterOne from './pages/course/chapters/chapterOne';
-import TaskInfo1_1 from './pages/course/chapters/chapterOne/tasks/taskOne/info';
-import Task1_1 from './pages/course/chapters/chapterOne/tasks/taskOne/task';
-import TaskInfo1_2 from './pages/course/chapters/chapterOne/tasks/taskTwo/info';
-import Task1_2 from './pages/course/chapters/chapterOne/tasks/taskTwo/task';
-import TaskInfo1_3 from './pages/course/chapters/chapterOne/tasks/taskThree/info';
-import Task1_3 from './pages/course/chapters/chapterOne/tasks/taskThree/task';
-import TaskInfo1_4 from './pages/course/chapters/chapterOne/tasks/taskFour/info';
-import Task1_4 from './pages/course/chapters/chapterOne/tasks/taskFour/task';
-import TaskInfo1_5 from './pages/course/chapters/chapterOne/tasks/taskFive/info';
-import Task1_5 from './pages/course/chapters/chapterOne/tasks/taskFive/task';
-import TaskInfo1_6 from './pages/course/chapters/chapterOne/tasks/taskSix/info';
-import Task1_6 from './pages/course/chapters/chapterOne/tasks/taskSix/task';
-import TaskInfo1_7 from './pages/course/chapters/chapterOne/tasks/taskSeven/info';
-import Task1_7 from './pages/course/chapters/chapterOne/tasks/taskSeven/task';
-import TaskInfo1_8 from './pages/course/chapters/chapterOne/tasks/taskEight/info';
-import Task1_8 from './pages/course/chapters/chapterOne/tasks/taskEight/task';
 import FrameBar from './components/frameBar';
 import Settings from './pages/settings/settings';
 import CourseSettings from './pages/courseSettings/settings';
@@ -30,8 +14,14 @@ export default function App() {
   const [hasFrame, setHasFrame] = useState(false)
   const [menuResolution, setMenuResolution] = useState("Маленький екран")
   const [courseResolution, setCourseResolution] = useState("Великий екран")
+
   const [courseFont, setCourseFont] = useState("Маленький шрифт")
+  const context = {
+    courseFont, setCourseFont
+  }
+
   const [courseCompletion, setCourseCompletion] = useState(0)
+
 
   useEffect(() => {
     // @ts-ignore
@@ -62,7 +52,7 @@ export default function App() {
     setHasFrame(!hasFrame)
   }
 
-  async function handleMenuResolutionChange(value:string) {
+  async function handleMenuResolutionChange(value) {
     // @ts-ignore
     await window.electron.ipcRenderer.sendMessage('writeJson', {
       menuResolution: value}
@@ -70,7 +60,7 @@ export default function App() {
     setMenuResolution(value)
   }
 
-  async function handleCourseResolutionChange(value:string) {
+  async function handleCourseResolutionChange(value) {
     // @ts-ignore
     await window.electron.ipcRenderer.sendMessage('writeJson', {
       courseResolution: value}
@@ -78,7 +68,7 @@ export default function App() {
     setCourseResolution(value)
   }
 
-  async function handleCourseFontChange(value:string) {
+  async function handleCourseFontChange(value) {
     // @ts-ignore
     await window.electron.ipcRenderer.sendMessage('writeJson', {
       courseFont: value}
@@ -174,6 +164,8 @@ export default function App() {
       break;
   }
 
+
+
   return (
     <>
       <FrameBar display={hasFrame}/>
@@ -208,22 +200,15 @@ export default function App() {
                 />
                 <Route path="/chapters/chapterOne" element={<ChapterOne/>}/>
 
-                <Route path="/chapterOne/tasks/taskOne/info" element={<TaskInfo1_1/>}/>
-                <Route path="/chapterOne/tasks/taskOne/task" element={<Task1_1/>}/>
-                <Route path="/chapterOne/tasks/taskTwo/info" element={<TaskInfo1_2/>}/>
-                <Route path="/chapterOne/tasks/taskTwo/task" element={<Task1_2/>}/>
-                <Route path="/chapterOne/tasks/taskThree/info" element={<TaskInfo1_3/>}/>
-                <Route path="/chapterOne/tasks/taskThree/task" element={<Task1_3/>}/>
-                <Route path="/chapterOne/tasks/taskFour/info" element={<TaskInfo1_4/>}/>
-                <Route path="/chapterOne/tasks/taskFour/task" element={<Task1_4/>}/>
-                <Route path="/chapterOne/tasks/taskFive/info" element={<TaskInfo1_5/>}/>
-                <Route path="/chapterOne/tasks/taskFive/task" element={<Task1_5/>}/>
-                <Route path="/chapterOne/tasks/taskSix/info" element={<TaskInfo1_6/>}/>
-                <Route path="/chapterOne/tasks/taskSix/task" element={<Task1_6/>}/>
-                <Route path="/chapterOne/tasks/taskSeven/info" element={<TaskInfo1_7/>}/>
-                <Route path="/chapterOne/tasks/taskSeven/task" element={<Task1_7/>}/>
-                <Route path="/chapterOne/tasks/taskEight/info" element={<TaskInfo1_8/>}/>
-                <Route path="/chapterOne/tasks/taskEight/task" element={<Task1_8/>}/>
+                {
+                  taskRefs.map((e, i) => (
+                    <>
+                      <Route path={`/chapterOne/tasks/${i+1}/info`} element={e[0]}></Route>
+                      <Route path={`/chapterOne/tasks/${i+1}/task`} element={e[1]}></Route>
+                    </>
+                  ))
+                }
+
               </Routes>
             </Router>
           </Completion.Provider>

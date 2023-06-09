@@ -2,7 +2,7 @@ import React from 'react';
 import styles from './chapterName.module.css';
 import { useNavigate } from 'react-router-dom';
 
-const ChapterName = ({children, navIndex}) => {
+const ChapterName = ({children, navIndex, isChapter}) => {
 
   const navigate = useNavigate()
 
@@ -11,7 +11,7 @@ const ChapterName = ({children, navIndex}) => {
   }
 
   return (
-    <div className={styles.chapterBlock} onClick={handleNavigate}>
+    <div className={(isChapter) ? styles.chapterBlock : styles.subchapterBlock} onClick={handleNavigate}>
       {children}
     </div>
   );

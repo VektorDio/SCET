@@ -12,7 +12,7 @@ const MatrixBlock = ({array, setArray}) => {
               type={"text"}
               key={x + "" + y}
               value={array[y][x]}
-              maxLength={2}
+              maxLength={3}
             >
             </input>
           ))
