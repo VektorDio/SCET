@@ -49,7 +49,7 @@ const Task = () => {
       <TaskBody handleCheck={handleCheck} completed={completed} mistake={mistake} task={"/tasks/8/info"}>
         <ChapterParagraph fontSize={fontSize}>
           Побудуйте визначник Гурвіца для системи, яка описується наступною передавальною функцією замкнутої системи: <br></br>
-          <Equation value={" W(s) = 50/(s(5s+1)(3s+1)(6s+1)+50)"} /> {/* 90s^4+63s^3+14s^2+s+50 */}
+          <Equation className={styles.formula} value={" W(s) = 50/(s(5s+1)(3s+1)(6s+1)+50)"} /> {/* 90s^4+63s^3+14s^2+s+50 */}
         </ChapterParagraph>
         <MatrixBlock array={selectedOptions} setArray={handleArrayChange}/>
       </TaskBody>

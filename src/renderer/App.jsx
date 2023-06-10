@@ -9,6 +9,7 @@ import CourseSettings from './pages/courseSettings/settings';
 
 export const Font = createContext(0)
 export const Completion = createContext(0)
+export const CourseScroll = createContext(0)
 export default function App() {
   const [hasFrame, setHasFrame] = useState(false)
   const [menuResolution, setMenuResolution] = useState("Маленький екран")
@@ -16,9 +17,11 @@ export default function App() {
 
   const [courseFont, setCourseFont] = useState("Маленький шрифт")
 
-  const context = {
-    courseFont, setCourseFont
-  }
+  // const context = {
+  //   courseFont, setCourseFont
+  // }
+
+  const [courseScroll, setCourseScroll] = useState(0)
 
   const [courseCompletion, setCourseCompletion] = useState(0)
 
@@ -170,6 +173,7 @@ export default function App() {
       <div style={{height:(hasFrame) ? "97.5vh" : "100vh", overflow:" hidden"}}>
         <Font.Provider value={cf}>
           <Completion.Provider value={courseCompletion}>
+            <CourseScroll.Provider value={{courseScroll, setCourseScroll}}>
             <Router>
               <Routes>
                 <Route path="/" element={<Menu resolution={mr}/>} />
@@ -199,15 +203,15 @@ export default function App() {
                 {
                   taskRefs.map((e, i) => (
                     <>
-                      <Route path={`/tasks/${i+1}/info`} element={e[0]}/>
-                      <Route path={`/tasks/${i+1}/task`} element={e[1]}/>
+                      <Route key={i + "a"} path={`/tasks/${i+1}/info`} element={e[0]}/>
+                      <Route key={i + "b"} path={`/tasks/${i+1}/task`} element={e[1]}/>
                     </>
                   ))
                 }
                 {
 
                   chapterRefs.map((e, i) => (
-                    <Route path={`/chapters/${i+1}`} element={e[0]}/>
+                    <Route key={i + "c"} path={`/chapters/${i+1}`} element={e[0]}/>
                     )
                   )
                 }
@@ -215,7 +219,7 @@ export default function App() {
                   chapterRefs.map((e, i) => (
                     e[1].map((el, j) => {
                       return (
-                      <Route path={`/chapters/${i+1}/${j+1}`} element={el}/>
+                      <Route key={i + "d"} path={`/chapters/${i+1}/${j+1}`} element={el}/>
                     )
                     }
                     )
@@ -224,6 +228,7 @@ export default function App() {
 
               </Routes>
             </Router>
+            </CourseScroll.Provider>
           </Completion.Provider>
         </Font.Provider>
       </div>

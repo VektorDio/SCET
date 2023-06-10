@@ -33,4 +33,12 @@ a {
   background: rgba(0,0,0,0);
 }
 
+li{
+  font-size: 24px;
+}
+
+ol{
+  padding-left: 70px;
+}
+
 

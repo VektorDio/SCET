@@ -1,15 +1,25 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useRef} from 'react';
 import styles from "./courseMenuColumn.module.css"
 import { useNavigate } from 'react-router-dom';
 import ChapterName from './chapterName';
 import ArrowLeftBtn from '../../../buttons/arrowLeftBtn';
 import GearBtn from '../../../buttons/gearBtn';
-import { Completion } from '../../../../App';
+import { Completion, CourseScroll } from '../../../../App';
 import {taskRefs} from '../../../../pages/course';
 
 const CourseBody = () => {
   const navigate = useNavigate();
   const completion = useContext(Completion)
+  const { courseScroll, setCourseScroll } = useContext(CourseScroll)
+
+  const ref = useRef()
+
+  useEffect(() => {
+    if (ref.current) {
+      ref.current.scrollTop = courseScroll
+    }
+  }, [ref.current])
+
   function handleReturn(){
     navigate("/")
   }
@@ -21,10 +31,15 @@ const CourseBody = () => {
     navigate("/pages/course")
   }
 
+  function saveScrollPosition() {
+    setCourseScroll(ref.current.scrollTop)
+    console.log(courseScroll)
+  }
+
   return (
     <div className={styles.container}>
-      <div className={styles.column}>
-        <div className={styles.columnName} onClick={handleGoCourse}>
+      <div className={styles.column} ref={ref} onScroll={saveScrollPosition}>
+        <div className={styles.columnName} onClick={handleGoCourse} >
           Змiст
         </div>
 
@@ -32,128 +47,60 @@ const CourseBody = () => {
           Тема 1
         </ChapterName>
         <ChapterName navIndex={"/chapters/1/1"} >
-          Тема 1.1
+          Тема 1.1 - Історія САУ
         </ChapterName >
         <ChapterName navIndex={"/chapters/1/2"} >
-          Тема 1.2
+          Тема 1.2 - Основні терміни та позначення. Класифікація САУ
         </ChapterName>
         <ChapterName navIndex={"/chapters/1/3"} >
-          Тема 1.3
+          Тема 1.3 - Принципи регулювання САУ
         </ChapterName>
-
-        {
-          taskRefs.map((e, i) => (
-            <ChapterName navIndex={`/tasks/${i+1}/info`} >
-              Задача 1.{i+1}
-            </ChapterName>
-          ))
-        }
 
         <ChapterName navIndex={"/chapters/2"} isChapter={true}>
           Тема 2
         </ChapterName>
         <ChapterName navIndex={"/chapters/2/1"} >
-          Тема 2.1
+          Тема 2.1 - Представлення САУ динамічними ланцюжками.
         </ChapterName>
         <ChapterName navIndex={"/chapters/2/2"} >
-          Тема 2.2
+          Тема 2.2 - Лінеаризація. Типові вхідні сигнали.
         </ChapterName>
         <ChapterName navIndex={"/chapters/2/3"} >
-          Тема 2.3
+          Тема 2.3 - Перетворення Лапласа. Передавальна функція.
         </ChapterName>
 
         <ChapterName navIndex={"/chapters/3"} isChapter={true}>
           Тема 3
         </ChapterName>
         <ChapterName navIndex={"/chapters/3/1"}>
-          Тема 3.1
+          Тема 3.1 - Перехідна характеристика. Імпульсна характеристика.
         </ChapterName>
         <ChapterName navIndex={"/chapters/3/2"} >
-          Тема 3.2
+          Тема 3.2 - КПФ. АФЧХ і ЛФЧХ.
         </ChapterName>
         <ChapterName navIndex={"/chapters/3/3"} >
-          Тема 3.3
+          Тема 3.3 - Аналіз графіків характеристик.
         </ChapterName>
 
         <ChapterName navIndex={"/chapters/4"} isChapter={true}>
           Тема 4
         </ChapterName>
         <ChapterName navIndex={"/chapters/4/1"}>
-          Тема 4.1
+          Тема 4.1 - Класифікація ланцюжків. Ланцюжки першого і другого порядків.
         </ChapterName>
         <ChapterName navIndex={"/chapters/4/2"}>
-          Тема 4.2
+          Тема 4.2 - Визначення стійкості.
         </ChapterName>
         <ChapterName navIndex={"/chapters/4/3"}>
-          Тема 4.3
+          Тема 4.3 - Алгебраїчні, фазові та частотні критерії стійкості. Запас стійкості.
         </ChapterName>
-        <ChapterName navIndex={"/chapters/4/chapterOne"}>
-          Задача 4.1
-        </ChapterName>
-
-        <ChapterName navIndex={"/chapters/5"} isChapter={true}>
-          Тема 5
-        </ChapterName>
-        <ChapterName navIndex={"/chapters/5/1"}>
-          Тема 5.1
-        </ChapterName>
-        <ChapterName navIndex={"/chapters/5/2"}>
-          Тема 5.2
-        </ChapterName>
-        <ChapterName navIndex={"/chapters/5/3"}>
-          Тема 5.3
-        </ChapterName>
-        <ChapterName navIndex={"/chapters/5/chapterOne"}>
-          Задача 5.1
-        </ChapterName>
-
-        <ChapterName navIndex={"/chapters/6"} isChapter={true}>
-          Тема 6
-        </ChapterName>
-        <ChapterName navIndex={"/chapters/6/1"}>
-          Тема 6.1
-        </ChapterName>
-        <ChapterName navIndex={"/chapters/6/2"}>
-          Тема 6.2
-        </ChapterName>
-        <ChapterName navIndex={"/chapters/6/3"}>
-          Тема 6.3
-        </ChapterName>
-        <ChapterName>
-          Задача 6.1
-        </ChapterName>
-
-        <ChapterName navIndex={"/chapters/7"} isChapter={true}>
-          Тема 7
-        </ChapterName>
-        <ChapterName navIndex={"/chapters/7/1"}>
-          Тема 7.1
-        </ChapterName>
-        <ChapterName navIndex={"/chapters/7/2"}>
-          Тема 7.2
-        </ChapterName>
-        <ChapterName navIndex={"/chapters/7/3"}>
-          Тема 7.3
-        </ChapterName>
-        <ChapterName navIndex={"/chapters/7/chapterOne"}>
-          Задача 7.1
-        </ChapterName>
-
-        <ChapterName navIndex={"/chapters/8"} isChapter={true}>
-          Тема 8
-        </ChapterName>
-        <ChapterName navIndex={"/chapters/8/1"}>
-          Тема 8.1
-        </ChapterName>
-        <ChapterName navIndex={"/chapters/8/2"}>
-          Тема 8.2
-        </ChapterName>
-        <ChapterName navIndex={"/chapters/8/3"}>
-          Тема 8.3
-        </ChapterName>
-        <ChapterName navIndex={"/chapters/8/chapterOne"}>
-          Задача 8.1
-        </ChapterName>
+        {
+          taskRefs.map((e, i) => (
+            <ChapterName navIndex={`/tasks/${i+1}/info`} isChapter={true}>
+              Задача 1.{i+1}
+            </ChapterName>
+          ))
+        }
       </div>
 
       <div className={styles.bottomBlock}>

@@ -59,7 +59,7 @@ const Task = () => {
       <TaskBody handleCheck={handleCheck} completed={completed} mistake={mistake} task={"/tasks/7/info"}>
         <ChapterParagraph fontSize={fontSize}>
           Побудуйте логарифмічно-амплітудну характеристику для системи, яка описується наступною передавальною функцією: <br></br>
-          <Equation value={" W(s) = (100(5s+1))/((0.1s+1)(0.2s+1)(0.04s+1))"} />
+          <Equation className={styles.formula} value={" W(s) = (100(5s+1))/((0.1s+1)(0.2s+1)(0.04s+1))"} />
         </ChapterParagraph>
         <div className={styles.column}>
           <DiagramBlock data={data}>

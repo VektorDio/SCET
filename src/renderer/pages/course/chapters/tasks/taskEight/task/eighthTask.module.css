@@ -28,3 +28,11 @@
   width: 40%;
   padding: 10px;
 }
+
+.formula span{
+  font-size: 24px;
+}
+
+.formula svg{
+  width: 9px;
+}

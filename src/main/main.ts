@@ -86,12 +86,13 @@ const createWindow = async () => {
 
   mainWindow = new BrowserWindow({
     show: false,
-    width: 780, // 800
-    height: 560, // 500
+    width: 780,
+    height: 560,
     resizable: false,
     frame: false,
     icon: getAssetPath('icon.png'),
     webPreferences: {
+      //devTools: false,
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),

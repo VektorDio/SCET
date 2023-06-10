@@ -64,6 +64,18 @@ export default function useTask({taskId, setTaskSolved, taskSolved}) {
     }
   }
 
+  if (taskState.time >= 360) {
+    window.electron.ipcRenderer.sendMessage('writeJson', {
+      [taskId]:{
+        bestTime: task?.bestTime,
+        completed: task?.completed,
+        tries: task?.tries + 1
+      }}
+    )
+    setTaskMistaken()
+    taskState.time = 0
+  }
+
   if (taskState.completed === undefined){
     if (task) {
       setCompleted(task.completed)

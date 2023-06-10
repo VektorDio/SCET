@@ -1,10 +1,14 @@
 import React from 'react';
+import CoursePageWrapper from '../../../../../components/coursePageElements/coursePageWrapper';
+import ChapterTitle from '../../../../../components/coursePageElements/courseText/chapterTitle';
+import ChapterParagraph from '../../../../../components/coursePageElements/courseText/chapterParagraph';
 
 const Chapter3_3 = () => {
   return (
-    <div>
-
-    </div>
+    <CoursePageWrapper>
+      <ChapterTitle>Аналіз графіків характеристик.</ChapterTitle>
+      <ChapterParagraph></ChapterParagraph>
+    </CoursePageWrapper>
   );
 };
 
