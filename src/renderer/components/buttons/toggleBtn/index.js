@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './toggle.module.css';
 
-const ToggleBtn = ({toggled ,onClick}) => {
+const ToggleBtn = ({toggled, onClick}) => {
   return (
     <div className={styles.button} onClick={onClick}>
       <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" className={styles.icon}>

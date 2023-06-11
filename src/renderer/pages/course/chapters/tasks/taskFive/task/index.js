@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useState } from 'react';
 import TaskMenuColumn from '../../../../../../components/taskPageElements/taskPageWrapper/taskMenuColumn';
 import TaskBody from '../../../../../../components/taskPageElements/taskPageWrapper/taskBody';
 import styles from "./fifthTask.module.css"
@@ -13,14 +13,12 @@ import realIntegral from '../../../../../../../../assets/diagrams/realIntegral.p
 import ClickBlock from '../../../../../../components/taskPageElements/clickBlock';
 import TaskImage from '../../../../../../components/taskPageElements/taskImage';
 import useTask from '../../../../../../../hooks/useTask';
-import { Font } from '../../../../../../App';
 const Task = () => {
   const answers = [true, true, true, false, false, false, false]
   const [selected, setSelected] = useState([false, false, false, false, false, false, false])
   const taskSolved = selected.every((e, i ) => e === answers[i])
 
   const taskId = 'task5'
-  const fontSize = useContext(Font)
   const images = [ideal,
     firstOrder,
     firstOrderIsodrom,
@@ -57,7 +55,7 @@ const Task = () => {
         В цому завданні потрібно намалювати стрілки між потрібними блоками, використовуючи маркери.
       </TaskMenuColumn>
       <TaskBody handleCheck={handleCheck} completed={completed} mistake={mistake} task={"/tasks/5/info"}>
-        <ChapterParagraph fontSize={fontSize}>
+        <ChapterParagraph>
           Якими типовими ланками можна описати наступну систему? <br></br>
           <b>Єлектродвигун</b>, який ввімкнений в мережу, обертає свій вал, який в свою чергу обертає <b>механічний редуктор</b>.
           Швидкість обертання двигуна регулюєтья системою автоматично, спираючись на сигнал <b>тахометра</b>.

@@ -1,4 +1,4 @@
-import React, { useContext, useMemo, useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import TaskMenuColumn from '../../../../../../components/taskPageElements/taskPageWrapper/taskMenuColumn';
 import TaskBody from '../../../../../../components/taskPageElements/taskPageWrapper/taskBody';
 import styles from "./seventhTask.module.css"
@@ -7,12 +7,10 @@ import ChapterParagraph from '../../../../../../components/coursePageElements/co
 import DiagramBlock from '../../../../../../components/taskPageElements/diagramBlock';
 import { Equation } from 'react-equation';
 import useTask from '../../../../../../../hooks/useTask';
-import { Font } from '../../../../../../App';
 const Task = () => {
   const [selectedOptions, setSelectedOptions] = useState([])
 
   const taskId = "task7"
-  const fontSize = useContext(Font)
   const answers = ["0", "+20", "0","-20","-40"]
 
   const taskSolved = (selectedOptions.every(
@@ -57,7 +55,7 @@ const Task = () => {
         В цому завданні необхідно обрати потрібну відповідь із випадаючого списку.
       </TaskMenuColumn>
       <TaskBody handleCheck={handleCheck} completed={completed} mistake={mistake} task={"/tasks/7/info"}>
-        <ChapterParagraph fontSize={fontSize}>
+        <ChapterParagraph>
           Побудуйте логарифмічно-амплітудну характеристику для системи, яка описується наступною передавальною функцією: <br></br>
           <Equation className={styles.formula} value={" W(s) = (100(5s+1))/((0.1s+1)(0.2s+1)(0.04s+1))"} />
         </ChapterParagraph>

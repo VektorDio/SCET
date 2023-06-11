@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import useReadTaskFromJson from './useReadTaskFromJson';
+import { Completion } from '../renderer/App';
 
 export default function useTask({taskId, setTaskSolved, taskSolved}) {
   const [taskState, setTaskState] = useState({
@@ -9,7 +10,9 @@ export default function useTask({taskId, setTaskSolved, taskSolved}) {
     mistake: false,
   })
 
-  const {task, courseCompletion} = useReadTaskFromJson(taskId)
+  const { courseCompletion, handleCourseCompletionChange } = useContext(Completion)
+
+  const { task } = useReadTaskFromJson(taskId)
   function setStart(start) {
     setTaskState(prev => ({...prev, start}))
   }
@@ -47,10 +50,9 @@ export default function useTask({taskId, setTaskSolved, taskSolved}) {
             bestTime: taskState.time + 1,
             completed: true,
             tries: task?.tries + 1
-          },
-          courseCompletion: courseCompletion + 12.5
-        }
+          }}
       )
+      handleCourseCompletionChange(courseCompletion + 12.5)
       setCompleted(true)
     } else {
       window.electron.ipcRenderer.sendMessage('writeJson', {

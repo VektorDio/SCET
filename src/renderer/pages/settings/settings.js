@@ -1,29 +1,32 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styles from "./settings.module.css"
 import ArrowLeftBtn from '../../components/buttons/arrowLeftBtn';
 import { useNavigate } from 'react-router-dom';
 import ToggleBtn from '../../components/buttons/toggleBtn';
 import SelectField from '../../components/taskPageElements/selectField';
+import { MenuResolution } from '../../App';
 
-const Settings = ({frame, onFrameChange, onResolutionChange, resolution}) => {
+const Settings = ({frame, onFrameChange}) => {
   const navigate = useNavigate();
-
+  const {menuResolution, handleMenuResolutionChange} = useContext(MenuResolution)
   function handleGoBack() {
     navigate("/")
   }
+  function onResolutionChange(label, index, value) {
+    handleMenuResolutionChange(value)
+  }
 
-  const resolutions = ["Маленький екран", "Середній екран", "Великий екран"]
-
-  const options = resolutions.map((e, i) => ({
-    value: i,
-    label: e,
-  }))
+  const resolutions = [
+    { value: [520, 400], label: 'Маленький екран' },
+    { value: [780, 560], label: 'Середній екран' },
+    { value: [1280, 960], label: 'Великий екран' },
+  ]
 
   return (
     <div className={styles.container}>
       <div className={styles.setting}>
         <div className={styles.btn}>
-          <ToggleBtn toggled={frame} onClick={onFrameChange}/>
+          <ToggleBtn toggled={frame} onClick={() => onFrameChange(!frame)}/>
         </div>
         <div className={styles.settingText}> Рамка вікна </div>
       </div>
@@ -32,9 +35,9 @@ const Settings = ({frame, onFrameChange, onResolutionChange, resolution}) => {
         <div className={styles.selectField}>
           <SelectField
             minWidth={"40vh"}
-            options={options}
+            options={resolutions}
             onChange={onResolutionChange}
-            defaultValue={{value: -1, label: resolution}}
+            defaultValue={resolutions.find((e) => e.value.every((e,i) => e === menuResolution[i]))}
           />
         </div>
         <div className={styles.settingText}> Розмір вікна </div>

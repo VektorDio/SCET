@@ -7,79 +7,97 @@ import FrameBar from './components/frameBar';
 import Settings from './pages/settings/settings';
 import CourseSettings from './pages/courseSettings/settings';
 
-export const Font = createContext(0)
+export const Font = createContext(26)
 export const Completion = createContext(0)
 export const CourseScroll = createContext(0)
+export const CourseResolution = createContext([1920, 1080])
+export const MenuResolution = createContext([780, 560])
 export default function App() {
   const [hasFrame, setHasFrame] = useState(false)
-  const [menuResolution, setMenuResolution] = useState("Маленький екран")
-  const [courseResolution, setCourseResolution] = useState("Великий екран")
 
-  const [courseFont, setCourseFont] = useState("Маленький шрифт")
+  const [menuResolution, setMenuResolution] = useState([780, 560])
 
-  // const context = {
-  //   courseFont, setCourseFont
-  // }
+  const [courseResolution, setCourseResolution] = useState([1920, 1080])
+
+  const [courseFont, setCourseFont] = useState(26)
 
   const [courseScroll, setCourseScroll] = useState(0)
 
   const [courseCompletion, setCourseCompletion] = useState(0)
 
-
   useEffect(() => {
     // @ts-ignore
     window.electron.ipcRenderer.invoke('readJson').then((result) => {
-      if (result.menuResolution) {
+      if (result.menuResolution !== undefined) {
         setMenuResolution(result.menuResolution)
+      } else {
+        handleMenuResolutionChange(menuResolution)
       }
-      if (result.courseResolution){
+      if (result.courseResolution !== undefined){
         setCourseResolution(result.courseResolution)
+      } else {
+        handleCourseResolutionChange(courseResolution)
       }
-      if (result.courseFont){
+      if (result.courseFont !== undefined){
         setCourseFont(result.courseFont)
+      } else {
+        handleCourseFontChange(courseFont)
       }
-      if (result.courseCompletion){
+      if (result.courseCompletion !== undefined){
         setCourseCompletion(result.courseCompletion)
+      } else {
+        handleCourseCompletionChange(courseCompletion)
       }
-      if(result.hasFrame){
+      if(result.hasFrame !== undefined){
         setHasFrame(result.hasFrame)
+      } else {
+        handleFrameChange(hasFrame)
       }
     })
   }, [hasFrame, menuResolution, courseResolution, courseFont, courseCompletion])
 
-  async function handleFrameChange() {
+  async function handleFrameChange(value) {
     // @ts-ignore
     await window.electron.ipcRenderer.sendMessage('writeJson', {
-      hasFrame: !hasFrame}
-    )
-    setHasFrame(!hasFrame)
+      hasFrame: value
+    })
+    setHasFrame(value)
   }
 
   async function handleMenuResolutionChange(value) {
     // @ts-ignore
     await window.electron.ipcRenderer.sendMessage('writeJson', {
-      menuResolution: value}
-    )
+      menuResolution: value
+    })
     setMenuResolution(value)
   }
 
   async function handleCourseResolutionChange(value) {
     // @ts-ignore
     await window.electron.ipcRenderer.sendMessage('writeJson', {
-      courseResolution: value}
-    )
+      courseResolution: value
+    })
     setCourseResolution(value)
   }
 
   async function handleCourseFontChange(value) {
     // @ts-ignore
     await window.electron.ipcRenderer.sendMessage('writeJson', {
-      courseFont: value}
-    )
+      courseFont: value
+    })
     setCourseFont(value)
   }
 
+  async function handleCourseCompletionChange(value) {
+    // @ts-ignore
+    await window.electron.ipcRenderer.sendMessage('writeJson', {
+        courseCompletion: value
+      })
+    setCourseCompletion(value)
+  }
+
   async function handleCourseRestart() {
+    setCourseCompletion(0)
     // @ts-ignore
     await window.electron.ipcRenderer.sendMessage('writeJson', {
         courseCompletion: 0,
@@ -125,109 +143,66 @@ export default function App() {
         }
       }
     )
-  }
 
-  let mr
-  let cr
-  let cf = 0
-
-  switch (menuResolution){
-    case "Маленький екран":
-      mr = [520, 400]
-      break;
-    case "Середній екран":
-      mr = [780, 560]
-      break;
-    case "Великий екран":
-      mr = [1280, 960]
-      break;
-  }
-
-  switch (courseResolution){
-    case "Маленький екран":
-      cr = [840, 580]
-      break;
-    case "Середній екран":
-      cr = [1280, 960]
-      break;
-    case "Великий екран":
-      cr = [1920, 1080]
-      break;
-  }
-
-  switch (courseFont){
-    case "Маленький шрифт":
-      cf = 16
-      break;
-    case "Середній шрифт":
-      cf = 26
-      break;
-    case "Великий шрифт":
-      cf = 34
-      break;
   }
 
   return (
     <>
       <FrameBar display={hasFrame}/>
       <div style={{height:(hasFrame) ? "97.5vh" : "100vh", overflow:" hidden"}}>
-        <Font.Provider value={cf}>
-          <Completion.Provider value={courseCompletion}>
+        <Font.Provider value={{courseFont, handleCourseFontChange}}>
+          <Completion.Provider value={{ courseCompletion, handleCourseCompletionChange}}>
             <CourseScroll.Provider value={{courseScroll, setCourseScroll}}>
-            <Router>
-              <Routes>
-                <Route path="/" element={<Menu resolution={mr}/>} />
-                <Route path="/pages/course" element={<Course resolution={cr} />} />
-                <Route path="/pages/settings"
-                       element={
-                          <Settings
-                             resolution={menuResolution}
-                             frame={hasFrame}
-                             onFrameChange={handleFrameChange}
-                             onResolutionChange={handleMenuResolutionChange}
-                       />
-                }
-                />
-                <Route path="/pages/courseSettings"
-                       element={
-                          <CourseSettings
-                               resolution={courseResolution}
-                               menuResolution={mr}
-                               font={courseFont}
-                               onCourseRestart={handleCourseRestart}
-                               onFontChange={handleCourseFontChange}
-                               onResolutionChange={handleCourseResolutionChange}
-                          />
-                       }
-                />
-                {
-                  taskRefs.map((e, i) => (
-                    <>
-                      <Route key={i + "a"} path={`/tasks/${i+1}/info`} element={e[0]}/>
-                      <Route key={i + "b"} path={`/tasks/${i+1}/task`} element={e[1]}/>
-                    </>
-                  ))
-                }
-                {
+              <CourseResolution.Provider value={{courseResolution, handleCourseResolutionChange}}>
+                <MenuResolution.Provider value={{menuResolution, handleMenuResolutionChange}}>
+                  <Router>
+                    <Routes>
+                      <Route path="/" element={<Menu/>} />
+                      <Route path="/pages/course" element={<Course />} />
+                      <Route path="/pages/settings"
+                             element={
+                                <Settings
+                                   frame={hasFrame}
+                                   onFrameChange={handleFrameChange}
+                             />
+                      }
+                      />
+                      <Route path="/pages/courseSettings"
+                             element={
+                                <CourseSettings
+                                     onCourseRestart={handleCourseRestart}
+                                />
+                             }
+                      />
+                      {
+                        taskRefs.map((e, i) => (
+                          <>
+                            <Route key={i + "a"} path={`/tasks/${i+1}/info`} element={e[0]}/>
+                            <Route key={i + "b"} path={`/tasks/${i+1}/task`} element={e[1]}/>
+                          </>
+                        ))
+                      }
+                      {
 
-                  chapterRefs.map((e, i) => (
-                    <Route key={i + "c"} path={`/chapters/${i+1}`} element={e[0]}/>
-                    )
-                  )
-                }
-                {
-                  chapterRefs.map((e, i) => (
-                    e[1].map((el, j) => {
-                      return (
-                      <Route key={i + "d"} path={`/chapters/${i+1}/${j+1}`} element={el}/>
-                    )
-                    }
-                    )
-                  ))
-                }
-
-              </Routes>
-            </Router>
+                        chapterRefs.map((e, i) => (
+                          <Route key={i + "c"} path={`/chapters/${i+1}`} element={e[0]}/>
+                          )
+                        )
+                      }
+                      {
+                        chapterRefs.map((e, i) => (
+                          e[1].map((el, j) => {
+                            return (
+                            <Route key={i + "d"} path={`/chapters/${i+1}/${j+1}`} element={el}/>
+                          )
+                          }
+                          )
+                        ))
+                      }
+                    </Routes>
+                  </Router>
+                </MenuResolution.Provider>
+              </CourseResolution.Provider>
             </CourseScroll.Provider>
           </Completion.Provider>
         </Font.Provider>

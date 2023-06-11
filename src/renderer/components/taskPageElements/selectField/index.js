@@ -5,7 +5,7 @@ const SelectField = ({options, onChange, index, defaultValue, placeholder, minWi
   return (
     <Select options={options}
             isSearchable={false}
-            onChange={(choice) => onChange(choice.label, index)}
+            onChange={(choice) => onChange(choice.label, index, choice.value)}
             placeholder={placeholder}
             defaultValue={defaultValue}
             styles={{

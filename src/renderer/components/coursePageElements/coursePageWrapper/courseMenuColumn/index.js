@@ -9,7 +9,7 @@ import {taskRefs} from '../../../../pages/course';
 
 const CourseBody = () => {
   const navigate = useNavigate();
-  const completion = useContext(Completion)
+  const { courseCompletion } = useContext(Completion)
   const { courseScroll, setCourseScroll } = useContext(CourseScroll)
 
   const ref = useRef()
@@ -30,10 +30,8 @@ const CourseBody = () => {
   function handleGoCourse(){
     navigate("/pages/course")
   }
-
   function saveScrollPosition() {
     setCourseScroll(ref.current.scrollTop)
-    console.log(courseScroll)
   }
 
   return (
@@ -116,7 +114,7 @@ const CourseBody = () => {
           </div>
         </div>
 
-        <div className={styles.completionText}>{completion+ "%"}</div>
+        <div className={styles.completionText}>{courseCompletion + "%"}</div>
       </div>
     </div>
   );

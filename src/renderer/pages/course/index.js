@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import CoursePageWrapper from '../../components/coursePageElements/coursePageWrapper';
 import ChapterParagraph from '../../components/coursePageElements/courseText/chapterParagraph';
 import ChapterTitle from '../../components/coursePageElements/courseText/chapterTitle';
@@ -40,6 +40,7 @@ import Chapter3_3 from './chapters/chapterThree/3'
 import Chapter4_1 from './chapters/chapterFour/1'
 import Chapter4_2 from './chapters/chapterFour/2'
 import Chapter4_3 from './chapters/chapterFour/3'
+import { CourseResolution } from '../../App';
 
 export const taskRefs = [
   [<TaskInfo1_1/>, <Task1_1/>, "Загальна схема САУ."],
@@ -59,9 +60,11 @@ export const chapterRefs = [
   [<Chapter4/>, [<Chapter4_1/>, <Chapter4_2/>,<Chapter4_3/>]],
 ]
 
-const Course = ({resolution}) => {
+const Course = () => {
 
-  window.resizeTo(...resolution)
+  const {courseResolution} = useContext(CourseResolution)
+
+  window.resizeTo(...courseResolution)
   window.electron.ipcRenderer.sendMessage('center')
 
   return (
