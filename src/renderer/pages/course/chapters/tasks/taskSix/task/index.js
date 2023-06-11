@@ -22,7 +22,7 @@ const Task = () => {
     ]
 
   const taskSolved = (selectedOptions.every(
-    (e,i) => e === answers[i]) && selectedOptions.length > 0)
+    (e,i) => e === answers[i]) && selectedOptions.length === answers.length)
 
   const images = [hydraulicTube, engine, springAbsorber, reductionGear]
 

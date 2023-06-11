@@ -14,7 +14,7 @@ const Task = () => {
   const answers = ["0", "+20", "0","-20","-40"]
 
   const taskSolved = (selectedOptions.every(
-    (e,i) => e === answers[i]) && selectedOptions.length > 0)
+    (e,i) => e === answers[i]) && selectedOptions.length === answers.length)
 
   const optionsLabels = ["+40", "+20", "0", "-20", "-40"]
   const options = useMemo(() => {

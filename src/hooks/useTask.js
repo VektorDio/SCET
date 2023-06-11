@@ -54,7 +54,7 @@ export default function useTask({taskId, setTaskSolved, taskSolved}) {
         courseCompletion: courseCompletion + 12.5,
       })
       setCompleted(true)
-      setCourseCompletion(courseCompletion + 12.5)
+      setCourseCompletion(prev => prev + 12.5)
     } else {
       await window.electron.ipcRenderer.sendMessage('writeJson', {
         [taskId]: {

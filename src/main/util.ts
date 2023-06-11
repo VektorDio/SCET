@@ -5,7 +5,7 @@ import fs from 'fs';
 
 const appPath =
   process.env.NODE_ENV === 'production'
-    ? `${process.resourcesPath}`
+    ? process.resourcesPath
     : __dirname;
 
 export function resolveHtmlPath(htmlFileName: string) {

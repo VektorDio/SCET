@@ -16,6 +16,7 @@ import useTask from '../../../../../../../hooks/useTask';
 const Task = () => {
   const answers = [true, true, true, false, false, false, false]
   const [selected, setSelected] = useState([false, false, false, false, false, false, false])
+
   const taskSolved = selected.every((e, i ) => e === answers[i])
 
   const taskId = 'task5'

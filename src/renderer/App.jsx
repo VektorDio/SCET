@@ -27,31 +27,31 @@ export default function App() {
 
   useEffect(() => {
     // @ts-ignore
-    window.electron.ipcRenderer.invoke('readJson').then((result) => {
+    window.electron.ipcRenderer.invoke('readJson').then( async (result) => {
       if (result.menuResolution !== undefined) {
         setMenuResolution(result.menuResolution)
       } else {
-        handleMenuResolutionChange(menuResolution)
+        await handleMenuResolutionChange(menuResolution)
       }
-      if (result.courseResolution !== undefined){
+      if (result.courseResolution !== undefined) {
         setCourseResolution(result.courseResolution)
       } else {
-        handleCourseResolutionChange(courseResolution)
+        await handleCourseResolutionChange(courseResolution)
       }
-      if (result.courseFont !== undefined){
+      if (result.courseFont !== undefined) {
         setCourseFont(result.courseFont)
       } else {
-        handleCourseFontChange(courseFont)
+        await handleCourseFontChange(courseFont)
       }
-      if (result.courseCompletion !== undefined){
+      if (result.courseCompletion !== undefined) {
         setCourseCompletion(result.courseCompletion)
       } else {
-
+        await handleCourseCompletionChange(courseCompletion)
       }
-      if(result.hasFrame !== undefined){
+      if (result.hasFrame !== undefined) {
         setHasFrame(result.hasFrame)
       } else {
-        handleFrameChange(hasFrame)
+        await handleFrameChange(hasFrame)
       }
     })
   }, [hasFrame, menuResolution, courseResolution, courseFont, courseCompletion])
@@ -86,6 +86,14 @@ export default function App() {
       courseFont: value,
     })
     setCourseFont(value)
+  }
+
+  async function handleCourseCompletionChange(value) {
+    // @ts-ignore
+    // await window.electron.ipcRenderer.sendMessage('writeJson', {
+    //   courseCompletion: value,
+    // })
+    setCourseCompletion(value)
   }
 
   async function handleCourseRestart() {
