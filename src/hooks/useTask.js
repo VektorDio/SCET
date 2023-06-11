@@ -10,7 +10,7 @@ export default function useTask({taskId, setTaskSolved, taskSolved}) {
     mistake: false,
   })
 
-  const { courseCompletion, handleCourseCompletionChange } = useContext(Completion)
+  const { courseCompletion, setCourseCompletion } = useContext(Completion)
 
   const { task } = useReadTaskFromJson(taskId)
   function setStart(start) {
@@ -43,25 +43,26 @@ export default function useTask({taskId, setTaskSolved, taskSolved}) {
     }, 1000)
   }
 
-  function handleCheck() {
-    if (taskSolved){
-      window.electron.ipcRenderer.sendMessage('writeJson', {
-          [taskId]:{
-            bestTime: taskState.time + 1,
-            completed: true,
-            tries: task?.tries + 1
-          }}
-      )
-      handleCourseCompletionChange(courseCompletion + 12.5)
+  async function handleCheck() {
+    if (taskSolved) {
+      await window.electron.ipcRenderer.sendMessage('writeJson', {
+        [taskId]: {
+          bestTime: taskState.time + 1,
+          completed: true,
+          tries: task?.tries + 1
+        },
+        courseCompletion: courseCompletion + 12.5,
+      })
       setCompleted(true)
+      setCourseCompletion(courseCompletion + 12.5)
     } else {
-      window.electron.ipcRenderer.sendMessage('writeJson', {
-        [taskId]:{
+      await window.electron.ipcRenderer.sendMessage('writeJson', {
+        [taskId]: {
           bestTime: task?.bestTime,
           completed: task?.completed,
           tries: task?.tries + 1
-        }}
-      )
+        },
+      })
       setTaskMistaken()
     }
   }
@@ -72,8 +73,8 @@ export default function useTask({taskId, setTaskSolved, taskSolved}) {
         bestTime: task?.bestTime,
         completed: task?.completed,
         tries: task?.tries + 1
-      }}
-    )
+      },
+    })
     setTaskMistaken()
     taskState.time = 0
   }

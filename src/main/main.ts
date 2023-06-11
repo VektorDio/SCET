@@ -30,8 +30,8 @@ ipcMain.handle('readJson', () => {
   return readJson();
 });
 
-ipcMain.on('writeJson', (event, data) => {
-  writeJson(data);
+ipcMain.on('writeJson', async (event, data) => {
+  await writeJson(data);
 });
 
 ipcMain.on('center', () => {

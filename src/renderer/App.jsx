@@ -46,7 +46,7 @@ export default function App() {
       if (result.courseCompletion !== undefined){
         setCourseCompletion(result.courseCompletion)
       } else {
-        handleCourseCompletionChange(courseCompletion)
+
       }
       if(result.hasFrame !== undefined){
         setHasFrame(result.hasFrame)
@@ -59,7 +59,7 @@ export default function App() {
   async function handleFrameChange(value) {
     // @ts-ignore
     await window.electron.ipcRenderer.sendMessage('writeJson', {
-      hasFrame: value
+      hasFrame: value,
     })
     setHasFrame(value)
   }
@@ -67,7 +67,7 @@ export default function App() {
   async function handleMenuResolutionChange(value) {
     // @ts-ignore
     await window.electron.ipcRenderer.sendMessage('writeJson', {
-      menuResolution: value
+      menuResolution: value,
     })
     setMenuResolution(value)
   }
@@ -75,7 +75,7 @@ export default function App() {
   async function handleCourseResolutionChange(value) {
     // @ts-ignore
     await window.electron.ipcRenderer.sendMessage('writeJson', {
-      courseResolution: value
+      courseResolution: value,
     })
     setCourseResolution(value)
   }
@@ -83,17 +83,9 @@ export default function App() {
   async function handleCourseFontChange(value) {
     // @ts-ignore
     await window.electron.ipcRenderer.sendMessage('writeJson', {
-      courseFont: value
+      courseFont: value,
     })
     setCourseFont(value)
-  }
-
-  async function handleCourseCompletionChange(value) {
-    // @ts-ignore
-    await window.electron.ipcRenderer.sendMessage('writeJson', {
-        courseCompletion: value
-      })
-    setCourseCompletion(value)
   }
 
   async function handleCourseRestart() {
@@ -140,10 +132,8 @@ export default function App() {
           completed: false,
           bestTime: 0,
           tries: 0,
-        }
-      }
-    )
-
+        },
+      })
   }
 
   return (
@@ -151,7 +141,7 @@ export default function App() {
       <FrameBar display={hasFrame}/>
       <div style={{height:(hasFrame) ? "97.5vh" : "100vh", overflow:" hidden"}}>
         <Font.Provider value={{courseFont, handleCourseFontChange}}>
-          <Completion.Provider value={{ courseCompletion, handleCourseCompletionChange}}>
+          <Completion.Provider value={{ courseCompletion, setCourseCompletion }}>
             <CourseScroll.Provider value={{courseScroll, setCourseScroll}}>
               <CourseResolution.Provider value={{courseResolution, handleCourseResolutionChange}}>
                 <MenuResolution.Provider value={{menuResolution, handleMenuResolutionChange}}>
