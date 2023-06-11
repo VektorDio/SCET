@@ -97,7 +97,7 @@ const CourseBody = () => {
         {
           taskRefs.map((e, i) => (
             <ChapterName navIndex={`/tasks/${i+1}/info`} isChapter={true}>
-              Задача 1.{i+1}
+              Задача 1.{i+1} - {e[2]}
             </ChapterName>
           ))
         }

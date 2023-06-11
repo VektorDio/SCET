@@ -42,14 +42,14 @@ import Chapter4_2 from './chapters/chapterFour/2'
 import Chapter4_3 from './chapters/chapterFour/3'
 
 export const taskRefs = [
-  [<TaskInfo1_1/>, <Task1_1/>],
-  [<TaskInfo1_2/>, <Task1_2/>],
-  [<TaskInfo1_3/>, <Task1_3/>],
-  [<TaskInfo1_4/>, <Task1_4/>],
-  [<TaskInfo1_5/>, <Task1_5/>],
-  [<TaskInfo1_6/>, <Task1_6/>],
-  [<TaskInfo1_7/>, <Task1_7/>],
-  [<TaskInfo1_8/>, <Task1_8/>],
+  [<TaskInfo1_1/>, <Task1_1/>, "Загальна схема САУ."],
+  [<TaskInfo1_2/>, <Task1_2/>, "Вхідні сигнали."],
+  [<TaskInfo1_3/>, <Task1_3/>, "Система стабілізації САУ."],
+  [<TaskInfo1_4/>, <Task1_4/>, "Принципи управління САУ."],
+  [<TaskInfo1_5/>, <Task1_5/>, "Типові динамічні ланки."],
+  [<TaskInfo1_6/>, <Task1_6/>, "Вхідні сигнали."],
+  [<TaskInfo1_7/>, <Task1_7/>, "Логарифмічни характеристики системи."],
+  [<TaskInfo1_8/>, <Task1_8/>, "Критерії стійкості. Визначник Гурвіца."],
 ]
 
 export const chapterRefs = [
