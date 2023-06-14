@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styles from "./menu.module.css"
 import CourseEntry from '../../components/courseEntry';
 import { useNavigate } from 'react-router-dom';
@@ -9,8 +9,11 @@ import { MenuResolution } from '../../App';
 function Menu() {
 
   const {menuResolution} = useContext(MenuResolution)
-  window.resizeTo(...menuResolution)
-  window.electron.ipcRenderer.sendMessage('center')
+
+  useEffect(() => {
+    window.electron.ipcRenderer.sendMessage('center')
+    window.resizeTo(...menuResolution)
+  }, [])
 
   const navigate = useNavigate();
   function handleCourseEnter() {

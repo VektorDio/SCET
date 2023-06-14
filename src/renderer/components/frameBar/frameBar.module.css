@@ -4,12 +4,13 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  -webkit-app-region: drag;
+  user-select: none;
 }
 
 .appName{
   font-weight: 600;
   padding: 10px;
+  -webkit-app-region: drag;
 }
 
 .btnGroup{

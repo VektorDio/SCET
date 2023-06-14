@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import CoursePageWrapper from '../../components/coursePageElements/coursePageWrapper';
 import ChapterParagraph from '../../components/coursePageElements/courseText/chapterParagraph';
 import ChapterTitle from '../../components/coursePageElements/courseText/chapterTitle';
@@ -64,8 +64,10 @@ const Course = () => {
 
   const {courseResolution} = useContext(CourseResolution)
 
-  window.resizeTo(...courseResolution)
-  window.electron.ipcRenderer.sendMessage('center')
+  useEffect(() => {
+    window.resizeTo(...courseResolution)
+    window.electron.ipcRenderer.sendMessage('center')
+  }, [])
 
   return (
       <CoursePageWrapper>

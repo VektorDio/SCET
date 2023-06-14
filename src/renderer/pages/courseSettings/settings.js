@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import styles from "./settings.module.css"
 import ArrowLeftBtn from '../../components/buttons/arrowLeftBtn';
 import { useNavigate } from 'react-router-dom';
@@ -35,8 +35,10 @@ const CourseSettings = ({onCourseRestart}) => {
     handleCourseResolutionChange(value)
   }
 
-  window.resizeTo(...menuResolution)
-  window.electron.ipcRenderer.sendMessage('center')
+  useEffect(() => {
+    window.resizeTo(...menuResolution)
+    window.electron.ipcRenderer.sendMessage('center')
+  }, [])
 
   return (
     <div className={styles.container}>
