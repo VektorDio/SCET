@@ -20,8 +20,8 @@ export function resolveHtmlPath(htmlFileName: string) {
 }
 
 export async function writeJson(data: Object) {
-  const currentData = await readJson();
-  fs.writeFile(
+  const currentData = readJson();
+  await fs.writeFile(
     path.join(appPath, 'localstorage.json'),
     JSON.stringify({
       ...currentData,
@@ -31,7 +31,7 @@ export async function writeJson(data: Object) {
       if (err) throw err;
       console.log('Saved!');
     }
-    );
+  );
 }
 
 export function readJson() {

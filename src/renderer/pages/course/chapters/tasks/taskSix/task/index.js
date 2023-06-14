@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import TaskMenuColumn from '../../../../../../components/taskPageElements/taskPageWrapper/taskMenuColumn';
 import TaskBody from '../../../../../../components/taskPageElements/taskPageWrapper/taskBody';
 import styles from "./sixthTask.module.css"
@@ -26,10 +26,12 @@ const Task = () => {
 
   const images = [hydraulicTube, engine, springAbsorber, reductionGear]
 
-  const options = answers.map((e, i) => ({
-    value: i,
-    label: e,
-  }))
+  const options = useMemo(() => {
+    answers.map((e, i) => ({
+      value: i,
+      label: e,
+    }))
+  }, [])
   function handleChoice(choice, index) {
     let buf = [...selectedOptions]
     buf[index] = choice

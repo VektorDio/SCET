@@ -23,6 +23,7 @@ const Task = () => {
   ]
 
   const images = [step, dirac, linear, acceleration, sin]
+
   const options = useMemo(() => {
     return answers.map((e, i) => ({
       value: i,
