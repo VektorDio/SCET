@@ -17,6 +17,7 @@ const Task = () => {
     (e,i) => e === answers[i]) && selectedOptions.length === answers.length)
 
   const optionsLabels = ["+40", "+20", "0", "-20", "-40"]
+
   const options = useMemo(() => {
     return optionsLabels.map((e, i) => ({
       value: i,

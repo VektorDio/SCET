@@ -27,7 +27,7 @@ const Task = () => {
   const images = [hydraulicTube, engine, springAbsorber, reductionGear]
 
   const options = useMemo(() => {
-    answers.map((e, i) => ({
+    return answers.map((e, i) => ({
       value: i,
       label: e,
     }))
