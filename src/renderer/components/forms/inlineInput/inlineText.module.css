@@ -1,0 +1,38 @@
+.oneLineText {
+    font-size: 16px;
+    line-height: 28px;
+    padding: 8px 16px;
+    width: 100%;
+    min-height: 46px;
+    border: unset;
+    border-radius: 6px;
+    outline-color: #222223;
+    background-color: #2b2b2c;
+}
+
+.oneLineText:focus {
+    outline: #838385 solid 2px;
+}
+
+.inputInvalid {
+    font-size: 16px;
+    line-height: 28px;
+    padding: 8px 16px;
+    width: 100%;
+    min-height: 44px;
+    border: unset;
+    border-radius: 6px;
+    background-color: #2b2b2c;
+    outline: #d01919 solid 3px !important;
+}
+
+@media print {
+    .oneLineText {
+        padding: 0;
+    }
+
+    .inputInvalid {
+
+        padding: 0;
+    }
+}

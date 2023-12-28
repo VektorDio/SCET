@@ -21,7 +21,7 @@ const CourseBody = () => {
   }, [ref.current])
 
   function handleReturn(){
-    navigate("/")
+    navigate("/menu")
   }
   function handleGoSettings(){
     navigate("/pages/courseSettings")

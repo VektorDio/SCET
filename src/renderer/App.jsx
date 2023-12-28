@@ -6,6 +6,7 @@ import Course, {taskRefs, chapterRefs} from './pages/course';
 import FrameBar from './components/frameBar';
 import Settings from './pages/settings/settings';
 import CourseSettings from './pages/courseSettings/settings';
+import Login from './pages/login';
 
 export const Font = createContext(26)
 export const Completion = createContext(0)
@@ -155,7 +156,8 @@ export default function App() {
                 <MenuResolution.Provider value={{menuResolution, handleMenuResolutionChange}}>
                   <Router>
                     <Routes>
-                      <Route path="/" element={<Menu/>} />
+                      <Route path="/" element={<Login/>} />
+                      <Route path="/menu" element={<Menu/>} />
                       <Route path="/pages/course" element={<Course />} />
                       <Route path="/pages/settings"
                              element={

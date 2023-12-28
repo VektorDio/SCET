@@ -6,6 +6,7 @@ import GearBtn from '../../components/buttons/gearBtn';
 import ArrowRightBtn from '../../components/buttons/arrowRightBtn';
 import XBtn from '../../components/buttons/xBtn';
 import { MenuResolution } from '../../App';
+
 function Menu() {
 
   const {menuResolution} = useContext(MenuResolution)
