@@ -1,0 +1,19 @@
+.chapterBlock{
+  font-weight: 600;
+  padding: 12px 15px;
+  user-select: none;
+}
+
+.chapterBlock:hover{
+  background-color: #6495ed;
+}
+
+.subchapterBlock{
+  font-weight: 600;
+  padding: 12px 15px 12px 37px;
+  user-select: none;
+}
+
+.subchapterBlock:hover{
+  background-color: #6495ed;
+}

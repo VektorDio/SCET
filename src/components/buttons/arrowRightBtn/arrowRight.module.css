@@ -1,0 +1,19 @@
+.button{
+  border-radius: 6px;
+
+  width: 100%;
+  aspect-ratio: 1/1;
+  background-color: #545454;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.button:hover{
+  background-color: #6495ed;
+}
+
+.icon{
+  width: 60%;
+  fill: white;
+}

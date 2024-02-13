@@ -1,0 +1,17 @@
+.container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 40px;
+}
+
+.taskInfoText{
+  font-weight: 600;
+  font-size: 30px;
+}
+
+.button{
+  height: 72px;
+  width:  72px;
+}
+

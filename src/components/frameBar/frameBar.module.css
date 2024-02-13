@@ -1,0 +1,45 @@
+.container{
+  position: relative;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  user-select: none;
+}
+
+.appName{
+  font-weight: 600;
+  padding: 10px;
+  -webkit-app-region: drag;
+}
+
+.btnGroup{
+  display: flex;
+}
+
+.btn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  height: 35px;
+  width: 7.5vw;
+  user-select: none;
+}
+
+.closeBtn{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px;
+  height: 35px;
+  width: 7.5vw;
+}
+
+.closeBtn:hover{
+  background-color: #be0909;
+}
+
+.btn:hover{
+  background-color: #4d4d4d;
+}

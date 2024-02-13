@@ -1,0 +1,22 @@
+.container{
+  display: flex;
+  height: 100%;
+}
+
+.list{
+  background-color: #262626;
+  width: 85vw;
+  height: 100%;
+  overflow-y: auto;
+}
+
+.buttonGroup{
+  width: 15vw;
+  background-color: #3b3939;
+  float: right;
+}
+
+.btn{
+  margin: 4.5vh 4.5vh 5.5vh;
+  height: 10vh;
+}

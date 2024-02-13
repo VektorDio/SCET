@@ -1,0 +1,26 @@
+.container{
+  display: flex;
+  height: 100%;
+}
+
+.container b {
+  font-weight: 1200;
+  font-size: 26px;
+  color: cornflowerblue;
+}
+
+.column{
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.imagesContainer{
+  display: flex;
+  padding: 4vh;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+

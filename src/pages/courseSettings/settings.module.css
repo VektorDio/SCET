@@ -1,0 +1,30 @@
+.container{
+  padding: 10vh;
+  height: 100%;
+  background-color: #3b3939;
+}
+
+.btn{
+  margin: 2vh;
+  height: 15vh;
+  width: 15vh;
+}
+
+.setting{
+  display: flex;
+  align-items: center;
+  user-select: none;
+}
+
+.settingText{
+  font-weight: 600;
+  font-size: 5vh;
+}
+
+.selectField{
+  display: flex;
+  align-items: center;
+  margin: 2vh;
+  width: 40vh;
+  height: 15vh;
+}

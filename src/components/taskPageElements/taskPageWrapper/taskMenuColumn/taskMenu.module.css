@@ -1,0 +1,76 @@
+.container{
+  display: flex;
+  flex-flow: column;
+  height: 100%;
+  width: 20%;
+  background-color: #3d3d3d;
+  justify-content: space-between;
+
+}
+
+.columnName{
+  font-weight: 600;
+  font-size: 28px;
+  justify-content: center;
+  display: flex;
+  padding-bottom: 20px;
+}
+
+.column{
+  padding: 25px 15px;
+  overflow-y: auto;
+}
+
+.bottomBlock{
+  display: flex;
+  background-color: #252525;
+  padding: 15px 20px;
+  justify-content: center;
+}
+
+.completionText{
+  font-weight: 600;
+  font-size: 24px;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+}
+
+.bottomButtons{
+  display: flex;
+}
+
+.button{
+  height: 46px;
+  width: 46px;
+  margin: 5px;
+}
+
+.timer{
+  display: flex;
+  font-weight: 600;
+  font-size: 22px;
+  padding: 12px 15px;
+  justify-content: center;
+}
+
+.taskText{
+  font-weight: 600;
+  font-size: 20px;
+  padding: 12px 15px;
+}
+
+.completedText{
+
+  font-weight: 600;
+  font-size: 32px;
+  color: #6495ed;
+  user-select: none;
+}
+
+.uncompletedText{
+  font-weight: 600;
+  font-size: 30px;
+  color: #000000;
+  user-select: none;
+}

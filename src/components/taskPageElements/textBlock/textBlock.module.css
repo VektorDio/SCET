@@ -1,0 +1,24 @@
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  word-wrap:break-word;
+  user-select: none;
+
+  font-weight: 600;
+  padding: 15px;
+  border: 4px solid #111111;
+  border-radius: 8px;
+  background-color: #4d4d4d;
+
+  width: fit-content;
+  max-width: 150px;
+  min-width: 62px;
+  min-height: 62px;
+
+  position: absolute;
+}
+
+.container:hover{
+  background-color: #575757;
+}

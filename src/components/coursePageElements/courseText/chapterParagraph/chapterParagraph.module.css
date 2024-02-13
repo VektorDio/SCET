@@ -1,0 +1,15 @@
+.container{
+  padding-bottom: 15px;
+  line-height: 1.5;
+
+  white-space: pre-wrap;
+}
+
+.container li{
+  font-size: inherit;
+}
+
+.container ol{
+  font-size: inherit;
+  padding-left: 70px;
+}
