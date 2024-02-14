@@ -21,12 +21,8 @@ export default function App() {
   const [courseData, setCourseData] = useState({})
 
   useEffect(() => {
-    let courseLocalData
-    async function updateCourseData(data) {
-      await window.electron.ipcRenderer.sendMessage('updateCourseData', { data, courseId })
-    }
     async function getCourseData() {
-      courseLocalData = await window.electron.ipcRenderer.invoke('readCourseData', courseId)
+      const courseLocalData = await window.electron.ipcRenderer.invoke('readCourseData', courseId)
       if (courseLocalData === undefined) {
         let data = {
           courseCompletion: 0,
@@ -38,7 +34,7 @@ export default function App() {
               tries: 0,
           }
         })
-        updateCourseData(data)
+        window.electron.ipcRenderer.sendMessage('updateCourseData', { data, courseId })
         setCourseData(data)
       } else {
         setCourseData(courseLocalData)
@@ -61,6 +57,7 @@ export default function App() {
 
   function updateCompletion(newCourseData) {
     let taskCompletionCounter = 0
+
     for (const property in newCourseData) {
       if (
         Object.hasOwn(newCourseData[property], 'completed') &&
@@ -69,6 +66,7 @@ export default function App() {
         taskCompletionCounter++
       }
     }
+
     let courseCompletion = (taskCompletionCounter / taskRefs.length) * 100 // calculating percentage based on amount of tasks
     setCourseData({ ...newCourseData, courseCompletion: courseCompletion })
     window.electron.ipcRenderer.sendMessage('updateCourseCompletion', { courseCompletion, courseId })

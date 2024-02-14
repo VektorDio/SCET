@@ -1,19 +1,17 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './settings.module.css';
 import ArrowLeftBtn from '../../components/buttons/arrowLeftBtn';
 import ToggleBtn from '../../components/buttons/toggleBtn';
 import SelectField from '../../components/taskPageElements/selectField';
 import { AppSettings } from '../../App';
+import useKeepResolution from '../../../hooks/useKeepResolution';
 
 function Settings() {
   const navigate = useNavigate();
   const { settings, handleSettingsChange } = useContext(AppSettings);
 
-  useEffect(() => {
-    window.resizeTo( ...settings.menuResolution );
-    window.electron.ipcRenderer.sendMessage('center');
-  }, [settings]);
+  useKeepResolution(settings.menuResolution)
 
   function onResolutionChange(label, index, value) {
     handleSettingsChange({ menuResolution: value });

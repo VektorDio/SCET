@@ -23,6 +23,7 @@ function CourseBody() {
   function handleReturn() {
     navigate('/menu');
   }
+
   function handleGoSettings() {
     navigate('/pages/courseSettings');
   }

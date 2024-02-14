@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Form, Formik } from 'formik';
 import * as Yup from 'yup';
@@ -7,16 +7,15 @@ import XBtn from '../../components/buttons/xBtn';
 import { AppSettings } from '../../App';
 import MyTextInput from '../../components/forms/textInput';
 import SubmitButton from '../../components/forms/submitButton';
+import useKeepResolution from '../../../hooks/useKeepResolution';
 
 const axios = require('axios');
 
 function Login() {
   const { settings } = useContext(AppSettings);
 
-  useEffect(() => {
-    window.electron.ipcRenderer.sendMessage('center');
-    window.resizeTo(...settings.menuResolution);
-  }, []);
+  useKeepResolution(settings.menuResolution)
+
   const [submissionError, setSubmissionError] = useState(null);
   const navigate = useNavigate();
 

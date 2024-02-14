@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './menu.module.css';
 import CourseEntry from '../../components/courseEntry';
@@ -6,16 +6,13 @@ import GearBtn from '../../components/buttons/gearBtn';
 import ArrowRightBtn from '../../components/buttons/arrowRightBtn';
 import XBtn from '../../components/buttons/xBtn';
 import { AppSettings } from '../../App';
+import useKeepResolution from '../../../hooks/useKeepResolution';
 
 function Menu() {
-  const { settings } = useContext(AppSettings);
-
-  useEffect(() => {
-    window.electron.ipcRenderer.sendMessage('center');
-    window.resizeTo(...settings.menuResolution);
-  }, []);
-
   const navigate = useNavigate();
+  const { settings } = useContext(AppSettings);
+  useKeepResolution(settings.menuResolution)
+
   function handleCourseEnter() {
     navigate('/pages/course');
   }

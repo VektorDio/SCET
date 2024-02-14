@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import CoursePageWrapper from '../../components/coursePageElements/coursePageWrapper';
 import ChapterParagraph from '../../components/coursePageElements/courseText/chapterParagraph';
 import ChapterTitle from '../../components/coursePageElements/courseText/chapterTitle';
@@ -41,6 +41,7 @@ import Chapter4_1 from './chapters/chapterFour/1';
 import Chapter4_2 from './chapters/chapterFour/2';
 import Chapter4_3 from './chapters/chapterFour/3';
 import { AppSettings } from '../../App';
+import useKeepResolution from '../../../hooks/useKeepResolution';
 
 
 export const taskRefs = [
@@ -63,11 +64,7 @@ export const chapterRefs = [
 
 function SCECourse() {
   const { settings } = useContext(AppSettings);
-
-  useEffect(() => {
-    window.resizeTo(...settings.courseResolution);
-    window.electron.ipcRenderer.sendMessage('center');
-  }, []);
+  useKeepResolution(settings.courseResolution)
 
   return (
     <CoursePageWrapper>

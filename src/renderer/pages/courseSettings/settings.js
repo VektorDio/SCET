@@ -1,14 +1,16 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './settings.module.css';
 import ArrowLeftBtn from '../../components/buttons/arrowLeftBtn';
 import SelectField from '../../components/taskPageElements/selectField';
 import RestartBtn from '../../components/buttons/restartBtn';
 import { AppSettings } from '../../App';
+import useKeepResolution from '../../../hooks/useKeepResolution';
 
 function CourseSettings({ onCourseRestart }) {
   const navigate = useNavigate();
   const { settings, handleSettingsChange } = useContext(AppSettings);
+  useKeepResolution(settings.menuResolution)
 
   const resolutions = [
     { value: [840, 580], label: 'Маленький екран' },
@@ -26,17 +28,12 @@ function CourseSettings({ onCourseRestart }) {
   }
 
   function onFontChange(label, index, value) {
-    handleSettingsChange({ font: value });
+    handleSettingsChange({ courseFont: value });
   }
 
   function onResolutionChange(label, index, value) {
     handleSettingsChange({ courseResolution: value });
   }
-
-  useEffect(() => {
-    window.resizeTo(...settings.menuResolution);
-    window.electron.ipcRenderer.sendMessage('center');
-  }, []);
 
   return (
     <div className={styles.container}>
