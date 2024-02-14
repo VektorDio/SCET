@@ -94,6 +94,7 @@ function Task() {
               selected={selected[i]}
               setSelected={() => onSelectedChange(i)}
               label={labels[i]}
+              key={i}
             >
               <TaskImage src={img} width="80%" />
             </ClickBlock>

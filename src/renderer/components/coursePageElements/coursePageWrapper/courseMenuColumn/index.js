@@ -96,7 +96,7 @@ function CourseBody() {
           стійкості.
         </ChapterName>
         {taskRefs.map((e, i) => (
-          <ChapterName navIndex={`/tasks/${i + 1}/info`} isChapter>
+          <ChapterName navIndex={`/tasks/${i + 1}/info`} isChapter key={`${i}task`}>
             Задача 1.{i + 1} - {e[2]}
           </ChapterName>
         ))}

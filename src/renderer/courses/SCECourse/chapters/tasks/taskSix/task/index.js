@@ -59,7 +59,7 @@ function Task() {
       >
         <div className={styles.column}>
           {images.map((img, i) => (
-            <div className={styles.block}>
+            <div className={styles.block} key={i}>
               <TaskImage src={img} width="100%" />
               <div className={styles.select}>
                 <SelectField

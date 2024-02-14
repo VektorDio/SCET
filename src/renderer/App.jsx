@@ -72,19 +72,20 @@ export default function App() {
     window.electron.ipcRenderer.sendMessage('updateCourseCompletion', { courseCompletion, courseId })
   }
 
+  const taskInfoRoutes = taskRefs.map((e, i) => (
+    <Route
+      key={`${i}a`}
+      path={`/tasks/${i + 1}/info`}
+      element={e[0]}
+    />
+  ))
+
   const taskRoutes = taskRefs.map((e, i) => (
-    <>
-      <Route
-        key={`${i}a`}
-        path={`/tasks/${i + 1}/info`}
-        element={e[0]}
-      />
-      <Route
-        key={`${i}b`}
-        path={`/tasks/${i + 1}/task`}
-        element={e[1]}
-      />
-    </>
+    <Route
+      key={`${i}b`}
+      path={`/tasks/${i + 1}/task`}
+      element={e[1]}
+    />
   ))
 
   const chapterRoutes = chapterRefs.map((e, i) => (
@@ -121,6 +122,7 @@ export default function App() {
                   <Route path="/pages/course" element={<SCECourse />} />
                   <Route path="/pages/settings" element={ <Settings /> } />
                   <Route path="/pages/courseSettings" element={ <CourseSettings /> } />
+                  { taskInfoRoutes }
                   { taskRoutes }
                   { chapterRoutes }
                   { subchaptersRoutes }
