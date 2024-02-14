@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import TaskMenuColumn from '../../../../../../components/taskPageElements/taskPageWrapper/taskMenuColumn';
 import TaskBody from '../../../../../../components/taskPageElements/taskPageWrapper/taskBody';
 import styles from './fifthTask.module.css';
@@ -15,7 +15,7 @@ import TaskImage from '../../../../../../components/taskPageElements/taskImage';
 import useTask from '../../../../../../../hooks/useTask';
 
 function Task() {
-  const answers = [true, true, true, false, false, false, false];
+  const taskId = 'task5';
   const [selected, setSelected] = useState([
     false,
     false,
@@ -25,10 +25,22 @@ function Task() {
     false,
     false,
   ]);
+  const answers = [true, true, true, false, false, false, false];
+  const isTaskSolved = selected.every((e, i) => e === answers[i]);
 
-  const taskSolved = selected.every((e, i) => e === answers[i]);
+  const { time, completed, mistake, handleAttempt } =
+    useTask({ taskId });
 
-  const taskId = 'task5';
+  useEffect(() => {
+    if (completed) {
+      setSelected([...answers]);
+    }
+  }, [completed])
+
+  function handleCheck() {
+    handleAttempt(isTaskSolved)
+  }
+
   const images = [
     ideal,
     firstOrder,
@@ -48,9 +60,7 @@ function Task() {
     'Ідеально інтегруюча ланка',
     'Реальна інтегруюча ланка',
   ];
-  function setTaskSolved() {
-    setSelected([...answers]);
-  }
+
   function onSelectedChange(index) {
     setSelected((prev) => {
       const buf = [...prev];
@@ -58,11 +68,6 @@ function Task() {
       return buf;
     });
   }
-
-  const {
-    taskState: { time, completed, mistake },
-    handleCheck,
-  } = useTask({ taskId, setTaskSolved, taskSolved });
 
   return (
     <div className={styles.container}>

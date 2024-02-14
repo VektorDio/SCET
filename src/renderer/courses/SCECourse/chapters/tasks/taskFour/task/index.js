@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DndContext } from '@dnd-kit/core';
 import { restrictToFirstScrollableAncestor } from '@dnd-kit/modifiers';
 import { Xwrapper } from 'react-xarrows';
@@ -10,13 +10,23 @@ import DraggableMarker from '../../../../../../components/taskPageElements/dndEl
 import useTask from '../../../../../../../hooks/useTask';
 
 function Task() {
+  const taskId = 'task4';
   const options = ['', '', '', '', '', ''];
   const answers = ['drop2', 'drop5', 'drop1', 'drop1', 'drop3', 'drop2'];
   const [arrowEnds, setArrowEnds] = useState(Array(options.length));
 
-  const taskSolved =
+  const { time, completed, mistake, handleAttempt } =
+    useTask({ taskId });
+
+  const isTaskSolved =
     arrowEnds.every((e, i) => e === answers[i]) && arrowEnds[0] !== undefined;
-  const taskId = 'task4';
+
+  useEffect(() => {
+    if (completed) {
+      setArrowEnds(['drop2', 'drop5', 'drop1', 'drop1', 'drop3', 'drop2']);
+    }
+  }, [completed])
+
   function handleDragEnd(event) {
     const { active, over } = event;
     setArrowEnds((prev) => {
@@ -26,14 +36,10 @@ function Task() {
       return buf;
     });
   }
-  function setTaskSolved() {
-    setArrowEnds(['drop2', 'drop5', 'drop1', 'drop1', 'drop3', 'drop2']);
-  }
 
-  const {
-    taskState: { time, completed, mistake },
-    handleCheck,
-  } = useTask({ taskId, setTaskSolved, taskSolved });
+  function handleCheck() {
+    handleAttempt(isTaskSolved)
+  }
 
   return (
     <div className={styles.container}>

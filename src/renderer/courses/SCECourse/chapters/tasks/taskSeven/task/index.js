@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Equation } from 'react-equation';
 import TaskMenuColumn from '../../../../../../components/taskPageElements/taskPageWrapper/taskMenuColumn';
 import TaskBody from '../../../../../../components/taskPageElements/taskPageWrapper/taskBody';
@@ -9,14 +9,26 @@ import DiagramBlock from '../../../../../../components/taskPageElements/diagramB
 import useTask from '../../../../../../../hooks/useTask';
 
 function Task() {
-  const [selectedOptions, setSelectedOptions] = useState([]);
-
   const taskId = 'task7';
   const answers = ['0', '+20', '0', '-20', '-40'];
+  const [selectedOptions, setSelectedOptions] = useState([]);
 
-  const taskSolved =
+  const isTaskSolved =
     selectedOptions.every((e, i) => e === answers[i]) &&
     selectedOptions.length === answers.length;
+
+  const { time, completed, mistake, handleAttempt } =
+    useTask({ taskId });
+
+  useEffect(() => {
+    if (completed) {
+      setSelectedOptions([...answers]);
+    }
+  }, [completed])
+
+  function handleCheck() {
+    handleAttempt(isTaskSolved)
+  }
 
   const optionsLabels = ['+40', '+20', '0', '-20', '-40'];
 
@@ -43,15 +55,6 @@ function Task() {
     buf[index] = choice;
     setSelectedOptions([...buf]);
   }
-
-  function setTaskSolved() {
-    setSelectedOptions([...answers]);
-  }
-
-  const {
-    taskState: { time, completed, mistake },
-    handleCheck,
-  } = useTask({ taskId, setTaskSolved, taskSolved });
 
   return (
     <div className={styles.container}>

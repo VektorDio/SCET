@@ -1,53 +1,37 @@
 import React, { useContext, useState } from 'react';
 import { CourseData } from '../renderer/App';
 
-export default function useTask({ taskId, setTaskSolved, taskSolved }) {
-  const [taskState, setTaskState] = useState({
-    start: Date.now(),
-    time: 0,
-    completed: undefined,
-    mistake: false,
-  });
-
+export default function useTask({ taskId, timeLimit=360 }) {
   const { courseData, handleCourseDataChange } = useContext(CourseData)
   const task = courseData[taskId];
 
-  function setStart(start) {
-    setTaskState((prev) => ({ ...prev, start }));
-  }
+  const [time, setTime] = useState(0)
+  const [startTime, setStartTime] = useState(Date.now())
+  const [completed, setCompleted] = useState(task.completed)
+  const [mistake, setMistaken] = useState(false)
 
-  function setTime(time) {
-    setTaskState((prev) => ({ ...prev, time }));
-  }
-
-  function setCompleted(completed) {
-    setTaskState((prev) => ({ ...prev, completed }));
-  }
-
-  function setMistake(mistake) {
-    setTaskState((prev) => ({ ...prev, mistake }));
-  }
-
-  function setTaskMistaken() {
-    setStart(Date.now());
-    setMistake(true);
+  // mistake flickers for 100ms and resets
+  function handleTaskMistaken() {
+    setStartTime(Date.now());
+    setMistaken(true);
     setTimeout(() => {
-      setMistake(false);
+      setMistaken(false);
     }, 100);
   }
 
-  if ( !taskState.completed && !taskState.mistake ) {
+  //attempt timer
+  if (!completed && !mistake) {
     setTimeout(() => {
-      setTime(Math.floor((Date.now() - taskState.start) / 1000));
+      setTime(Math.floor((Date.now() - startTime) / 1000));
     }, 1000);
   }
 
-  async function handleCheck() {
+  function handleAttempt(isTaskSolved) {
     let data
-    if (taskSolved) {
+    if (isTaskSolved) {
       data = {
         [taskId]: {
-          bestTime: taskState.time + 1,
+          bestTime: time + 1, // bug fix
           completed: true,
           tries: task.tries + 1,
         },
@@ -61,30 +45,15 @@ export default function useTask({ taskId, setTaskSolved, taskSolved }) {
           tries: task.tries + 1,
         },
       }
-      setTaskMistaken();
+      handleTaskMistaken();
     }
     handleCourseDataChange(data)
   }
 
-  if (taskState.time >= 360) {
-    let data = {
-      [taskId]: {
-        bestTime: task.bestTime,
-        completed: task.completed,
-        tries: task.tries + 1,
-      },
-    }
-    handleCourseDataChange(data)
-    setTaskMistaken();
-    taskState.time = 0;
+  if (time >= timeLimit) {
+    handleAttempt(false)
+    setTime(0)
   }
 
-  if (taskState.completed === undefined) {
-    setCompleted(task.completed);
-    if (setTaskSolved && task.completed) {
-      setTaskSolved();
-    }
-  }
-
-  return { taskState, handleCheck };
+  return { time, completed, mistake, handleAttempt };
 }

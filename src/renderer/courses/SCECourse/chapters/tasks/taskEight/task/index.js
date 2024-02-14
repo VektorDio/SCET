@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Equation } from 'react-equation';
 import TaskMenuColumn from '../../../../../../components/taskPageElements/taskPageWrapper/taskMenuColumn';
 import TaskBody from '../../../../../../components/taskPageElements/taskPageWrapper/taskBody';
@@ -8,27 +8,24 @@ import MatrixBlock from '../../../../../../components/taskPageElements/matrixBlo
 import ChapterParagraph from '../../../../../../components/coursePageElements/courseText/chapterParagraph';
 
 function Task() {
+  const taskId = 'task8';
   const [selectedOptions, setSelectedOptions] = useState([
     [0, 0, 0, 0],
     [0, 0, 0, 0],
     [0, 0, 0, 0],
     [0, 0, 0, 0],
   ]);
-
-  const taskId = 'task8';
-
   const answers = [
     [63, 1, 0, 0],
     [90, 14, 50, 0],
     [0, 63, 1, 0],
     [0, 90, 14, 50],
   ];
-
-  const taskSolved = selectedOptions
+  const isTaskSolved = selectedOptions
     .map((row, y) => {
       return row.every((e, x) => e === answers[y][x]);
-    })
-    .reduce((acc, el) => acc && el);
+    }).reduce((acc, el) => acc && el);
+
   function handleArrayChange(choice, x, y) {
     const buf = [...selectedOptions];
     const choiceInt = parseInt(choice);
@@ -36,14 +33,18 @@ function Task() {
     setSelectedOptions([...buf]);
   }
 
-  function setTaskSolved() {
-    setSelectedOptions([...answers]);
-  }
+  const { time, completed, mistake, handleAttempt } =
+    useTask({ taskId });
 
-  const {
-    taskState: { time, completed, mistake },
-    handleCheck,
-  } = useTask({ taskId, setTaskSolved, taskSolved });
+  useEffect(() => {
+    if (completed) {
+      setSelectedOptions([...answers]);
+    }
+  }, [completed])
+
+  function handleCheck() {
+    handleAttempt(isTaskSolved)
+  }
 
   return (
     <div className={styles.container}>

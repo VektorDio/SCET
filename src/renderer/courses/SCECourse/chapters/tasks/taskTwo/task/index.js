@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import TaskMenuColumn from '../../../../../../components/taskPageElements/taskPageWrapper/taskMenuColumn';
 import TaskBody from '../../../../../../components/taskPageElements/taskPageWrapper/taskBody';
 import styles from './secondTask.module.css';
@@ -12,10 +12,7 @@ import sin from '../../../../../../../../assets/diagrams/sin.png';
 import useTask from '../../../../../../../hooks/useTask';
 
 function Task() {
-  const [selectedOptions, setSelectedOptions] = useState([]);
-
   const taskId = 'task2';
-
   const answers = [
     'Східчаста функція',
     'Одинична імпульсна функція',
@@ -23,8 +20,18 @@ function Task() {
     'Сигнал з постійним прискоренням',
     'Гармонійний сигнал',
   ];
-
   const images = [step, dirac, linear, acceleration, sin];
+  const [selectedOptions, setSelectedOptions] = useState([]);
+
+  const { time, completed, mistake, handleAttempt } = useTask({ taskId });
+
+  const isTaskSolved =
+    selectedOptions.every((e, i) => e === answers[i]) &&
+    selectedOptions.length > 0;
+
+  function handleCheck() {
+    handleAttempt(isTaskSolved)
+  }
 
   const options = useMemo(() => {
     return answers.map((e, i) => ({
@@ -33,19 +40,11 @@ function Task() {
     }));
   }, []);
 
-  const taskSolved =
-    selectedOptions.every((e, i) => e === answers[i]) &&
-    selectedOptions.length > 0;
   function handleChoice(choice, index) {
     const buf = [...selectedOptions];
     buf[index] = choice;
     setSelectedOptions([...buf]);
   }
-
-  const {
-    taskState: { time, completed, mistake },
-    handleCheck,
-  } = useTask({ taskId, taskSolved });
 
   return (
     <div className={styles.container}>

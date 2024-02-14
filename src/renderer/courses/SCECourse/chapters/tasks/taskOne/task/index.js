@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Xarrow from 'react-xarrows';
 import TaskMenuColumn from '../../../../../../components/taskPageElements/taskPageWrapper/taskMenuColumn';
 import TaskBody from '../../../../../../components/taskPageElements/taskPageWrapper/taskBody';
@@ -9,6 +9,13 @@ import HiddenSelect from '../../../../../../components/taskPageElements/hiddenSe
 import useTask from '../../../../../../../hooks/useTask';
 
 function Task() {
+  const taskId = 'task1';
+  const options = ['x(t)', 'f(t)', 'y(t)', 'u(t)', 'ПУ', 'ОУ'];
+  const answers = ['x(t)', 'f(t)', 'y(t)', 'ПУ', 'ОУ', 'u(t)'];
+
+  const { time, completed, mistake, handleAttempt } =
+    useTask({ taskId });
+
   const [blocks, setBlocks] = useState([
     '...',
     '...',
@@ -18,14 +25,16 @@ function Task() {
     '...',
   ]);
 
-  const taskId = 'task1';
-  const options = ['x(t)', 'f(t)', 'y(t)', 'u(t)', 'ПУ', 'ОУ'];
-  const answers = ['x(t)', 'f(t)', 'y(t)', 'ПУ', 'ОУ', 'u(t)'];
+  const isTaskSolved = blocks.every((e, i) => e === answers[i]);
 
-  const taskSolved = blocks.every((e, i) => e === answers[i]);
+  useEffect(() => {
+    if (completed) {
+      setBlocks([...answers]);
+    }
+  }, [completed])
 
-  function setTaskSolved() {
-    setBlocks([...answers]);
+  function handleCheck() {
+    handleAttempt(isTaskSolved)
   }
 
   function handleBlockChange(option, index) {
@@ -35,11 +44,6 @@ function Task() {
       return [...buf];
     });
   }
-
-  const {
-    taskState: { time, completed, mistake },
-    handleCheck,
-  } = useTask({ taskId, setTaskSolved, taskSolved });
 
   return (
     <div className={styles.container}>

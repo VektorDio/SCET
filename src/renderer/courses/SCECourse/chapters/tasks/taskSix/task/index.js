@@ -11,22 +11,26 @@ import hydraulicTube from '../../../../../../../../assets/diagrams/hydraulicTube
 import useTask from '../../../../../../../hooks/useTask';
 
 function Task() {
-  const [selectedOptions, setSelectedOptions] = useState([]);
-
   const taskId = 'task6';
-
+  const [selectedOptions, setSelectedOptions] = useState([]);
   const answers = [
     'Ідеальна інтегруюча ланка',
     'Аперіодична ланка першого порядку',
     'Ізодромна ланка першого порядку',
     'Ідеальна (безінерційна, підсилювальна) ланка',
   ];
+  const images = [hydraulicTube, engine, springAbsorber, reductionGear];
 
-  const taskSolved =
+  const isTaskSolved =
     selectedOptions.every((e, i) => e === answers[i]) &&
     selectedOptions.length === answers.length;
 
-  const images = [hydraulicTube, engine, springAbsorber, reductionGear];
+  const { time, completed, mistake, handleAttempt } =
+    useTask({ taskId });
+
+  function handleCheck() {
+    handleAttempt(isTaskSolved)
+  }
 
   const options = useMemo(() => {
     return answers.map((e, i) => ({
@@ -34,16 +38,12 @@ function Task() {
       label: e,
     }));
   }, []);
+
   function handleChoice(choice, index) {
     const buf = [...selectedOptions];
     buf[index] = choice;
     setSelectedOptions([...buf]);
   }
-
-  const {
-    taskState: { time, completed, mistake },
-    handleCheck,
-  } = useTask({ taskId, taskSolved });
 
   return (
     <div className={styles.container}>

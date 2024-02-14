@@ -7,7 +7,7 @@ import Settings from './pages/settings/settings';
 import CourseSettings from './pages/courseSettings/settings';
 import Login from './pages/login';
 
-import SCECourse, { taskRefs, chapterRefs } from './courses/course';
+import SCECourse, { taskRefs, chapterRefs } from './courses/SCECourse';
 
 const localSettings = await window.electron.ipcRenderer.invoke('readSettings')
 

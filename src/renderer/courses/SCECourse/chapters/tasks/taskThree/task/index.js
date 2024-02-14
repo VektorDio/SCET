@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { DndContext } from '@dnd-kit/core';
 import { restrictToFirstScrollableAncestor } from '@dnd-kit/modifiers';
 import { v4 as uuidv4 } from 'uuid';
@@ -12,6 +12,7 @@ import TextBlock from '../../../../../../components/taskPageElements/textBlock';
 import useTask from '../../../../../../../hooks/useTask';
 
 function Task() {
+  const taskId = 'task3';
   const options = ['Підсилювач', 'Електродвигун', 'Диск', 'Датчик'];
   const answers = ['Підсилювач', 'Електродвигун', 'Диск', 'Датчик'];
   const [draggable, setDraggable] = useState(
@@ -22,16 +23,28 @@ function Task() {
     ))
   );
   const [children, setChildren] = useState(Array(options.length));
-
-  const taskId = 'task3';
-
-  console.log(children);
-  const taskSolved = children.every(
+  const isTaskSolved = children.every(
     (e, i) => e && e.props.children === answers[i]
   );
+
+  const { time, completed, mistake, handleAttempt } =
+    useTask({ taskId });
+
+  useEffect(() => {
+    if (completed) {
+      setChildren([...draggable]);
+      setDraggable(null);
+    }
+  }, []) // bugfix. there should be completed dep, but is coses flickering on completion, so disabled
+
+  function handleCheck() {
+    handleAttempt(isTaskSolved)
+  }
+
   const swapElements = (array, index1, index2) => {
     [array[index1], array[index2]] = [array[index2], array[index1]];
   };
+
   function handleDragEnd(event) {
     const { active, over } = event;
 
@@ -112,16 +125,6 @@ function Task() {
       }
     }
   }
-
-  function setTaskSolved() {
-    setChildren([...draggable]);
-    setDraggable(null);
-  }
-
-  const {
-    taskState: { time, completed, mistake },
-    handleCheck,
-  } = useTask({ taskId, setTaskSolved, taskSolved });
 
   return (
     <div className={styles.container}>
