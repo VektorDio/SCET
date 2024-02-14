@@ -1,22 +1,24 @@
 import React from 'react';
-import styles from './draggableBlock.module.css';
 import { useDraggable } from '@dnd-kit/core';
 import { useXarrow } from 'react-xarrows';
+import styles from './draggableBlock.module.css';
 
-const DraggableBlock = ({children, id, round}) => {
-  const {attributes, listeners, setNodeRef, transform} = useDraggable({
-    id: id,
+function DraggableBlock({ children, id, round }) {
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id,
   });
 
-  const updateXarrow = useXarrow()
+  const updateXarrow = useXarrow();
 
-  const style = transform ? {
-    transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
-    borderRadius: (round) ? "50%" : null,
-    zIndex: 10,
-  } : {
-    zIndex: 5
-  };
+  const style = transform
+    ? {
+        transform: `translate3d(${transform.x}px, ${transform.y}px, 0)`,
+        borderRadius: round ? '50%' : null,
+        zIndex: 10,
+      }
+    : {
+        zIndex: 5,
+      };
 
   return (
     <div
@@ -31,6 +33,6 @@ const DraggableBlock = ({children, id, round}) => {
       {children}
     </div>
   );
-};
+}
 
 export default DraggableBlock;

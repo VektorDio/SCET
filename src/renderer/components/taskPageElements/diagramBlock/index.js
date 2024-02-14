@@ -1,5 +1,4 @@
 import React from 'react';
-import styles from './taskDiagram.module.css';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -12,6 +11,7 @@ import {
   Legend,
 } from 'chart.js';
 import { Scatter } from 'react-chartjs-2';
+import styles from './taskDiagram.module.css';
 
 ChartJS.register(
   CategoryScale,
@@ -37,19 +37,19 @@ const options = {
       type: 'logarithmic',
       min: 0.1,
       max: 100,
-      grid:{
+      grid: {
         lineWidth: 2,
         color: 'rgb(255,255,255)',
       },
       ticks: {
         beginAtZero: true,
         color: 'rgb(255,255,255)',
-      }
+      },
     },
     y: {
       min: -20,
       max: 100,
-      grid:{
+      grid: {
         lineWidth: 2,
         color: 'rgb(255,255,255)',
       },
@@ -57,19 +57,16 @@ const options = {
         beginAtZero: true,
         color: 'rgb(255,255,255)',
       },
-    }
-  }
+    },
+  },
 };
 
-
-
-const DiagramBlock = ({children, data}) => {
-
+function DiagramBlock({ children, data }) {
   const datasets = {
     datasets: [
       {
         showLine: true,
-        data: data,
+        data,
         fill: false,
         borderColor: 'rgb(255,0,0)',
         borderWidth: 6,
@@ -81,11 +78,9 @@ const DiagramBlock = ({children, data}) => {
   return (
     <div className={styles.diagramContainer}>
       <Scatter options={options} data={datasets} />
-      <div className={styles.subContainer}>
-        {children}
-      </div>
+      <div className={styles.subContainer}>{children}</div>
     </div>
   );
-};
+}
 
 export default DiagramBlock;

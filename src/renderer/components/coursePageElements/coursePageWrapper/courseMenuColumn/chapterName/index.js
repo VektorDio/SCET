@@ -1,24 +1,24 @@
 import React, { useContext } from 'react';
-import styles from './chapterName.module.css';
 import { useNavigate } from 'react-router-dom';
-import { Font } from '../../../../../App';
+import styles from './chapterName.module.css';
+import { AppSettings } from '../../../../../App';
 
-const ChapterName = ({children, navIndex, isChapter}) => {
-  const navigate = useNavigate()
-  const { courseFont } = useContext(Font)
+function ChapterName({ children, navIndex, isChapter }) {
+  const navigate = useNavigate();
+  const { settings } = useContext(AppSettings);
   function handleNavigate() {
-    navigate(navIndex)
+    navigate(navIndex);
   }
 
   return (
     <div
-      className={(isChapter) ? styles.chapterBlock : styles.subchapterBlock}
-      style={{fontSize: ((isChapter) ? courseFont : courseFont - 2) + "px"}}
+      className={isChapter ? styles.chapterBlock : styles.subchapterBlock}
+      style={{ fontSize: `${isChapter ? settings.courseFont : settings.courseFont - 2}px` }}
       onClick={handleNavigate}
     >
       {children}
     </div>
   );
-};
+}
 
 export default ChapterName;

@@ -12,7 +12,13 @@ import path from 'path';
 import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
-import { readJson, resolveHtmlPath, setupJson, writeJson} from './util';
+import {
+  initializeCoursesFile,
+  initializeSettings, readCourseData,
+  readSettings,
+  resolveHtmlPath, updateCourseCompletion, updateCourseData,
+  updateSettings
+} from './util';
 
 const { globalShortcut } = require('electron');
 
@@ -26,12 +32,26 @@ class AppUpdater {
 
 let mainWindow: BrowserWindow | null = null;
 
-ipcMain.handle('readJson', () => {
-  return readJson();
+ipcMain.handle('readSettings', (event) => {
+  return readSettings();
 });
 
-ipcMain.on('writeJson', async (event, data) => {
-  await writeJson(data);
+ipcMain.on('updateSettings', (event, data) => {
+  updateSettings(data);
+});
+
+ipcMain.handle('readCourseData', (event, courseId) => {
+  return readCourseData(courseId);
+});
+
+ipcMain.on('updateCourseData', (event, args) => {
+  const { data, courseId } = args
+  updateCourseData(data, courseId);
+});
+
+ipcMain.on('updateCourseCompletion', (event, args) => {
+  const { courseCompletion, courseId } = args
+  updateCourseCompletion(courseCompletion, courseId);
 });
 
 ipcMain.on('center', () => {
@@ -43,7 +63,7 @@ ipcMain.on('minimize', () => {
 });
 
 ipcMain.on('close', () => {
-  app.quit()
+  app.quit();
 });
 
 if (process.env.NODE_ENV === 'production') {
@@ -72,9 +92,9 @@ const installExtensions = async () => {
 };
 
 const createWindow = async () => {
-  if (isDebug) {
-    await installExtensions();
-  }
+  // if (isDebug) {
+  //   await installExtensions();
+  // }
 
   const RESOURCES_PATH = app.isPackaged
     ? path.join(process.resourcesPath, 'assets')
@@ -92,7 +112,7 @@ const createWindow = async () => {
     frame: false,
     icon: getAssetPath('icon.png'),
     webPreferences: {
-      devTools: true, //false
+      devTools: true, // false
       preload: app.isPackaged
         ? path.join(__dirname, 'preload.js')
         : path.join(__dirname, '../../.erb/dll/preload.js'),
@@ -113,7 +133,9 @@ const createWindow = async () => {
   });
 
   mainWindow.setMenuBarVisibility(false);
-  setupJson();
+
+  initializeSettings() // initializing app settings
+  initializeCoursesFile() // initialize courses data file
 
   mainWindow.on('closed', () => {
     mainWindow = null;
@@ -127,8 +149,7 @@ const createWindow = async () => {
 
   // Remove this if your app does not use auto updates
   // eslint-disable-next-line
-
-  new AppUpdater();
+  //new AppUpdater();
 };
 
 /**

@@ -1,32 +1,39 @@
-import React, { useContext } from 'react';
-import styles from "./settings.module.css"
-import ArrowLeftBtn from '../../components/buttons/arrowLeftBtn';
+import React, { useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import styles from './settings.module.css';
+import ArrowLeftBtn from '../../components/buttons/arrowLeftBtn';
 import ToggleBtn from '../../components/buttons/toggleBtn';
 import SelectField from '../../components/taskPageElements/selectField';
-import { MenuResolution } from '../../App';
+import { AppSettings } from '../../App';
 
-const Settings = ({frame, onFrameChange}) => {
+function Settings() {
   const navigate = useNavigate();
-  const {menuResolution, handleMenuResolutionChange} = useContext(MenuResolution)
-  function handleGoBack() {
-    navigate("/")
-  }
+  const { settings, handleSettingsChange } = useContext(AppSettings);
+
+  useEffect(() => {
+    window.resizeTo( ...settings.menuResolution );
+    window.electron.ipcRenderer.sendMessage('center');
+  }, [settings]);
+
   function onResolutionChange(label, index, value) {
-    handleMenuResolutionChange(value)
+    handleSettingsChange({ menuResolution: value });
   }
 
   const resolutions = [
     { value: [520, 400], label: 'Маленький екран' },
     { value: [780, 560], label: 'Середній екран' },
     { value: [1280, 960], label: 'Великий екран' },
-  ]
+  ];
+
+  const defaultResolution = resolutions.find((e) =>
+    e.value.every((e, i) => e === settings.menuResolution[i])
+  )
 
   return (
     <div className={styles.container}>
       <div className={styles.setting}>
         <div className={styles.btn}>
-          <ToggleBtn toggled={frame} onClick={() => onFrameChange(!frame)}/>
+          <ToggleBtn toggled={settings.hasFrame} onClick={() => handleSettingsChange({hasFrame: !settings.hasFrame})} />
         </div>
         <div className={styles.settingText}> Рамка вікна </div>
       </div>
@@ -34,20 +41,20 @@ const Settings = ({frame, onFrameChange}) => {
       <div className={styles.setting}>
         <div className={styles.selectField}>
           <SelectField
-            minWidth={"40vh"}
+            minWidth="40vh"
             options={resolutions}
             onChange={onResolutionChange}
-            defaultValue={resolutions.find((e) => e.value.every((e,i) => e === menuResolution[i]))}
+            defaultValue={defaultResolution}
           />
         </div>
         <div className={styles.settingText}> Розмір вікна </div>
       </div>
 
       <div className={styles.btn}>
-        <ArrowLeftBtn onClick={handleGoBack}/>
+        <ArrowLeftBtn onClick={() => navigate(-1)} />
       </div>
     </div>
   );
-};
+}
 
 export default Settings;

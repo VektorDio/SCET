@@ -4,9 +4,18 @@ import path from 'path';
 import fs from 'fs';
 
 const appPath =
-  process.env.NODE_ENV === 'production'
-    ? process.resourcesPath
-    : __dirname;
+  process.env.NODE_ENV === 'production' ? process.resourcesPath : __dirname;
+
+const settingsFileName = 'settings.json'
+const coursesDataFileName = 'courses.json'
+
+const defaultSettings = {
+  hasFrame: true,
+  menuResolution: [780, 560],
+  courseResolution: [1920, 1080],
+  courseFont: 26,
+  courseScroll: 0,
+}
 
 export function resolveHtmlPath(htmlFileName: string) {
   if (process.env.NODE_ENV === 'development') {
@@ -19,83 +28,74 @@ export function resolveHtmlPath(htmlFileName: string) {
   return `file://${path.resolve(__dirname, '../renderer/', htmlFileName)}`;
 }
 
-export async function writeJson(data: Object) {
-  const currentData = readJson();
-  await fs.writeFile(
-    path.join(appPath, 'localstorage.json'),
+function readJson(fileName: string): JSON {
+  const data = fs.readFileSync(path.join(appPath, fileName), {
+      encoding: 'utf8',
+  });
+  return JSON.parse(data.toString());
+}
+
+function updateJson(data: Object, fileName: string) {
+  const currentData = readJson(fileName);
+  fs.writeFileSync( path.join(appPath, fileName),
     JSON.stringify({
       ...currentData,
       ...data,
-    }),
-    (err) => {
-      if (err) throw err;
-      console.log('Saved!');
-    }
+    })
   );
 }
 
-export function readJson() {
+function writeJson(data: Object, fileName: string) {
+  fs.writeFileSync( path.join(appPath, fileName),
+    JSON.stringify({
+      ...data,
+    })
+  );
+}
 
-  // const data = await fsp.readFile(
-  //   path.join(__dirname, '../localstorage.json'),
-  //   { encoding: 'utf8' })
+export function initializeSettings() {
+  try {
+    fs.openSync(path.join(appPath, settingsFileName), 'r');
+  } catch (e) {
+    console.log("Error opening settings, creating new. Message: " + e)
+    writeJson(defaultSettings, settingsFileName)
+  }
+}
 
-  const data = fs.readFileSync(
-    path.join(appPath, 'localstorage.json'),
-    { encoding: 'utf8' })
+export function readSettings() {
+  const data = fs.readFileSync(path.join(appPath, settingsFileName), {
+    encoding: 'utf8',
+  });
   return JSON.parse(data.toString());
 }
-export function setupJson() {
-  const data = {
-    courseCompletion: 0,
-    task1: {
-      completed: false,
-      bestTime: 0,
-      tries: 0,
-    },
-    task2: {
-      completed: false,
-      bestTime: 0,
-      tries: 0,
-    },
-    task3: {
-      completed: false,
-      bestTime: 0,
-      tries: 0,
-    },
-    task4: {
-      completed: false,
-      bestTime: 0,
-      tries: 0,
-    },
-    task5: {
-      completed: false,
-      bestTime: 0,
-      tries: 0,
-    },
-    task6: {
-      completed: false,
-      bestTime: 0,
-      tries: 0,
-    },
-    task7: {
-      completed: false,
-      bestTime: 0,
-      tries: 0,
-    },
-    task8: {
-      completed: false,
-      bestTime: 0,
-      tries: 0,
-    },
-  };
 
-  fs.open(path.join(appPath, 'localstorage.json'), 'r', (err) => {
-      if (err) {
-        fs.writeFile(path.join(appPath, 'localstorage.json'),
-          JSON.stringify(data), function (err) {
-            if (err) throw err;
-          });
-      }
-  })
+export function updateSettings(data: Object) {
+  updateJson(data, settingsFileName)
+}
+
+export function initializeCoursesFile() {
+  try {
+    fs.openSync(path.join(appPath, coursesDataFileName), 'r');
+  } catch (e) {
+    console.log("Error opening courses info, creating new. Message: " + e)
+    writeJson({}, coursesDataFileName)
+  }
+}
+
+export function readCourseData(courseId: string): JSON {
+  const data = readJson(coursesDataFileName)
+  // @ts-ignore
+  return data[courseId];
+}
+
+export function updateCourseData(data: Object, courseId: string) {
+  const currentData = readJson(coursesDataFileName)
+  // @ts-ignore
+  writeJson({[courseId]: { ...currentData[courseId], ...data }}, coursesDataFileName)
+}
+
+export function updateCourseCompletion(data: number, courseId: string) {
+  const currentData = readJson(coursesDataFileName)
+  // @ts-ignore
+  writeJson({[courseId]: { ...currentData[courseId], courseCompletion: data }}, coursesDataFileName)
 }
