@@ -1,31 +1,32 @@
 .container{
+  display: flex;
   position: relative;
   height: 35px;
-  display: flex;
   align-items: center;
-  justify-content: space-between;
   user-select: none;
+  width: 100%;
 }
 
 .appName{
   font-size: 0.6rem;
   font-weight: 600;
   padding: 10px;
+  width: 80%;
   -webkit-app-region: drag;
 }
 
 .btnGroup{
   display: flex;
+  width: 20%;
 }
 
 .btn{
-  display: flex;
-  justify-content: center;
   padding: 0 20px;
   line-height: 10px;
   height: 35px;
   width: 7.5vw;
   user-select: none;
+  margin-left: auto;
 }
 
 .closeBtn{

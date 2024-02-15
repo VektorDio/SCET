@@ -10,22 +10,21 @@ function FrameBar({ display }) {
     window.electron.ipcRenderer.sendMessage('close');
   }
 
-  return (
-    <div
-      className={styles.container}
-      style={{ display: display ? 'flex' : 'none' }}
-    >
-      <div className={styles.appName}>CSE Trainer</div>
-      <div className={styles.btnGroup}>
-        <div className={styles.btn} onClick={handleMinimizeToTray}>
-          _
-        </div>
-        <div className={styles.closeBtn} onClick={handleAppQuite}>
-          ✕
+  if (display) {
+    return (
+      <div className={styles.container}>
+        <div className={styles.appName}>CSE Trainer</div>
+        <div className={styles.btnGroup}>
+          <div className={styles.btn} onClick={handleMinimizeToTray}>
+            _
+          </div>
+          <div className={styles.closeBtn} onClick={handleAppQuite}>
+            ✕
+          </div>
         </div>
       </div>
-    </div>
-  );
+    );
+  } else return null
 }
 
 export default FrameBar;
