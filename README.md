@@ -19,7 +19,7 @@ Version 1.0
 <a href="https://github.com/VektorDio/SCET/issues">Request Feature</a>
 </p>
 
-![Downloads](https://img.shields.io/github/downloads/VektorDio/SCET/total) ![License](https://img.shields.io/github/license/SCET/Nextforms) 
+![Downloads](https://img.shields.io/github/downloads/VektorDio/SCET/total) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
 
 ## Table Of Contents
 
