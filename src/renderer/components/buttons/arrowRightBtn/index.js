@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from './arrowRight.module.css';
 
-function ArrowRightBtn({ onClick }) {
+function ArrowRightBtn({ onClick, disabled }) {
   return (
-    <div className={styles.button} onClick={onClick}>
+    <div className={(disabled) ? styles.buttonDisabled : styles.button} onClick={() => (!disabled) && onClick()} >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 448 512"

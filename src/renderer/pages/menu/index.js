@@ -36,13 +36,9 @@ function Menu() {
       </div>
 
       <div className={styles.buttonGroup}>
-        {
-          (selectedCourseId) && (
-            <div className={styles.btn}>
-              <ArrowRightBtn onClick={handleCourseEnter} />
-            </div>
-          )
-        }
+        <div className={styles.btn}>
+          <ArrowRightBtn onClick={handleCourseEnter} disabled={(!selectedCourseId)}/>
+        </div>
         <div className={styles.btn}>
           <GearBtn onClick={handleSettingsEnter} />
         </div>
