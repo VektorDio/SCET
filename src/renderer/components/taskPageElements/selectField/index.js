@@ -7,7 +7,6 @@ function SelectField({
   index,
   defaultValue,
   placeholder,
-  minWidth,
   border,
 }) {
   return (
@@ -23,7 +22,9 @@ function SelectField({
           backgroundColor: 'rgb(77,77,77)',
           borderColor: border ? 'rgb(33,33,33)' : 'rgb(77,77,77)',
           borderWidth: '3px',
-          minWidth,
+          fontSize: "0.6rem",
+          width: "max-content",
+          minWidth: "100%",
           boxShadow: 'none',
           '&:hover': {
             borderColor: '#6495ed',
@@ -44,6 +45,7 @@ function SelectField({
           color: 'white',
           display: 'flex',
           justifyContent: 'center',
+          fontSize: "0.6rem",
           backgroundColor: state.isFocused && '#6495ed',
         }),
       }}

@@ -96,7 +96,7 @@ function Task() {
               label={labels[i]}
               key={i}
             >
-              <TaskImage src={img} width="80%" />
+              <TaskImage src={img}/>
             </ClickBlock>
           ))}
         </div>

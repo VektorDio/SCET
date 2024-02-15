@@ -13,7 +13,7 @@ const defaultSettings = {
   hasFrame: true,
   menuResolution: [780, 560],
   courseResolution: [1920, 1080],
-  courseFont: 26,
+  fontSize: 26,
   courseScroll: 0,
 }
 
@@ -94,34 +94,3 @@ export function updateCourseData(data: Object, courseId: string) {
   writeJson({[courseId]: { ...currentData[courseId], ...data }}, coursesDataFileName)
 }
 
-export function updateCourseCompletion(data: number, courseId: string) {
-  const currentData = readJson(coursesDataFileName)
-  // @ts-ignore
-  writeJson({[courseId]: { ...currentData[courseId], courseCompletion: data }}, coursesDataFileName)
-}
-
-export function initializeCoursesData(courseIds: [string], amountOfTasks: [number]) {
-  const localData = readJson(coursesDataFileName)
-  let coursesData = {}
-
-  courseIds.map((e, index) => {
-    // @ts-ignore
-    if (localData[e] === undefined) {
-      let data = {
-        courseCompletion: 0,
-      }
-      for (let i = 0; i < amountOfTasks[index]; i++){
-        // @ts-ignore
-        data["task" + (i + 1)] = {
-          completed: false,
-          bestTime: 0,
-          tries: 0,
-        }
-      }
-      // @ts-ignore
-      coursesData[e] = data
-    }
-  })
-
-  writeJson({...coursesData, ...localData}, coursesDataFileName)
-}

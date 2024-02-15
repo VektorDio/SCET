@@ -8,6 +8,7 @@
 }
 
 .appName{
+  font-size: 0.6rem;
   font-weight: 600;
   padding: 10px;
   -webkit-app-region: drag;
@@ -19,9 +20,9 @@
 
 .btn{
   display: flex;
-  align-items: center;
   justify-content: center;
   padding: 0 20px;
+  line-height: 10px;
   height: 35px;
   width: 7.5vw;
   user-select: none;

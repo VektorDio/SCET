@@ -17,13 +17,12 @@ function Settings() {
     handleSettingsChange({ menuResolution: value });
   }
 
-  const resolutions = [
+  const menuResolutions = [
     { value: [520, 400], label: 'Маленький екран' },
     { value: [780, 560], label: 'Середній екран' },
-    { value: [1280, 960], label: 'Великий екран' },
   ];
 
-  const defaultResolution = resolutions.find((e) =>
+  const defaultResolution = menuResolutions.find((e) =>
     e.value.every((e, i) => e === settings.menuResolution[i])
   )
 
@@ -39,8 +38,7 @@ function Settings() {
       <div className={styles.setting}>
         <div className={styles.selectField}>
           <SelectField
-            minWidth="40vh"
-            options={resolutions}
+            options={menuResolutions}
             onChange={onResolutionChange}
             defaultValue={defaultResolution}
           />
@@ -48,8 +46,10 @@ function Settings() {
         <div className={styles.settingText}> Розмір вікна </div>
       </div>
 
-      <div className={styles.btn}>
-        <ArrowLeftBtn onClick={() => navigate(-1)} />
+      <div className={styles.setting}>
+        <div className={styles.btn}>
+          <ArrowLeftBtn onClick={() => navigate(-1)} />
+        </div>
       </div>
     </div>
   );

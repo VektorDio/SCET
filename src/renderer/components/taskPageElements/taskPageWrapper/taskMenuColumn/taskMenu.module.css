@@ -10,7 +10,7 @@
 
 .columnName{
   font-weight: 600;
-  font-size: 28px;
+  font-size: 1.1rem;
   justify-content: center;
   display: flex;
   padding-bottom: 20px;
@@ -30,7 +30,7 @@
 
 .completionText{
   font-weight: 600;
-  font-size: 24px;
+  font-size: 1rem;
   align-items: center;
   justify-content: center;
   display: flex;
@@ -49,28 +49,27 @@
 .timer{
   display: flex;
   font-weight: 600;
-  font-size: 22px;
+  font-size: 0.9rem;
   padding: 12px 15px;
   justify-content: center;
 }
 
 .taskText{
   font-weight: 600;
-  font-size: 20px;
+  font-size: 0.7rem;
   padding: 12px 15px;
 }
 
 .completedText{
-
   font-weight: 600;
-  font-size: 32px;
+  font-size: 1rem;
   color: #6495ed;
   user-select: none;
 }
 
 .uncompletedText{
   font-weight: 600;
-  font-size: 30px;
+  font-size: 1rem;
   color: #000000;
   user-select: none;
 }

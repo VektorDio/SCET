@@ -13,14 +13,13 @@ function CourseSettings({ onCourseRestart }) {
   useKeepResolution(settings.menuResolution)
 
   const resolutions = [
-    { value: [840, 580], label: 'Маленький екран' },
     { value: [1280, 960], label: 'Середній екран' },
     { value: [1920, 1080], label: 'Великий екран' },
   ];
   const fonts = [
-    { value: 16, label: 'Маленький шрифт' },
+    { value: 18, label: 'Маленький шрифт' },
     { value: 26, label: 'Середній шрифт' },
-    { value: 34, label: 'Великий шрифт' },
+    { value: 32, label: 'Великий шрифт' },
   ];
 
   function handleGoBack() {
@@ -28,7 +27,7 @@ function CourseSettings({ onCourseRestart }) {
   }
 
   function onFontChange(label, index, value) {
-    handleSettingsChange({ courseFont: value });
+    handleSettingsChange({ fontSize: value });
   }
 
   function onResolutionChange(label, index, value) {
@@ -64,14 +63,16 @@ function CourseSettings({ onCourseRestart }) {
             minWidth="40vh"
             options={fonts}
             onChange={onFontChange}
-            defaultValue={fonts.find((e) => e.value === settings.courseFont)}
+            defaultValue={fonts.find((e) => e.value === settings.fontSize)}
           />
         </div>
         <div className={styles.settingText}> Розмір шрифту </div>
       </div>
 
-      <div className={styles.btn}>
-        <ArrowLeftBtn onClick={handleGoBack} />
+      <div className={styles.setting}>
+        <div className={styles.btn}>
+          <ArrowLeftBtn onClick={handleGoBack} />
+        </div>
       </div>
     </div>
   );

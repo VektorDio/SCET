@@ -1,5 +1,5 @@
 .container{
-  padding: 10vh;
+  padding: 6vh;
   height: 100%;
   background-color: #3b3939;
 }
@@ -13,18 +13,20 @@
 .setting{
   display: flex;
   align-items: center;
+  justify-content: start;
   user-select: none;
+  height: 25%;
 }
 
 .settingText{
   font-weight: 600;
-  font-size: 5vh;
+  font-size: 0.9rem;
 }
 
 .selectField{
   display: flex;
   align-items: center;
   margin: 2vh;
-  width: 40vh;
+  width: max-content;
   height: 15vh;
 }

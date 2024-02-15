@@ -10,10 +10,10 @@ import Login from './pages/login';
 import SCECourse, { taskRefs, chapterRefs } from '../courses/SCECourse';
 
 const localSettings = await window.electron.ipcRenderer.invoke('readSettings')
-const courseIds = [ "SCE_course", "test"]
-const amountOfTasks = [ taskRefs.length, 2]
-
-window.electron.ipcRenderer.sendMessage('initializeCoursesData', { courseIds, amountOfTasks })
+const courseSignatures = [
+  { id: 'SCE_course', amountOfTasks: taskRefs.length },
+  { id: 'test', amountOfTasks: 2 }
+]
 
 export const AppSettings = createContext(localSettings)
 export const CourseData = createContext({})
@@ -27,7 +27,12 @@ export default function App() {
   useEffect(() => {
     async function getCourseData() {
       const courseLocalData = await window.electron.ipcRenderer.invoke('readCourseData', courseId)
-      setCourseData(courseLocalData)
+      if (courseLocalData === undefined) {
+        const { id:selectedCourseId, amountOfTasks } = courseSignatures.find((e) => e.id === courseId)
+        initializeCourse(selectedCourseId, amountOfTasks)
+      } else {
+        setCourseData(courseLocalData)
+      }
     }
 
     if (courseId !== undefined) {
@@ -38,7 +43,7 @@ export default function App() {
   function handleCourseDataChange(data) {
     // @ts-ignore
     window.electron.ipcRenderer.sendMessage('updateCourseData', { data, courseId })
-    updateCompletion({...courseData, ...data})
+    updateWithCompletion(data)
   }
 
   function handleSettingsChange(value) {
@@ -47,7 +52,8 @@ export default function App() {
     setSettings((prev) => ({ ...prev, ...value}))
   }
 
-  function updateCompletion(newCourseData) {
+  function updateWithCompletion(data) {
+    let newCourseData = { ...courseData, ...data }
     let taskCompletionCounter = 0
 
     for (const property in newCourseData) {
@@ -59,9 +65,30 @@ export default function App() {
       }
     }
 
-    let courseCompletion = (taskCompletionCounter / taskRefs.length) * 100 // calculating percentage based on amount of tasks
-    setCourseData({ ...newCourseData, courseCompletion: courseCompletion })
-    window.electron.ipcRenderer.sendMessage('updateCourseCompletion', { courseCompletion, courseId })
+    newCourseData.courseCompletion = (taskCompletionCounter / taskRefs.length) * 100 // calculating percentage based on amount of tasks
+    setCourseData(newCourseData)
+    window.electron.ipcRenderer.sendMessage('updateCourseData', { data:newCourseData, courseId })
+  }
+
+  function initializeCourse(selectedCourseId, amountOfTasks) {
+    let data = {
+      courseCompletion: 0,
+    }
+    for (let i = 0; i < amountOfTasks; i++){
+      // @ts-ignore
+      data["task" + (i + 1)] = {
+        completed: false,
+        bestTime: 0,
+        tries: 0,
+      }
+    }
+    setCourseData(data)
+    window.electron.ipcRenderer.sendMessage('updateCourseData', { data, courseId: selectedCourseId })
+  }
+
+  function onCourseRestart() {
+    const { selectedCourseId, amountOfTasks } = courseSignatures.find((e) => e.id === courseId)
+    initializeCourse(selectedCourseId, amountOfTasks)
   }
 
   const taskInfoRoutes = taskRefs.map((e, i) => (
@@ -99,11 +126,12 @@ export default function App() {
       );
     }))
 
+  document.documentElement.style.fontSize = settings.fontSize + 'px' // setting fontsize to html element
 
   return (
     <>
       <FrameBar display={ settings.hasFrame } />
-      <div style={{ height: settings.hasFrame ? '97.5vh' : '100vh', overflow: ' hidden' }}>
+      <div style={{ height: settings.hasFrame ? '97.5vh' : '100vh', overflow: 'hidden' }}>
         <AppSettings.Provider value={{ settings, handleSettingsChange }}>
           <CourseData.Provider value={{ courseData, handleCourseDataChange }}>
             <CourseId.Provider value={{ courseId, setCourseId }}>
@@ -113,7 +141,7 @@ export default function App() {
                   <Route path="/" element={<Menu />} />
                   <Route path="/menu" element={<Menu />} />
                   <Route path="/pages/settings" element={ <Settings /> } />
-                  <Route path="/pages/courseSettings" element={ <CourseSettings /> } />
+                  <Route path="/pages/courseSettings" element={ <CourseSettings onCourseRestart={onCourseRestart}/> } />
                   <Route path="/pages/course" element={<SCECourse />} />
                   { taskInfoRoutes }
                   { taskRoutes }

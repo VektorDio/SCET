@@ -13,11 +13,10 @@ import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import {
-  initializeCoursesData,
   initializeCoursesFile,
   initializeSettings, readCourseData,
   readSettings,
-  resolveHtmlPath, updateCourseCompletion, updateCourseData,
+  resolveHtmlPath, updateCourseData,
   updateSettings
 } from './util';
 
@@ -50,22 +49,16 @@ ipcMain.on('updateCourseData', (event, args) => {
   updateCourseData(data, courseId);
 });
 
-ipcMain.on('initializeCoursesData', (event, args) => {
-  const { courseIds, amountOfTasks } = args
-  initializeCoursesData(courseIds, amountOfTasks)
-});
-
-ipcMain.on('updateCourseCompletion', (event, args) => {
-  const { courseCompletion, courseId } = args
-  updateCourseCompletion(courseCompletion, courseId);
-});
-
 ipcMain.on('center', () => {
   mainWindow?.center();
 });
 
 ipcMain.on('minimize', () => {
   mainWindow?.minimize();
+});
+
+ipcMain.on('setResizable', (event, data) => {
+  mainWindow?.setResizable(data);
 });
 
 ipcMain.on('close', () => {
@@ -117,7 +110,7 @@ const createWindow = async () => {
   mainWindow = new BrowserWindow({
     width: 780,
     height: 560,
-    resizable: false,
+    resizable: true,
     show: false,
     frame: false,
     icon: getAssetPath('icon.png'),

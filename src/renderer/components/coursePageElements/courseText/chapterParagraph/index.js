@@ -1,11 +1,9 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import styles from './chapterParagraph.module.css';
-import { AppSettings } from '../../../../App';
 
 function ChapterParagraph({ children }) {
-  const { settings } = useContext(AppSettings);
   return (
-    <div className={styles.container} style={{ fontSize: `${settings.courseFont}px` }}>
+    <div className={styles.container}>
       {children}
     </div>
   );
