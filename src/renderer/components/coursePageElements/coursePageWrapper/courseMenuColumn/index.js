@@ -5,7 +5,7 @@ import ChapterName from './chapterName';
 import ArrowLeftBtn from '../../../buttons/arrowLeftBtn';
 import GearBtn from '../../../buttons/gearBtn';
 import { AppSettings, CourseData } from '../../../../App';
-import { taskRefs } from '../../../../courses/SCECourse';
+import { taskRefs } from '../../../../../courses/SCECourse';
 
 function CourseBody() {
   const navigate = useNavigate();

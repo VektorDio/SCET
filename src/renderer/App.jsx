@@ -7,9 +7,13 @@ import Settings from './pages/settings/settings';
 import CourseSettings from './pages/courseSettings/settings';
 import Login from './pages/login';
 
-import SCECourse, { taskRefs, chapterRefs } from './courses/SCECourse';
+import SCECourse, { taskRefs, chapterRefs } from '../courses/SCECourse';
 
 const localSettings = await window.electron.ipcRenderer.invoke('readSettings')
+const courseIds = [ "SCE_course", "test"]
+const amountOfTasks = [ taskRefs.length, 2]
+
+window.electron.ipcRenderer.sendMessage('initializeCoursesData', { courseIds, amountOfTasks })
 
 export const AppSettings = createContext(localSettings)
 export const CourseData = createContext({})
@@ -17,30 +21,18 @@ export const CourseId = createContext(null)
 
 export default function App() {
   const [settings, setSettings] = useState(localSettings)
-  const [courseId, setCourseId] = useState("test")
+  const [courseId, setCourseId] = useState()
   const [courseData, setCourseData] = useState({})
 
   useEffect(() => {
     async function getCourseData() {
       const courseLocalData = await window.electron.ipcRenderer.invoke('readCourseData', courseId)
-      if (courseLocalData === undefined) {
-        let data = {
-          courseCompletion: 0,
-        }
-        taskRefs.map((e, i) => {
-          data["task" + (i + 1)] = {
-              completed: false,
-              bestTime: 0,
-              tries: 0,
-          }
-        })
-        window.electron.ipcRenderer.sendMessage('updateCourseData', { data, courseId })
-        setCourseData(data)
-      } else {
-        setCourseData(courseLocalData)
-      }
+      setCourseData(courseLocalData)
     }
-    getCourseData()
+
+    if (courseId !== undefined) {
+      getCourseData()
+    }
   }, [courseId])
 
   function handleCourseDataChange(data) {
@@ -107,6 +99,7 @@ export default function App() {
       );
     }))
 
+
   return (
     <>
       <FrameBar display={ settings.hasFrame } />
@@ -119,9 +112,9 @@ export default function App() {
                   {/*<Route path="/" element={<Login />} />*/}
                   <Route path="/" element={<Menu />} />
                   <Route path="/menu" element={<Menu />} />
-                  <Route path="/pages/course" element={<SCECourse />} />
                   <Route path="/pages/settings" element={ <Settings /> } />
                   <Route path="/pages/courseSettings" element={ <CourseSettings /> } />
+                  <Route path="/pages/course" element={<SCECourse />} />
                   { taskInfoRoutes }
                   { taskRoutes }
                   { chapterRoutes }

@@ -1,19 +1,23 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './menu.module.css';
 import CourseEntry from '../../components/courseEntry';
 import GearBtn from '../../components/buttons/gearBtn';
 import ArrowRightBtn from '../../components/buttons/arrowRightBtn';
 import XBtn from '../../components/buttons/xBtn';
-import { AppSettings } from '../../App';
+import { AppSettings, CourseId } from '../../App';
 import useKeepResolution from '../../../hooks/useKeepResolution';
 
 function Menu() {
   const navigate = useNavigate();
   const { settings } = useContext(AppSettings);
+  const { setCourseId } = useContext(CourseId)
+  const [selectedCourseId, setSelectedCourseId] = useState()
+
   useKeepResolution(settings.menuResolution)
 
   function handleCourseEnter() {
+    setCourseId(selectedCourseId)
     navigate('/pages/course');
   }
   function handleSettingsEnter() {
@@ -26,13 +30,19 @@ function Menu() {
   return (
     <div className={styles.container}>
       <div className={styles.list}>
-        <CourseEntry>Теорiя Автоматичного Управлiння</CourseEntry>
+        <CourseEntry handleCourseSelect={() => setSelectedCourseId("SCE_course")}>
+          Теорiя Автоматичного Управлiння
+        </CourseEntry>
       </div>
 
       <div className={styles.buttonGroup}>
-        <div className={styles.btn}>
-          <ArrowRightBtn onClick={handleCourseEnter} />
-        </div>
+        {
+          (selectedCourseId) && (
+            <div className={styles.btn}>
+              <ArrowRightBtn onClick={handleCourseEnter} />
+            </div>
+          )
+        }
         <div className={styles.btn}>
           <GearBtn onClick={handleSettingsEnter} />
         </div>

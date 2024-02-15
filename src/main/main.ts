@@ -13,6 +13,7 @@ import { app, BrowserWindow, shell, ipcMain } from 'electron';
 import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import {
+  initializeCoursesData,
   initializeCoursesFile,
   initializeSettings, readCourseData,
   readSettings,
@@ -49,6 +50,11 @@ ipcMain.on('updateCourseData', (event, args) => {
   updateCourseData(data, courseId);
 });
 
+ipcMain.on('initializeCoursesData', (event, args) => {
+  const { courseIds, amountOfTasks } = args
+  initializeCoursesData(courseIds, amountOfTasks)
+});
+
 ipcMain.on('updateCourseCompletion', (event, args) => {
   const { courseCompletion, courseId } = args
   updateCourseCompletion(courseCompletion, courseId);
@@ -64,6 +70,10 @@ ipcMain.on('minimize', () => {
 
 ipcMain.on('close', () => {
   app.quit();
+});
+
+ipcMain.on('test', (event, data) => {
+  console.log(data)
 });
 
 if (process.env.NODE_ENV === 'production') {
