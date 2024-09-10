@@ -7,7 +7,7 @@ import { CourseData } from '../../../../../../renderer/App';
 
 function TaskInfo() {
   const taskId = 'task6';
-  const { courseData } = useContext(CourseData)
+  const { courseData } = useContext(CourseData);
   const task = courseData[taskId];
 
   return (
@@ -18,8 +18,8 @@ function TaskInfo() {
         редуктор, пневматичний циліндр та демпферна пружина. Потрібно підібрати
         ланку, яка найкраще описую принцип роботи даних систем.
         <TaskInfoBar
-          time={ task.bestTime }
-          tries={ task.tries }
+          time={task.bestTime}
+          tries={task.tries}
           selectedCourse="/tasks/6/task"
         />
       </ChapterParagraph>

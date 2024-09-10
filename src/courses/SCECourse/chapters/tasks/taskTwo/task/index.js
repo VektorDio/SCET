@@ -30,7 +30,7 @@ function Task() {
     selectedOptions.length > 0;
 
   function handleCheck() {
-    handleAttempt(isTaskSolved)
+    handleAttempt(isTaskSolved);
   }
 
   const options = useMemo(() => {

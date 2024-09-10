@@ -7,7 +7,7 @@ import { CourseData } from '../../../../../../renderer/App';
 
 function TaskInfo() {
   const taskId = 'task2';
-  const { courseData } = useContext(CourseData)
+  const { courseData } = useContext(CourseData);
   const task = courseData[taskId];
 
   return (
@@ -19,8 +19,8 @@ function TaskInfo() {
         Придівіться до зображень вхідних сигналів та виберіть із випадаючого
         списку правильний пункт.
         <TaskInfoBar
-          time={ task.bestTime }
-          tries={ task.tries }
+          time={task.bestTime}
+          tries={task.tries}
           selectedCourse="/tasks/2/task"
         />
       </ChapterParagraph>

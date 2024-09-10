@@ -11,7 +11,7 @@ function ChapterName({ children, navIndex, isChapter }) {
   return (
     <div
       className={isChapter ? styles.chapterBlock : styles.subchapterBlock}
-      style={{ fontSize: isChapter ? "0.9rem" : "0.8rem" }}
+      style={{ fontSize: isChapter ? '0.9rem' : '0.8rem' }}
       onClick={handleNavigate}
     >
       {children}

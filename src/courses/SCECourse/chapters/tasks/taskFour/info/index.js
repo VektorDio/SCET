@@ -7,7 +7,7 @@ import { CourseData } from '../../../../../../renderer/App';
 
 function TaskInfo() {
   const taskId = 'task4';
-  const { courseData } = useContext(CourseData)
+  const { courseData } = useContext(CourseData);
   const task = courseData[taskId];
 
   return (
@@ -15,12 +15,12 @@ function TaskInfo() {
       <ChapterTitle> Задача 1.4 </ChapterTitle>
       <ChapterParagraph>
         Принципи управління САУ. В даній задачі потрібно відтворити систему
-        управління за збуренням. Така система складаеться з регулятора, об'єкту
-        регулювання та компенсаційного каналу, який вимірює збурення та передає
-        його сигнал на регулятор.
+        управління за збуренням. Така система складаеться з регулятора,
+        об&apos;єкту регулювання та компенсаційного каналу, який вимірює
+        збурення та передає його сигнал на регулятор.
         <TaskInfoBar
-          time={ task.bestTime }
-          tries={ task.tries }
+          time={task.bestTime}
+          tries={task.tries}
           selectedCourse="/tasks/4/task"
         />
       </ChapterParagraph>

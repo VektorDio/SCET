@@ -7,7 +7,7 @@ import { CourseData } from '../../../../../../renderer/App';
 
 function TaskInfo() {
   const taskId = 'task7';
-  const { courseData } = useContext(CourseData)
+  const { courseData } = useContext(CourseData);
   const task = courseData[taskId];
 
   return (
@@ -18,8 +18,8 @@ function TaskInfo() {
         ситему, описану перехідною функцією. Вам потрібно визначити відповідні
         нахили, зоб побудувати ЛАФЧХ.
         <TaskInfoBar
-          time={ task.bestTime }
-          tries={ task.tries }
+          time={task.bestTime}
+          tries={task.tries}
           selectedCourse="/tasks/7/task"
         />
       </ChapterParagraph>

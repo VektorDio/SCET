@@ -17,17 +17,16 @@ function Task() {
     selectedOptions.every((e, i) => e === answers[i]) &&
     selectedOptions.length === answers.length;
 
-  const { time, completed, mistake, handleAttempt } =
-    useTask({ taskId });
+  const { time, completed, mistake, handleAttempt } = useTask({ taskId });
 
   useEffect(() => {
     if (completed) {
       setSelectedOptions([...answers]);
     }
-  }, [completed])
+  }, [completed]);
 
   function handleCheck() {
-    handleAttempt(isTaskSolved)
+    handleAttempt(isTaskSolved);
   }
 
   const optionsLabels = ['+40', '+20', '0', '-20', '-40'];
@@ -45,7 +44,7 @@ function Task() {
   const data = [{ x: 0.1, y: startPoint }];
 
   phasePoints.forEach((e, i) => {
-    const angle = parseInt(selectedOptions[i]);
+    const angle = parseInt(selectedOptions[i], 10);
     const y = data[i].y + angle * Math.log10(e / data[i].x);
     data.push({ x: e, y });
   });

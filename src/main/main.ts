@@ -14,10 +14,12 @@ import { autoUpdater } from 'electron-updater';
 import log from 'electron-log';
 import {
   initializeCoursesFile,
-  initializeSettings, readCourseData,
+  initializeSettings,
+  readCourseData,
   readSettings,
-  resolveHtmlPath, updateCourseData,
-  updateSettings
+  resolveHtmlPath,
+  updateCourseData,
+  updateSettings,
 } from './util';
 
 const { globalShortcut } = require('electron');
@@ -45,7 +47,7 @@ ipcMain.handle('readCourseData', (event, courseId) => {
 });
 
 ipcMain.on('updateCourseData', (event, args) => {
-  const { data, courseId } = args
+  const { data, courseId } = args;
   updateCourseData(data, courseId);
 });
 
@@ -66,7 +68,7 @@ ipcMain.on('close', () => {
 });
 
 ipcMain.on('test', (event, data) => {
-  console.log(data)
+  console.log(data);
 });
 
 if (process.env.NODE_ENV === 'production') {
@@ -137,8 +139,8 @@ const createWindow = async () => {
 
   mainWindow.setMenuBarVisibility(false);
 
-  initializeSettings() // initializing app settings
-  initializeCoursesFile() // initialize courses data file
+  initializeSettings(); // initializing app settings
+  initializeCoursesFile(); // initialize courses data file
 
   mainWindow.on('closed', () => {
     mainWindow = null;

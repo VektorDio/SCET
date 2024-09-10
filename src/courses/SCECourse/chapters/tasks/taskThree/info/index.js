@@ -7,7 +7,7 @@ import { CourseData } from '../../../../../../renderer/App';
 
 function TaskInfo() {
   const taskId = 'task3';
-  const { courseData } = useContext(CourseData)
+  const { courseData } = useContext(CourseData);
   const task = courseData[taskId];
 
   return (
@@ -18,14 +18,14 @@ function TaskInfo() {
         стабілізації швидкості двигуна. Така система складаеться з датчика,
         підсилювача, електродвигуна, диску та контроллера. Датчик вимірює
         швидкість обертання диску електродвигуна та передає свій сигнал на
-        контроллер, який використовуючи зовортній зв'язок, створює керуючий
+        контроллер, який використовуючи зовортній зв&apos;язок, створює керуючий
         вплив, який подається на двигун через підсилювач. Зміст ціеї задачі
         полягає у тому, щоб правильно встановити відповідність між елементами
         системи та їх положенням у схемі. ПУ - пристрій управління. ВП -
-        виконавчий пристрій. ОУ - об'єкт управління.
+        виконавчий пристрій. ОУ - об&apos;єкт управління.
         <TaskInfoBar
-          time={ task.bestTime }
-          tries={ task.tries }
+          time={task.bestTime}
+          tries={task.tries}
           selectedCourse="/tasks/3/task"
         />
       </ChapterParagraph>

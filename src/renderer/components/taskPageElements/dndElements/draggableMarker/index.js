@@ -8,7 +8,7 @@ function DraggableMarker({ id, start, end, position }) {
     useDraggable({
       id,
       data: {
-        arrayId: parseInt(id),
+        arrayId: parseInt(id, 10),
         start,
       },
     });

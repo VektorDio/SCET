@@ -25,11 +25,10 @@ function Task() {
     selectedOptions.every((e, i) => e === answers[i]) &&
     selectedOptions.length === answers.length;
 
-  const { time, completed, mistake, handleAttempt } =
-    useTask({ taskId });
+  const { time, completed, mistake, handleAttempt } = useTask({ taskId });
 
   function handleCheck() {
-    handleAttempt(isTaskSolved)
+    handleAttempt(isTaskSolved);
   }
 
   const options = useMemo(() => {

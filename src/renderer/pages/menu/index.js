@@ -11,13 +11,13 @@ import useKeepResolution from '../../../hooks/useKeepResolution';
 function Menu() {
   const navigate = useNavigate();
   const { settings } = useContext(AppSettings);
-  const { setCourseId } = useContext(CourseId)
-  const [selectedCourseId, setSelectedCourseId] = useState()
+  const { setCourseId } = useContext(CourseId);
+  const [selectedCourseId, setSelectedCourseId] = useState();
 
-  useKeepResolution(settings.menuResolution)
+  useKeepResolution(settings.menuResolution);
 
   function handleCourseEnter() {
-    setCourseId(selectedCourseId)
+    setCourseId(selectedCourseId);
     navigate('/pages/course');
   }
   function handleSettingsEnter() {
@@ -30,14 +30,19 @@ function Menu() {
   return (
     <div className={styles.container}>
       <div className={styles.list}>
-        <CourseEntry handleCourseSelect={() => setSelectedCourseId("SCE_course")}>
+        <CourseEntry
+          handleCourseSelect={() => setSelectedCourseId('SCE_course')}
+        >
           Теорiя Автоматичного Управлiння
         </CourseEntry>
       </div>
 
       <div className={styles.buttonGroup}>
         <div className={styles.btn}>
-          <ArrowRightBtn onClick={handleCourseEnter} disabled={(!selectedCourseId)}/>
+          <ArrowRightBtn
+            onClick={handleCourseEnter}
+            disabled={!selectedCourseId}
+          />
         </div>
         <div className={styles.btn}>
           <GearBtn onClick={handleSettingsEnter} />

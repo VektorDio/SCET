@@ -28,17 +28,16 @@ function Task() {
   const answers = [true, true, true, false, false, false, false];
   const isTaskSolved = selected.every((e, i) => e === answers[i]);
 
-  const { time, completed, mistake, handleAttempt } =
-    useTask({ taskId });
+  const { time, completed, mistake, handleAttempt } = useTask({ taskId });
 
   useEffect(() => {
     if (completed) {
       setSelected([...answers]);
     }
-  }, [completed])
+  }, [completed]);
 
   function handleCheck() {
-    handleAttempt(isTaskSolved)
+    handleAttempt(isTaskSolved);
   }
 
   const images = [
@@ -96,7 +95,7 @@ function Task() {
               label={labels[i]}
               key={i}
             >
-              <TaskImage src={img}/>
+              <TaskImage src={img} />
             </ClickBlock>
           ))}
         </div>

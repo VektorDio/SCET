@@ -11,7 +11,7 @@ function Settings() {
   const navigate = useNavigate();
   const { settings, handleSettingsChange } = useContext(AppSettings);
 
-  useKeepResolution(settings.menuResolution)
+  useKeepResolution(settings.menuResolution);
 
   function onResolutionChange(label, index, value) {
     handleSettingsChange({ menuResolution: value });
@@ -22,15 +22,20 @@ function Settings() {
     { value: [780, 560], label: 'Середній екран' },
   ];
 
-  const defaultResolution = menuResolutions.find((e) =>
-    e.value.every((e, i) => e === settings.menuResolution[i])
-  )
+  const defaultResolution = menuResolutions.find((tuple) =>
+    tuple.value.every((e, i) => e === settings.menuResolution[i])
+  );
 
   return (
     <div className={styles.container}>
       <div className={styles.setting}>
         <div className={styles.btn}>
-          <ToggleBtn toggled={settings.hasFrame} onClick={() => handleSettingsChange({hasFrame: !settings.hasFrame})} />
+          <ToggleBtn
+            toggled={settings.hasFrame}
+            onClick={() =>
+              handleSettingsChange({ hasFrame: !settings.hasFrame })
+            }
+          />
         </div>
         <div className={styles.settingText}> Рамка вікна </div>
       </div>

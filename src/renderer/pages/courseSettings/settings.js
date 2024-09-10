@@ -10,7 +10,7 @@ import useKeepResolution from '../../../hooks/useKeepResolution';
 function CourseSettings({ onCourseRestart }) {
   const navigate = useNavigate();
   const { settings, handleSettingsChange } = useContext(AppSettings);
-  useKeepResolution(settings.menuResolution)
+  useKeepResolution(settings.menuResolution);
 
   const resolutions = [
     { value: [1280, 960], label: 'Середній екран' },

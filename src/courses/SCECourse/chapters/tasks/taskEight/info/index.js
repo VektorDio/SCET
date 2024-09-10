@@ -7,7 +7,7 @@ import { CourseData } from '../../../../../../renderer/App';
 
 function TaskInfo() {
   const taskId = 'task8';
-  const { courseData } = useContext(CourseData)
+  const { courseData } = useContext(CourseData);
   const task = courseData[taskId];
 
   return (
@@ -18,8 +18,8 @@ function TaskInfo() {
         передавальну функцію системи. Потрібно заповнити клітинки матриці
         відповідними коєфіціентами характеристичного рівняння.
         <TaskInfoBar
-          time={ task.bestTime }
-          tries={ task.tries }
+          time={task.bestTime}
+          tries={task.tries}
           selectedCourse="/tasks/8/task"
         />
       </ChapterParagraph>

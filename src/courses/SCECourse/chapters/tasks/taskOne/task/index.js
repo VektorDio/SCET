@@ -13,8 +13,7 @@ function Task() {
   const options = ['x(t)', 'f(t)', 'y(t)', 'u(t)', 'ПУ', 'ОУ'];
   const answers = ['x(t)', 'f(t)', 'y(t)', 'ПУ', 'ОУ', 'u(t)'];
 
-  const { time, completed, mistake, handleAttempt } =
-    useTask({ taskId });
+  const { time, completed, mistake, handleAttempt } = useTask({ taskId });
 
   const [blocks, setBlocks] = useState([
     '...',
@@ -31,10 +30,10 @@ function Task() {
     if (completed) {
       setBlocks([...answers]);
     }
-  }, [completed])
+  }, [completed]);
 
   function handleCheck() {
-    handleAttempt(isTaskSolved)
+    handleAttempt(isTaskSolved);
   }
 
   function handleBlockChange(option, index) {

@@ -63,7 +63,7 @@ export const chapterRefs = [
 
 function SCECourse() {
   const { settings } = useContext(AppSettings);
-  useKeepResolution(settings.courseResolution)
+  useKeepResolution(settings.courseResolution);
 
   return (
     <CoursePageWrapper>

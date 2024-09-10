@@ -7,7 +7,7 @@ import { CourseData } from '../../../../../../renderer/App';
 
 function TaskInfo() {
   const taskId = 'task5';
-  const { courseData } = useContext(CourseData)
+  const { courseData } = useContext(CourseData);
   const task = courseData[taskId];
 
   return (
@@ -18,8 +18,8 @@ function TaskInfo() {
         опис системи та їх елементів. Потрібно визначити, якими типовими
         динамічніми ланками можно спрощено описати цю систему.
         <TaskInfoBar
-          time={ task.bestTime }
-          tries={ task.tries }
+          time={task.bestTime}
+          tries={task.tries}
           selectedCourse="/tasks/5/task"
         />
       </ChapterParagraph>

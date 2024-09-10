@@ -24,7 +24,8 @@ function FrameBar({ display }) {
         </div>
       </div>
     );
-  } else return null
+  }
+  return null;
 }
 
 export default FrameBar;

@@ -14,7 +14,7 @@ const axios = require('axios');
 function Login() {
   const { settings } = useContext(AppSettings);
 
-  useKeepResolution(settings.menuResolution)
+  useKeepResolution(settings.menuResolution);
 
   const [submissionError, setSubmissionError] = useState(null);
   const navigate = useNavigate();

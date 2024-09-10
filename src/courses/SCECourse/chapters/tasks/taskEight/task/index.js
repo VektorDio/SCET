@@ -24,26 +24,26 @@ function Task() {
   const isTaskSolved = selectedOptions
     .map((row, y) => {
       return row.every((e, x) => e === answers[y][x]);
-    }).reduce((acc, el) => acc && el);
+    })
+    .reduce((acc, el) => acc && el);
 
   function handleArrayChange(choice, x, y) {
     const buf = [...selectedOptions];
-    const choiceInt = parseInt(choice);
-    buf[y][x] = !isNaN(choiceInt) ? choiceInt : '';
+    const choiceInt = parseInt(choice, 10);
+    buf[y][x] = !Number.isNaN(choiceInt) ? choiceInt : '';
     setSelectedOptions([...buf]);
   }
 
-  const { time, completed, mistake, handleAttempt } =
-    useTask({ taskId });
+  const { time, completed, mistake, handleAttempt } = useTask({ taskId });
 
   useEffect(() => {
     if (completed) {
       setSelectedOptions([...answers]);
     }
-  }, [completed])
+  }, [completed]);
 
   function handleCheck() {
-    handleAttempt(isTaskSolved)
+    handleAttempt(isTaskSolved);
   }
 
   return (

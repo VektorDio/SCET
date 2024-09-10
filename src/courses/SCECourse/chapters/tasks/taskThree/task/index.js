@@ -27,18 +27,17 @@ function Task() {
     (e, i) => e && e.props.children === answers[i]
   );
 
-  const { time, completed, mistake, handleAttempt } =
-    useTask({ taskId });
+  const { time, completed, mistake, handleAttempt } = useTask({ taskId });
 
   useEffect(() => {
     if (completed) {
       setChildren([...draggable]);
       setDraggable(null);
     }
-  }, []) // bugfix. there should be completed dep, but is coses flickering on completion, so disabled
+  }, []); // bugfix. there should be completed dep, but is coses flickering on completion, so disabled
 
   function handleCheck() {
-    handleAttempt(isTaskSolved)
+    handleAttempt(isTaskSolved);
   }
 
   const swapElements = (array, index1, index2) => {

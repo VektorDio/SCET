@@ -15,8 +15,7 @@ function Task() {
   const answers = ['drop2', 'drop5', 'drop1', 'drop1', 'drop3', 'drop2'];
   const [arrowEnds, setArrowEnds] = useState(Array(options.length));
 
-  const { time, completed, mistake, handleAttempt } =
-    useTask({ taskId });
+  const { time, completed, mistake, handleAttempt } = useTask({ taskId });
 
   const isTaskSolved =
     arrowEnds.every((e, i) => e === answers[i]) && arrowEnds[0] !== undefined;
@@ -25,7 +24,7 @@ function Task() {
     if (completed) {
       setArrowEnds(['drop2', 'drop5', 'drop1', 'drop1', 'drop3', 'drop2']);
     }
-  }, [completed])
+  }, [completed]);
 
   function handleDragEnd(event) {
     const { active, over } = event;
@@ -38,7 +37,7 @@ function Task() {
   }
 
   function handleCheck() {
-    handleAttempt(isTaskSolved)
+    handleAttempt(isTaskSolved);
   }
 
   return (
